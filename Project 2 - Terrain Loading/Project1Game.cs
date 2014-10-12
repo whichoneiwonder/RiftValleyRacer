@@ -33,10 +33,11 @@ namespace Project1
     public class Project1Game : Game
     {
         // BEWARE: THE NUMBER OF BINARY FILES SERIALISED TO DISK = 4 TO THE POWER OF tSizeFactor-cSizeFactor. BE CAREFUL!
-        const int tSizeFactor  = 11,
-                  cSizeFactor  = 6,
-                  tRangeFactor = 1,  // Only change to calibrate overall landscape height. Set between 0.1 and 2.
-                  loadGridSize = 3;
+        const int   tSizeFactor  = 11,
+                    cSizeFactor  = 6,
+                    loadGridSize = 3;
+        const float tRangeFactor = 0.9f;  // Only change to calibrate overall landscape height. Set between 0.1 and 2.
+
         private int chunkWidth = (int)Math.Pow(2, cSizeFactor)+1;
         private int[] lastPlayerZone = {1, 1}; // This is the zone in which the player spawns.
         private GraphicsDeviceManager graphicsDeviceManager;
@@ -79,7 +80,7 @@ namespace Project1
             // Set camera to begin in the zone of the player. When Player class is implemented, this should be changed.
             int xPos = lastPlayerZone[0]*chunkWidth+chunkWidth/2,
                 zPos = lastPlayerZone[1]*chunkWidth+chunkWidth/2;
-            camera = new Camera(this, new Vector3(xPos, (float)chunkWidth, zPos), Vector3.Normalize(new Vector3(1f, -1f, 1f)));
+            camera = new Camera(this, new Vector3(xPos, (float)chunkWidth*3, zPos), Vector3.Normalize(new Vector3(1f, -1f, 1f)));
 
             base.Initialize();
         }
@@ -89,6 +90,8 @@ namespace Project1
             // Create an array of terrain chunks for the grid that the player can see.
             // This grid is centered on the player, and loads/unloads new chunks as the player moves.
             RebuildGrid();
+            Terrain t = (Terrain)terrainGrid[1, 1];
+            camera.cameraPosition.Y = (float)t.fractal[chunkWidth/2, chunkWidth/2]+10;
 
             // Create an input layout from the vertices
             base.LoadContent();

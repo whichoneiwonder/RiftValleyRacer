@@ -15,12 +15,12 @@ namespace Project1 {
         // Variables for the fractal's dimensions and vertical range
         int N;
         double initialRange;
-        double[,] fractal;
+        public double[,] fractal;
 
         // Vertex array to store details of every vertex of every triangle in the terrain
         VertexPositionNormalColor[] land;
 
-        public Terrain(Game game, int sizeFactor, int rangeFactor, int zoneX, int zoneZ) {
+        public Terrain(Game game, int sizeFactor, float rangeFactor, int zoneX, int zoneZ) {
             // Initialise fractal heightmap and vertex array
             N = (int)Math.Pow(2, sizeFactor)+1;
             initialRange = (int)(rangeFactor*N/2.0);

@@ -14,7 +14,7 @@ namespace Project1
     class FractalTools {
 
         // Generates a large fractal before subdividing it and serialising those divisions to binary files.
-        public static void GenerateTerrainChunks(int terrainSizeFactor, int terrainRangeFactor, int chunkSizeFactor){
+        public static void GenerateTerrainChunks(int terrainSizeFactor, float terrainRangeFactor, int chunkSizeFactor){
             int numberOfChunks = (int)Math.Pow(4, terrainSizeFactor-chunkSizeFactor),
                 chunkWidth     = (int)Math.Pow(2, chunkSizeFactor)+1,
                 terrainWidth   = (int)Math.Pow(2, terrainSizeFactor)+1, 
