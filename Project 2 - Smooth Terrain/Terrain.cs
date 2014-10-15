@@ -13,19 +13,20 @@ namespace Project1 {
     class Terrain : ColoredGameObject {
 
         // Variables for the fractal's dimensions and vertical range
-        int N;
-        double initialRange;
+        int N, vertexN;
         public double[,] fractal;
 
         // Vertex array to store details of every vertex of every triangle in the terrain
         VertexPositionNormalColor[] land;
 
-        public Terrain(Game game, int sizeFactor, float rangeFactor, int zoneX, int zoneZ) {
+        bool outOfBounds = false;
+
+        public Terrain(Game game, int sizeFactor, int zoneX, int zoneZ) {
             // Initialise fractal heightmap and vertex array
             N = (int)Math.Pow(2, sizeFactor)+1;
-            initialRange = (int)(rangeFactor*N/2.0);
             double[,] fractal = new double[N, N];
-            land = new VertexPositionNormalColor[(int)(6*Math.Pow((N-1), 2))];
+            vertexN = (int)(6*Math.Pow((N-1), 2));
+            land = new VertexPositionNormalColor[vertexN];
 
             // Deserialise the appropriate binary file to populate this landscape's fractal, and create vertices.
             DeserialiseFractal(zoneX, zoneZ);
@@ -64,12 +65,13 @@ namespace Project1 {
             String fileName = "fractal"+(zoneX*(N-1))+"-"+(zoneZ*(N-1))+".dat";
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs;
-            try { 
+            try {
                 fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                 fractal = (double[,])bf.Deserialize(fs);
                 fs.Close();
             } catch (FileNotFoundException) {
                 // If there is no file, this means the game is trying to load land that is out of bounds.
+                outOfBounds = true;
                 fractal = new double[N, N];
                 for (int i = 0; i < N; i++) {
                     for (int j = 0; j < N; j++) {
@@ -83,7 +85,8 @@ namespace Project1 {
         private void VerticesFromArray(float dimensions, float X, float Z) {
             float offset = dimensions-1;
             int currentVertex = 0;
-            Vector3 a, b, c, d, n1, n2;
+            Vector3 a, b, c, d, na, nb, nc, nd;
+
             for (int row = 0; row < N - 1; row++) {
                 for (int col = 0; col < N - 1; col++) {
                     // Create four unique vectors for two triangles (two vectors are shared)
@@ -92,17 +95,24 @@ namespace Project1 {
                     c = new Vector3((float)col+offset*X+1, (float)fractal[row, col + 1], (float)row+offset*Z);
                     d = new Vector3((float)col+offset*X+1, (float)fractal[row + 1, col + 1], (float)row+offset*Z+1);
 
-                    // Create a normal vector for each triangle
-                    n1 = Vector3.Cross(b-a, c-b);
-                    n2 = Vector3.Cross(b-c, d-b);
+                    // Create a normal vector for each vertex
+                    if (outOfBounds) {
+                        na = nb = nc = nd = Vector3.Up;
+                    } else {
+                        // Get normals from FractalTools, as they have been calculated across all chunks
+                        na = FractalTools.vertexNormalIndex[(int)(col+offset*X), (int)(row+offset*Z)];
+                        nb = FractalTools.vertexNormalIndex[(int)(col+offset*X), (int)(row+offset*Z+1)];
+                        nc = FractalTools.vertexNormalIndex[(int)(col+offset*X+1), (int)(row+offset*Z)];
+                        nd = FractalTools.vertexNormalIndex[(int)(col+offset*X+1), (int)(row+offset*Z+1)];
+                    }
 
                     // Initialise six vertices (two triangles) for every square in the fractal array
-                    InitVertex(a, n1, ref land[currentVertex]);     // top left
-                    InitVertex(b, n1, ref land[currentVertex + 1]); // bottom left
-                    InitVertex(c, n1, ref land[currentVertex + 2]); // top right
-                    InitVertex(c, n2, ref land[currentVertex + 3]); // top right
-                    InitVertex(b, n2, ref land[currentVertex + 4]); // bottom left
-                    InitVertex(d, n2, ref land[currentVertex + 5]); // bottom right
+                    InitVertex(a, na, ref land[currentVertex]);     // top left
+                    InitVertex(b, nb, ref land[currentVertex + 1]); // bottom left
+                    InitVertex(c, nc, ref land[currentVertex + 2]); // top right
+                    InitVertex(c, nc, ref land[currentVertex + 3]); // top right
+                    InitVertex(b, nb, ref land[currentVertex + 4]); // bottom left
+                    InitVertex(d, nd, ref land[currentVertex + 5]); // bottom right
                     currentVertex += 6;
                 }
             }
@@ -111,18 +121,11 @@ namespace Project1 {
         private void InitVertex(Vector3 position, Vector3 normal, ref VertexPositionNormalColor vertex) {
             vertex.Position = position;
             vertex.Normal = normal;
-            vertex.Color = FindColor(position.Y);
-        }
-        // Return a colour for a given height value.
-        private Color FindColor(float height) {
-            Color colour;
-            if (height > initialRange/3f) colour = Color.Snow; // snow peaks
-            else if (height > initialRange/4f) colour = Color.Gray; // stone
-            else if (height > 0) colour = new Color(0.35f, 0.23f, 0.1f, 0.7f); // cliffs
-            else if (height > 0 - initialRange/10f) colour = new Color(0.35f, 0.4f, 0.1f, 0.7f); // dry grass
-            else if (height > 0 - initialRange/3f) colour = new Color(0.35f, 0.5f, 0.1f, 0.7f); // grass
-            else colour = Color.DarkGreen; // ocean floor
-            return colour;
+            if (position.Y > 0) {
+                vertex.Color = Color.SmoothStep(Color.SaddleBrown, Color.Snow, (float)(position.Y/(FractalTools.initialRange/2)));
+            } else {
+                vertex.Color = Color.SmoothStep(Color.SaddleBrown, Color.Green, (float)(-position.Y/(FractalTools.initialRange/2)));
+            }
         }
 
         public override void Update(GameTime gameTime) {

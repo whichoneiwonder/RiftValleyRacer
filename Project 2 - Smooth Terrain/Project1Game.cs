@@ -32,11 +32,12 @@ namespace Project1
 
     public class Project1Game : Game
     {
-        // BEWARE: THE NUMBER OF BINARY FILES SERIALISED TO DISK = 4 TO THE POWER OF tSizeFactor-cSizeFactor. BE CAREFUL!
-        const int   tSizeFactor  = 11,
-                    cSizeFactor  = 6,
+        // BEWARE: THE NUMBER OF BINARY FILES SERIALISED TO DISK = 4 TO THE POWER OF tSizeFactor-cSizeFactor. BE CAREFUL! Default difference = 5.
+        const int   tSizeFactor  = 11,    // Sets terrain size. Set between 7 and 13. Default = 11.
+                    cSizeFactor  = 6,     // Sets chunk size.   Set between 4 and 8.  Default = 6.
                     loadGridSize = 3;
-        const float tRangeFactor = 0.9f;  // Only change to calibrate overall landscape height. Set between 0.1 and 2.
+        const float tRangeFactor = 1f,    // Sets overall landscape height.  Set between 0.1 and 2. Default = 1.
+                    smoothing    = 2.1f;  // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
 
         private int chunkWidth = (int)Math.Pow(2, cSizeFactor)+1;
         private int[] lastPlayerZone = {1, 1}; // This is the zone in which the player spawns.
@@ -67,7 +68,7 @@ namespace Project1
             Content.RootDirectory = "Content";
 
             // Generate a new world and serialise it into loadable chunks.
-            FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor);
+            FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor, smoothing);
         }
 
         protected override void Initialize()
@@ -91,8 +92,7 @@ namespace Project1
             // This grid is centered on the player, and loads/unloads new chunks as the player moves.
             RebuildGrid();
             Terrain t = (Terrain)terrainGrid[1, 1];
-            camera.cameraPosition.Y = (float)t.fractal[chunkWidth/2, chunkWidth/2]+10;
-
+            camera.cameraPosition.Y = (float)t.fractal[chunkWidth/2, chunkWidth/2]+15;
             // Create an input layout from the vertices
             base.LoadContent();
         }
@@ -110,7 +110,7 @@ namespace Project1
             terrainGrid = new GameObject[loadGridSize, loadGridSize];
             for (int i = lastPlayerZone[0]-1, gridX = 0; gridX < loadGridSize; i++, gridX++) {
                 for (int j = lastPlayerZone[1]-1, gridZ = 0; gridZ < loadGridSize; j++, gridZ++) {
-                    terrainGrid[gridX, gridZ] = new Terrain(this, cSizeFactor, tRangeFactor, i, j);
+                    terrainGrid[gridX, gridZ] = new Terrain(this, cSizeFactor, i, j);
                 }
             }
         }
