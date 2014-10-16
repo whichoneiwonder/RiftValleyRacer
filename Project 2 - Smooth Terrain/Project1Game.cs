@@ -43,12 +43,9 @@ namespace Project1
         private int[] lastPlayerZone = {1, 1}; // This is the zone in which the player spawns.
         private GraphicsDeviceManager graphicsDeviceManager;
         private GameObject[,] terrainGrid;
-        private KeyboardManager keyboardManager;
-        private KeyboardState keyboardState;
-        private MouseManager mouseManager;
-        private MouseState mouseState;
         public static Camera camera;
-        public static int leftKey = 0, rightKey = 0, upKey = 0, downKey = 0, mouseL, mouseR;
+        public Cube player;
+        
         public static float mouseX, mouseY;
 
         /// <summary>
@@ -58,10 +55,6 @@ namespace Project1
         {
             // Creates a graphics manager. This is mandatory.
             graphicsDeviceManager = new GraphicsDeviceManager(this);
-
-            // Create the keyboard and mouse managers
-            keyboardManager = new KeyboardManager(this);
-            mouseManager = new MouseManager(this);
 
             // Setup the relative directory to the executable directory
             // for loading contents with the ContentManager
@@ -77,11 +70,11 @@ namespace Project1
 
             // Set Player spawn zone to be the landscape centre, maximising exploration.
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor-cSizeFactor)/2;
-
+            player = new Cube(this, gameTime);
+            camera = new Camera(this);
             // Set camera to begin in the zone of the player. When Player class is implemented, this should be changed.
             int xPos = lastPlayerZone[0]*chunkWidth+chunkWidth/2,
                 zPos = lastPlayerZone[1]*chunkWidth+chunkWidth/2;
-            camera = new Camera(this, new Vector3(xPos, (float)chunkWidth*3, zPos), Vector3.Normalize(new Vector3(1f, -1f, 1f)));
 
             base.Initialize();
         }
@@ -92,7 +85,10 @@ namespace Project1
             // This grid is centered on the player, and loads/unloads new chunks as the player moves.
             RebuildGrid();
             Terrain t = (Terrain)terrainGrid[1, 1];
-            camera.cameraPosition.Y = (float)t.fractal[chunkWidth/2, chunkWidth/2]+15;
+            player.position = new Vector3((float)lastPlayerZone[0]*chunkWidth+chunkWidth/2,
+                (float)t.fractal[chunkWidth/2, chunkWidth/2]+15, 
+                (float)lastPlayerZone[1]*chunkWidth+chunkWidth/2);
+            player.velocity = new Vector3();
             // Create an input layout from the vertices
             base.LoadContent();
         }
@@ -100,8 +96,8 @@ namespace Project1
         private int[] playerZone() {
             int[] playerZone = {1, 1};
             //  Until Player class is implemented, just return the zone of the camera.
-            playerZone[0] = (int)camera.cameraPosition.X/chunkWidth;
-            playerZone[1] = (int)camera.cameraPosition.Z/chunkWidth;
+            playerZone[0] = (int)player.position.X/chunkWidth;
+            playerZone[1] = (int)player.position.Z/chunkWidth;
             return playerZone;
         }
 
@@ -117,32 +113,25 @@ namespace Project1
 
         protected override void Update(GameTime gameTime)
         {
+            
+            
             // Check where the player is, and replace chunks accordingly. Only replace chunks if player has changed zone.
             if ((playerZone()[0] != lastPlayerZone[0]) || (playerZone()[1] != lastPlayerZone[1])) {
                 lastPlayerZone = playerZone();
                 RebuildGrid();
             }
-
-            // Update each of the terrain chunks.
-            foreach (GameObject chunk in terrainGrid) { if (chunk != null) chunk.Update(gameTime); };
-
-            // Check if keys are down, and set values so that other classes can be informed
-            keyboardState = keyboardManager.GetState();
-            leftKey  = (keyboardState.IsKeyDown(Keys.Left)  || keyboardState.IsKeyDown(Keys.A)) ? 1 : 0;
-            rightKey = (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D)) ? 1 : 0;
-            upKey    = (keyboardState.IsKeyDown(Keys.Up)    || keyboardState.IsKeyDown(Keys.W)) ? 1 : 0;
-            downKey  = (keyboardState.IsKeyDown(Keys.Down)  || keyboardState.IsKeyDown(Keys.S)) ? 1 : 0;
-
-            // Check mouse state
-            mouseState = mouseManager.GetState();
-            mouseL = mouseState.LeftButton.Down  ? 1 : 0;
-            mouseR = mouseState.RightButton.Down ? 1 : 0;
-            mouseX = mouseState.X;
-            mouseY = mouseState.Y;
+            //update player
+            player.Update(gameTime);
 
             // Update camera
             camera.Update(gameTime);
             
+
+            // Update each of the terrain chunks.
+            foreach (GameObject chunk in terrainGrid) { if (chunk != null) chunk.Update(gameTime); };
+
+
+
             // Handle base.Update
             base.Update(gameTime);
         }
@@ -154,7 +143,7 @@ namespace Project1
 
             // Draw each of the terrain chunks.
             foreach (GameObject chunk in terrainGrid) { if (chunk != null) chunk.Draw(gameTime); };
-
+            player.Draw(gameTime);
             // Handle base.Draw
             base.Draw(gameTime);
         }

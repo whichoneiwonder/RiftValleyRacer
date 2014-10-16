@@ -15,13 +15,17 @@ namespace Project1 {
         // Variables for the fractal's dimensions and vertical range
         int N, vertexN;
         public double[,] fractal;
-
+        public int xIndex, zIndex;
         // Vertex array to store details of every vertex of every triangle in the terrain
         VertexPositionNormalColor[] land;
 
         bool outOfBounds = false;
 
         public Terrain(Game game, int sizeFactor, int zoneX, int zoneZ) {
+
+            xIndex = zoneX;
+            zIndex = zoneZ;
+            
             // Initialise fractal heightmap and vertex array
             N = (int)Math.Pow(2, sizeFactor)+1;
             double[,] fractal = new double[N, N];
@@ -146,6 +150,21 @@ namespace Project1 {
             game.GraphicsDevice.Draw(PrimitiveType.TriangleList, vertices.ElementCount);
         }
 
+
+        public List<Vector3> getTerrainUnderPoint(Vector3 playerPos)
+        {
+            List<Vector3> pointsList = new List<Vector3>();
+
+            int playerX = (int)playerPos.X;
+            int playerZ = (int)playerPos.Z;
+
+            pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX-(xIndex*N),playerZ-(zIndex*N)], (float)playerZ ));
+            pointsList.Add(new Vector3((float)playerX+1, (float)fractal[playerX+1 - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ));
+            pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ +1- (zIndex * N)], (float)playerZ+1));
+            pointsList.Add(new Vector3((float)playerX+1, (float)fractal[playerX+1 - (xIndex * N), playerZ+1 - (zIndex * N)], (float)playerZ+1));
+
+            return pointsList;
+        }
     }
 
 }
