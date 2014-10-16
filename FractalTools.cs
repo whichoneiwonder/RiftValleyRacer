@@ -118,13 +118,13 @@ namespace Project1
                     if (row == 0 || row == N-1 || col == 0 || col == N-1) { vertexNormalIndex[row, col] = Vector3.Up; }
                     else {
                         // There are six triangles that share this vertex, so six surface normals must be found and averaged
-                        a = new Vector3((float)col,   (float)fractal[row-1, col],   (float)row-1);
-                        b = new Vector3((float)col+1, (float)fractal[row-1, col+1], (float)row-1);
-                        c = new Vector3((float)col+1, (float)fractal[row, col+1],   (float)row);
-                        d = new Vector3((float)col,   (float)fractal[row+1, col],   (float)row+1);
-                        e = new Vector3((float)col-1, (float)fractal[row+1, col-1], (float)row+1);
-                        f = new Vector3((float)col-1, (float)fractal[row, col-1],   (float)row);
-                        o = new Vector3((float)col,   (float)fractal[row, col],     (float)row);
+                        a = new Vector3((float)col,   (float)fractal[col, row-1],   (float)row-1);
+                        b = new Vector3((float)col+1, (float)fractal[col+1, row-1], (float)row-1);
+                        c = new Vector3((float)col+1, (float)fractal[col+1, row],   (float)row);
+                        d = new Vector3((float)col,   (float)fractal[col, row+1],   (float)row+1);
+                        e = new Vector3((float)col-1, (float)fractal[col-1, row+1], (float)row+1);
+                        f = new Vector3((float)col-1, (float)fractal[col-1, row],   (float)row);
+                        o = new Vector3((float)col,   (float)fractal[col, row],     (float)row);
 
                         // Create a surface normal vector for each triangle
                         n1 = Vector3.Cross(b-o, a-b);

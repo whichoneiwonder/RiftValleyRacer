@@ -34,7 +34,7 @@ namespace Project1
     public class Project1Game : Game
     {
         // BEWARE: THE NUMBER OF BINARY FILES SERIALISED TO DISK = 4 TO THE POWER OF tSizeFactor-cSizeFactor. BE CAREFUL! Default difference = 5.
-        const int   tSizeFactor  = 11,    // Sets terrain size. Set between 7 and 13.               Default = 11.
+        const int   tSizeFactor  = 10,    // Sets terrain size. Set between 7 and 13.               Default = 11.
                     cSizeFactor  = 6,     // Sets chunk size.   Set between 4 and 8.                Default = 6.
                     loadGridSize = 5;     // Sets width of loaded chunk grid. MUST BE ODD.          Default = 3.
         const float tRangeFactor = 1f,    // Sets overall landscape height.  Set between 0.1 and 2. Default = 1.
