@@ -1,196 +1,75 @@
-﻿/* Modified version of the Camera Class from the solution to Lab 4
- * Using Microsoft developer network tutorial 
- * at http://msdn.microsoft.com/en-us/library/bb197901.aspx (september 2014)
- */
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpDX;
 using SharpDX.Toolkit;
-using SharpDX.Toolkit.Input;
+
+
+// The following code is modified from the Lab solution for week 4.
 
 namespace Project1
 {
     public class Camera
     {
-        //public BoundingSphere boundSphere;
         public Matrix View;
         public Matrix Projection;
-        public Project1Game game;
-        private KeyboardManager keyboardManager;
-        private KeyboardState keyboard;
-        private MouseManager mouseManager;
-        private MouseState mouse;
-        public Vector3 pos,target;
-        private float yaw, pitch, roll;
-        private double timePassed;
-        private Boolean freeMouse;
-        private Vector3 rotationReference;
-        private static float mouseSensitivity = 5f; 
-        private BoundingSphere bounds;
-        private static float speedReduction = 70;
-
-
+        public Matrix World;
+        public Game game;
+        public Vector3 cameraDirection, cameraPosition, cameraLook, sunPosition, sunColour, ambientColour;
+        public Color background;
+        public float forwardMovement, pan, tilt, oldTilt;
 
         // Ensures that all objects are being rendered from a consistent viewpoint
-        public Camera(Project1Game game) {
-            keyboardManager = new KeyboardManager(game);
-            mouseManager = new MouseManager(game);
+        public Camera(Game game, Vector3 startPosition, Vector3 startDirection) {
+            // Set the camera to default position and direction
+            cameraPosition  = startPosition;
+            cameraDirection = startDirection;
 
-            pos = new Vector3(0, 100, 0);
-            target =  Vector3.Up;
-            View = Matrix.LookAtLH(pos, target, Vector3.UnitY);
-            Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4.0f, 
-                (float)game.GraphicsDevice.BackBuffer.Width / 
-                game.GraphicsDevice.BackBuffer.Height, 1f, 900.0f);
+            // Set the sun to default direction and colour
+            sunPosition = Vector3.Normalize(new Vector3(0f, -1f, 0f));
+            sunColour   = new Vector3(1f, 1f, 0.9f);
+
+            // Set ambient light to default colour
+            ambientColour = new Vector3(0.2f, 0.2f, 0.3f);
+
+            // Set background to default colour
+            background = new Color(0.4f, 0.4f, 0.8f, 1);
+
+            // Set up matrices
+            View = Matrix.LookAtLH(cameraPosition, cameraLook, Vector3.UnitY);
+            Projection = Matrix.PerspectiveFovLH((float)Math.PI / 2.3f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
+            World = Matrix.RotationX(0) * Matrix.RotationY(0) * Matrix.RotationZ(0);
             this.game = game;
-            yaw = 0; 
-            pitch = 0;
-            roll=0;
-            rotationReference = new Vector3(0, 0, -1);
-            timePassed = 0;
-            freeMouse = false;
-            bounds = new BoundingSphere(pos, 0.5f);
-
         }
 
-        public void Update(GameTime time)
-        {
-            
-            
-            while(game.Window.IsMinimized == true);
-            
-            double delta = time.ElapsedGameTime.TotalMilliseconds - timePassed;
-            
-            
-            
-            // press escape to exit
-            if(keyboard.IsKeyDown(Keys.Escape))
-            {
-                game.Exit();
+        public void Update(GameTime gameTime) {
 
-            }
-           
-            //Press Space To toggle whether inputs are captured
+            // Check mouse and WASD keys, and set variables
+            forwardMovement = (Project1Game.upKey-Project1Game.downKey)-(Project1Game.mouseR-Project1Game.mouseL);
+            pan  = -(0.5f - Project1Game.mouseX)-(Project1Game.leftKey-Project1Game.rightKey)*0.5f;
+            tilt = -(0.5f - Project1Game.mouseY);
 
-            keyboard = keyboardManager.GetState();
-            if(keyboard.IsKeyPressed(Keys.Space))
-                freeMouse  = !freeMouse;
+            // Rotate cameraDirection accordingly
+            cameraDirection = Vector3.Normalize((Vector3)Vector3.Transform(cameraDirection, Matrix.RotationY(pan/30f)));
+            cameraDirection = Vector3.Normalize((Vector3)Vector3.Transform(cameraDirection, Matrix.RotationX(cameraDirection.Z * tilt/40f)));
+            cameraDirection = Vector3.Normalize((Vector3)Vector3.Transform(cameraDirection, Matrix.RotationZ(-cameraDirection.X * tilt/40f)));
 
-            if (freeMouse)
-                return;
+            // Translate cameraPosition relative to cameraDirection
+            cameraPosition += cameraDirection * forwardMovement/2f;
 
+            // Set cameraLook to equal cameraPosition, and translate it in direction of cameraDirection
+            cameraLook = cameraPosition + cameraDirection;
 
+            // Update sun position and background colour
+            sunPosition.X = (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds/10.0));
+            sunPosition.Y = (float)(Math.Cos(gameTime.TotalGameTime.TotalSeconds/10.0));
+            background = new Color(0.25f*(-sunPosition.Y+1f), 0.35f*(-sunPosition.Y+1f), 0.8f*(-sunPosition.Y+1f), 1);
 
-            /*translation*/
-
-            if(keyboard.IsKeyDown(Keys.W))
-            {
-                pos = pos + Vector3.Multiply(target - pos, (float)(delta / speedReduction));
-            }
-
-            if (keyboard.IsKeyDown(Keys.S))
-            {
-                pos = pos - Vector3.Multiply( target - pos, (float)(delta / speedReduction));
-            }
-
-            if (keyboard.IsKeyDown(Keys.A))
-            {
-                pos = pos - Vector3.Multiply(Vector3.Normalize(Vector3.Cross(Vector3.Up, target - pos)), (float)(delta / speedReduction));
-            }
-
-            if (keyboard.IsKeyDown(Keys.D))
-            {
-                pos = pos +  Vector3.Multiply(Vector3.Normalize(Vector3.Cross(Vector3.Up, target - pos)), (float)(delta / speedReduction));
-            }
-            if (keyboard.IsKeyDown(Keys.Shift))
-            {
-                pos = pos + Vector3.Multiply( Vector3.Up, (float)(delta / speedReduction));
-            }
-            if (keyboard.IsKeyDown(Keys.Control))
-            {
-                pos = pos - Vector3.Multiply(Vector3.Up, (float)(delta / speedReduction));
-            }
-            
-             
-            /*rotation*/
-            if( time.FrameCount <= 2)
-           {
-               mouseManager.SetPosition(new Vector2(0.50f, .050f));
-
-           }
-
-            mouse = mouseManager.GetState();
-            //calculate left-right rotation 
-            yaw +=  (mouse.X- 0.50f)* mouseSensitivity;
-            //calculate up-down rotation
-            pitch += (mouse.Y - 0.50f) * mouseSensitivity;
-            if (pitch >= (float)Math.PI / 2 - 0.01f)
-            {
-                pitch = (float)Math.PI / 2 - 0.01f;
-            }
-            else if (pitch <= -((float)Math.PI / 2 - 0.01f))
-            {
-                pitch = -((float)Math.PI / 2 - 0.01f);
-            }
-            
-
-            bounds.Center = pos;
-
-            if (delta < 1f)
-            {
-                pitch = 0;
-            }
-            target = pos + (Vector3)Vector3.Transform(rotationReference, Matrix.RotationYawPitchRoll(yaw, -pitch, roll));
-            
-            
-            // If the screen is resized, the projection matrix will change
-            View = Matrix.LookAtLH(pos, target, Vector3.Up);
-            Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
-            
-            mouseManager.SetPosition(new Vector2(0.50f,0.50f)); 
-        
-        }
-        public void moveIfBounded(Landscape boundaryLandscape){
-            ///Vector3 point1, point2, point3;
-            while (pos.X > Landscape.sidelength / 2 -4)
-            {
-                pos.X -= 0.001f;
-            }
-            while (pos.X < -Landscape.sidelength / 2 +4)
-            {
-                pos.X += 0.001f;
-            }
-            while (pos.Z > Landscape.sidelength / 2 - 4)
-            {
-                pos.Z -= 0.001f;
-            }
-            while (pos.Z < -Landscape.sidelength / 2 + 4)
-            {
-                pos.Z += 0.001f;
-            }
-            Vector3[] pointsToBound = boundaryLandscape.getPointsToBound(pos);
-            bounds.Center =pos ;
-
-            if (pointsToBound != null)
-            {
-
-                while (bounds.Contains(ref pointsToBound[0], ref pointsToBound[1], ref pointsToBound[2]) != ContainmentType.Disjoint
-                    || bounds.Contains(ref pointsToBound[0], ref pointsToBound[2], ref pointsToBound[3]) != ContainmentType.Disjoint)
-                { 
-                    bounds.Center.Y += 0.0002f;
-                }
-                pos = bounds.Center;
-            }
-            target = pos + (Vector3)Vector3.Transform(rotationReference, Matrix.RotationYawPitchRoll(yaw, -pitch, roll));
-            View = Matrix.LookAtLH(pos, target, Vector3.Up);
-            Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
+            // Update matrices
+            View = Matrix.LookAtLH(cameraPosition, cameraLook, Vector3.UnitY);
 
         }
-
     }
 }
