@@ -8,12 +8,12 @@ namespace Project1
 {
     class AI
     {
-        public static List<Vector2> Pathfind(Vector2 start, Vector2 end, double[,] pointMap)
+        public static List<Vector2> findPath(Vector2 start, Vector2 end, double[,] fractal)
         {
             // Defines points that have already been explored.
             var closed = new List<Vector2>();
             // Defines points that haven't been explored.
-            var open = new List<Vector2> { start };
+            var open = new List<Vector2> {start};
             // Just a way for us to figure out how to best figure out an optimal path of a point given its origin.
             var prev = new Dictionary<Vector2, Vector2>();
 
@@ -51,7 +51,7 @@ namespace Project1
                 closed.Add(current);
 
                 // Search through a point's surrounding neighbours.
-                foreach (var neighbour in getNeighbours(current, pointMap))
+                foreach (var neighbour in getNeighbours(current, fractal))
                 {
                     var tempDistance = dist[current] + 1;
 
@@ -86,25 +86,25 @@ namespace Project1
         }
 
         // Fetch all of the neighbours of a point.
-        private static List<Vector2> getNeighbours(Vector2 p, double[,] pointMap)
+        private static List<Vector2> getNeighbours(Vector2 p, double[,] fractal)
         {
             var neighbours = new List<Vector2>();
 
             //Console.WriteLine("X: " + p.X + ", Y: " + p.Y);
             // Add a point going up.
-            if (pointMap[(int)p.X, (int)p.Y - 1] > 0)
+            if (fractal[(int)p.X, (int)p.Y - 1] > 0)
                 neighbours.Add(new Vector2(p.X, p.Y - 1));
 
             // Add a point going right.
-            if (pointMap[(int)p.X + 1, (int)p.Y] > 0)
+            if (fractal[(int)p.X + 1, (int)p.Y] > 0)
                 neighbours.Add(new Vector2(p.X + 1, p.Y));
 
             // Add a point going down.
-            if (pointMap[(int)p.X, (int)p.Y + 1] > 0)
+            if (fractal[(int)p.X, (int)p.Y + 1] > 0)
                 neighbours.Add(new Vector2(p.X, p.Y + 1));
 
             // Add a point going left.
-            if (pointMap[(int)p.X - 1, (int)p.Y] > 0)
+            if (fractal[(int)p.X - 1, (int)p.Y] > 0)
                 neighbours.Add(new Vector2(p.X - 1, p.Y));
 
             return neighbours;
@@ -114,7 +114,7 @@ namespace Project1
         private static List<Vector2> generatePath(Dictionary<Vector2, Vector2> prev, Vector2 current)
         {
             if (!prev.ContainsKey(current))
-                return new List<Vector2> { current };
+                return new List<Vector2> {current};
 
             var path = generatePath(prev, prev[current]);
             path.Add(current);
