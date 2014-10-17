@@ -15,7 +15,7 @@ namespace Project1
 
         static int N;
         static public double initialRange, smoothing;
-        static double[,] fractal;
+        public static double[,] fractal;
         public static Vector3[,] vertexNormalIndex;
         static Random random, seed = new Random();
 
