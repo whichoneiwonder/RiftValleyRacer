@@ -21,7 +21,7 @@ namespace Project1 {
 
         bool outOfBounds = false;
 
-        public Terrain(Game game, int sizeFactor, int zoneX, int zoneZ) {
+        public Terrain(Project1Game game, int sizeFactor, int zoneX, int zoneZ) {
 
             xIndex = zoneX;
             zIndex = zoneZ;
@@ -151,7 +151,7 @@ namespace Project1 {
         }
 
 
-        public List<Vector3> getTerrainUnderPoint(Vector3 playerPos)
+        public Vector3[] getTerrainUnderPoint(Vector3 playerPos)
         {
             List<Vector3> pointsList = new List<Vector3>();
 
@@ -163,7 +163,7 @@ namespace Project1 {
             pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ +1- (zIndex * N)], (float)playerZ+1));
             pointsList.Add(new Vector3((float)playerX+1, (float)fractal[playerX+1 - (xIndex * N), playerZ+1 - (zIndex * N)], (float)playerZ+1));
 
-            return pointsList;
+            return pointsList.ToArray();
         }
     }
 

@@ -147,5 +147,13 @@ namespace Project1
             // Handle base.Draw
             base.Draw(gameTime);
         }
+
+        public GameObject getTerrainChunkUnderPlayer()
+        {
+            return terrainGrid[1,1];
+        }
+    
     }
+
+    
 }

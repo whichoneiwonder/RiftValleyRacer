@@ -12,7 +12,7 @@ namespace Project1
     {
         public BasicEffect basicEffect;
         public VertexInputLayout inputLayout;
-        public Game game;
+        public Project1Game game;
 
         public abstract void Update(GameTime gametime);
         public abstract void Draw(GameTime gametime);
