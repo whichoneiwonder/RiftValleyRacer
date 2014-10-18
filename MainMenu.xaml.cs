@@ -18,24 +18,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
+using SharpDX;
 
-namespace Project1
+namespace Project
 {
-    class Program
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    // TASK 4: Instructions Page
+    public sealed partial class MainMenu
     {
-        /// <summary>
-        /// Defines the entry point of the application.
-        /// </summary>
-#if NETFX_CORE
-        [MTAThread]
-#else
-        [STAThread]
-#endif
-        static void Main()
+        private MainPage parent;
+        public MainMenu(MainPage parent)
         {
-            using (var program = new Project1Game())
-                program.Run();
+            this.parent = parent;
+            InitializeComponent();
+        }
+        private void StartGame(object sender, RoutedEventArgs e)
+        {
+            parent.StartGame();
+        }
+
+        private void LoadInstructions(object sender, RoutedEventArgs e)
+        {
+            parent.Children.Add(new Instructions(parent));
+            parent.Children.Remove(this);
+        }
+
+        // TASK 3: Function for setting difficulty
+        private void changeDifficulty(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            //if (parent.game != null) { parent.game.difficulty = (float)e.NewValue; }
         }
     }
 }

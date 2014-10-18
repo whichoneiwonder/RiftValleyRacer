@@ -36,16 +36,17 @@ namespace Project
     public class Project1Game : Game
     {
         // BEWARE: THE NUMBER OF BINARY FILES SERIALISED TO DISK = 4 TO THE POWER OF tSizeFactor-cSizeFactor. BE CAREFUL! Default difference = 5.
-        const int tSizeFactor = 11,    // Sets terrain size. Set between 7 and 13. Default = 11.
-                    cSizeFactor = 6,     // Sets chunk size.   Set between 4 and 8.  Default = 6.
-                    loadGridSize = 3;
+        const int   tSizeFactor  = 10,    // Sets terrain size. Set between 7 and 13.               Default = 11.
+                    cSizeFactor  = 6,     // Sets chunk size.   Set between 4 and 8.                Default = 6.
+                    loadGridSize = 5;     // Sets width of loaded chunk grid. MUST BE ODD.          Default = 3.
         const float tRangeFactor = 1f,    // Sets overall landscape height.  Set between 0.1 and 2. Default = 1.
-                    smoothing = 2.1f;  // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
+                    smoothing    = 2.1f;  // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
 
         private int chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
         private int[] lastPlayerZone = { 1, 1 }; // This is the zone in which the player spawns.
         private GraphicsDeviceManager graphicsDeviceManager;
-        private GameObject[,] terrainGrid;
+        private Dictionary<Key, GameObject> terrainGrid = new Dictionary<Key, GameObject>();
+        private Terrain currentTerrainChunk;
         public static Camera camera;
         public Cube player;
         public AccelerometerReading accelerometerReading;
@@ -74,7 +75,7 @@ namespace Project
 
         protected override void Initialize()
         {
-            Window.Title = "Project 1";
+            Window.Title = "Project 2";
 
             // Set Player spawn zone to be the landscape centre, maximising exploration.
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor - cSizeFactor) / 2;
@@ -93,9 +94,8 @@ namespace Project
             // Create an array of terrain chunks for the grid that the player can see.
             // This grid is centered on the player, and loads/unloads new chunks as the player moves.
             RebuildGrid();
-            Terrain t = (Terrain)terrainGrid[1, 1];
             player.position = new Vector3((float)lastPlayerZone[0] * chunkWidth + chunkWidth / 2,
-                (float)t.fractal[chunkWidth / 2, chunkWidth / 2] + 15,
+                (float)currentTerrainChunk.fractal[chunkWidth / 2, chunkWidth / 2] + 15,
                 (float)lastPlayerZone[1] * chunkWidth + chunkWidth / 2);
             player.velocity = new Vector3();
             // Create an input layout from the vertices
@@ -111,15 +111,51 @@ namespace Project
             return playerZone;
         }
 
-        private void RebuildGrid()
-        {
-            // Create a new terrain grid of chunks, appropriate to where the player is.
-            terrainGrid = new GameObject[loadGridSize, loadGridSize];
-            for (int i = lastPlayerZone[0] - 1, gridX = 0; gridX < loadGridSize; i++, gridX++)
-            {
-                for (int j = lastPlayerZone[1] - 1, gridZ = 0; gridZ < loadGridSize; j++, gridZ++)
-                {
-                    terrainGrid[gridX, gridZ] = new Terrain(this, cSizeFactor, i, j);
+        // Structure to describe terrain grid keys, and allow for overriding equals method
+        struct Key {
+            public int X, Z;
+            public Key(int x, int z) {
+                X = x;
+                Z = z;
+            }
+        }
+
+        private void RebuildGrid(bool reset = false) {
+            int[] currentZone = playerZone();
+
+            if (reset) {
+                // Create a brand new terrain grid (hashset of terrain chunks), appropriate to where the player is.
+                terrainGrid.Clear();
+                for (int i = currentZone[0]-(loadGridSize/2), gridX = 0; gridX < loadGridSize; i++, gridX++) {
+                    for (int j = currentZone[1]-(loadGridSize/2), gridZ = 0; gridZ < loadGridSize; j++, gridZ++) {
+                        Key key = new Key(i, j);
+                        if (i == currentZone[0] && j == currentZone[1]) {
+                            currentTerrainChunk = new Terrain(this, cSizeFactor, i, j);
+                            terrainGrid.Add(key, currentTerrainChunk);
+                        } else { terrainGrid.Add(key, new Terrain(this, cSizeFactor, i, j)); }
+                    }
+                }
+
+            } else {
+                // Remove the strip of chunks now out of range, and add the approaching strip.
+
+                // If the player has moved forwards or backwards a chunk in x:
+                if (currentZone[0] - lastPlayerZone[0] != 0) {
+                    for (int z = currentZone[1]-loadGridSize/2; z <= currentZone[1]+loadGridSize/2; z++) {
+                        Key key = new Key(lastPlayerZone[0]-((currentZone[0] - lastPlayerZone[0])*loadGridSize/2), z);
+                        terrainGrid.Remove(key);
+                        Key key2 = new Key(currentZone[0]+((currentZone[0] - lastPlayerZone[0])*loadGridSize/2), z);
+                        terrainGrid.Add(key2, new Terrain(this, cSizeFactor, key2.X, key2.Z));
+                    }
+                }
+                    // If the player has moved forwards or backwards a chunk in z:
+                else {
+                    for (int x = currentZone[0]-loadGridSize/2; x <= currentZone[0]+loadGridSize/2; x++) {
+                        Key key = new Key(x, lastPlayerZone[1]-((currentZone[1] - lastPlayerZone[1])*loadGridSize/2));
+                        terrainGrid.Remove(key);
+                        Key key2 = new Key(x, currentZone[1]+((currentZone[1] - lastPlayerZone[1])*loadGridSize/2));
+                        terrainGrid.Add(key2, new Terrain(this, cSizeFactor, key2.X, key2.Z));
+                    }
                 }
             }
         }
@@ -141,10 +177,9 @@ namespace Project
 
             //update player
             player.Update(gameTime);
+
             // Update each of the terrain chunks.
-            foreach (GameObject chunk in terrainGrid) { if (chunk != null) chunk.Update(gameTime); };
-
-
+            foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Update(gameTime); };
 
             // Handle base.Update
             base.Update(gameTime);
@@ -156,15 +191,17 @@ namespace Project
             GraphicsDevice.Clear(camera.background);
 
             // Draw each of the terrain chunks.
-            foreach (GameObject chunk in terrainGrid) { if (chunk != null) chunk.Draw(gameTime); };
+            foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Draw(gameTime); };
+            
             player.Draw(gameTime);
+
             // Handle base.Draw
             base.Draw(gameTime);
         }
 
         public GameObject getTerrainChunkUnderPlayer()
         {
-            return terrainGrid[1, 1];
+            return currentTerrainChunk;
         }
 
     }
