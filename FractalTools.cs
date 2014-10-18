@@ -6,26 +6,24 @@ using System.IO;
 using SharpDX;
 using SharpDX.Toolkit;
 using SharpDX.Direct3D11;
-using System.Runtime.Serialization.Formatters.Binary; 
+//using System.Runtime.Serialization.Formatters.Binary; 
 
 namespace Project1
 {
     using SharpDX.Toolkit.Graphics;
     class FractalTools {
 
-        static int N;
-        static public double initialRange, smoothing;
+        static int N, chunkN;
+        public static double initialRange, smoothing;
         public static double[,] fractal;
         public static Vector3[,] vertexNormalIndex;
         static Random random, seed = new Random();
 
         // Generates a large fractal before subdividing it and serialising those divisions to binary files.
         public static void GenerateTerrainChunks(int terrainSizeFactor, float terrainRangeFactor, int chunkSizeFactor, float smoothAmount){
-            int chunkWidth     = (int)Math.Pow(2, chunkSizeFactor)+1,
-                terrainWidth   = (int)Math.Pow(2, terrainSizeFactor)+1;
-
             N = (int)Math.Pow(2, terrainSizeFactor)+1;
-            initialRange = (int)(terrainRangeFactor*terrainWidth/2.0);
+            chunkN = (int)Math.Pow(2, chunkSizeFactor)+1;
+            initialRange = (int)(terrainRangeFactor*N/2.0);
             vertexNormalIndex = new Vector3[N, N];
             fractal = new double[N, N];
             smoothing = (double)smoothAmount;
@@ -38,12 +36,18 @@ namespace Project1
             GenerateNormalIndex();
 
             // Iterate over the fractal, serialising it off as square chunks that can be loaded later
-            for (int yStart=0; yStart<terrainWidth-1; yStart+=chunkWidth-1) {
-                for (int xStart=0; xStart<terrainWidth-1; xStart+=chunkWidth-1) {
+            //FractalToFile();
+
+        }
+
+        // Serialise fractal off as binary files to be loaded later
+        private static void FractalToFile() {
+            for (int yStart=0; yStart<N-1; yStart+=chunkN-1) {
+                for (int xStart=0; xStart<N-1; xStart+=chunkN-1) {
                     // Create a sub-fractal that will represent a chunk, and copy across every cell 
-                    double[,] chunk = new double[chunkWidth, chunkWidth];
-                    for (int y = yStart, i = 0; i < chunkWidth; y++, i++) {
-                        for (int x = xStart, j = 0; j < chunkWidth; x++, j++) chunk[i, j] = fractal[y, x];
+                    double[,] chunk = new double[chunkN, chunkN];
+                    for (int y = yStart, i = 0; i < chunkN; y++, i++) {
+                        for (int x = xStart, j = 0; j < chunkN; x++, j++) chunk[i, j] = fractal[y, x];
                     }
                     // Chunk is copied, ready to be serialised to disk
                     SerialiseFractal(chunk, xStart, yStart);

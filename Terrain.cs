@@ -6,7 +6,7 @@ using System.IO;
 using SharpDX;
 using SharpDX.Toolkit;
 using SharpDX.Direct3D11;
-using System.Runtime.Serialization.Formatters.Binary;
+//using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Project1 {
     using SharpDX.Toolkit.Graphics;
@@ -28,8 +28,13 @@ namespace Project1 {
             vertexN = (int)(6*Math.Pow((N-1), 2));
             land = new VertexPositionNormalColor[vertexN];
 
-            // Deserialise the appropriate binary file to populate this landscape's fractal, and create vertices.
-            DeserialiseFractal(zoneX, zoneZ);
+            // Deserialise the appropriate binary file to populate this landscape's fractal.
+            //DeserialiseFractal(zoneX, zoneZ);
+
+            // Read in the appropriate chunk from FractalTools.fractal[] to populate this landscape's fractal.
+            PopulateFractal(zoneX, zoneZ);
+
+            // Create vertices.
             VerticesFromArray((float)N, (float)zoneX, (float)zoneZ);
 
             // Setup a basic effect with default parameters
@@ -60,7 +65,24 @@ namespace Project1 {
             this.game = game;
         }
 
-        // Deserialise appropriate binary file to populate this landscape's fractal array.
+        // If landscape is being generated in real-time, might as well not serialise and just read in from FractalTools.
+        private void PopulateFractal(int zoneX, int zoneZ) {
+            int startX = zoneX*(N-1), startZ = zoneZ*(N-1);
+            fractal = new double[N, N];
+
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    try { fractal[i, j] = FractalTools.fractal[startZ+i, startX+j]; } 
+                    catch {
+                        outOfBounds = true;
+                        FlatSurface();
+                        return;
+                    }
+                }
+            }
+        }
+
+        // If landscape has been pre-generated, deserialise appropriate binary file to populate this landscape's fractal array.
         private void DeserialiseFractal(int zoneX, int zoneZ) {
             String fileName = "fractal"+(zoneX*(N-1))+"-"+(zoneZ*(N-1))+".dat";
             BinaryFormatter bf = new BinaryFormatter();
@@ -72,11 +94,16 @@ namespace Project1 {
             } catch (FileNotFoundException) {
                 // If there is no file, this means the game is trying to load land that is out of bounds.
                 outOfBounds = true;
-                fractal = new double[N, N];
-                for (int i = 0; i < N; i++) {
-                    for (int j = 0; j < N; j++) {
-                        fractal[i, j] = 0;
-                    }
+                FlatSurface();
+            }
+        }
+
+        // Set fractal array to be flat.
+        private void FlatSurface() {
+            fractal = new double[N, N];
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    fractal[i, j] = 0;
                 }
             }
         }
