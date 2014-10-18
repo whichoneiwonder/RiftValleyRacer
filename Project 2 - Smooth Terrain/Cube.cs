@@ -5,7 +5,7 @@ using System.Text;
 using SharpDX;
 using SharpDX.Toolkit;
 
-namespace Project1
+namespace Project
 {
     using SharpDX.Toolkit.Graphics;
     using SharpDX.Toolkit.Input;
@@ -97,7 +97,7 @@ namespace Project1
 
             checkForCollisions();
 
-            position =position + (velocity *(float)((gameTime.ElapsedGameTime.TotalMilliseconds - lastFrame)/100.0));
+            position = position + (velocity * (float)((gameTime.ElapsedGameTime.TotalMilliseconds - lastFrame) / 10.0));
             basicEffect.World = Matrix.Translation(position);
 
 
@@ -109,6 +109,7 @@ namespace Project1
             // Setup the vertices
             basicEffect.View = camera.View;
             basicEffect.Projection = camera.Projection;
+            basicEffect.World = Matrix.Translation(position);
             game.GraphicsDevice.SetVertexBuffer(vertices);
             game.GraphicsDevice.SetVertexInputLayout(inputLayout);
 
@@ -121,22 +122,22 @@ namespace Project1
         {
             Vector3[] pointsToBound = ((Terrain)game.getTerrainChunkUnderPlayer()).getTerrainUnderPoint(position);
             BoundingSphere instanceBound = new BoundingSphere(position, 1f);
-               // = new BoundingBox(boundsBox.Minimum + position, position + boundsBox.Maximum);
+            // = new BoundingBox(boundsBox.Minimum + position, position + boundsBox.Maximum);
 
-            if(instanceBound.Intersects(ref pointsToBound[1], ref pointsToBound[2], ref pointsToBound[3]))
+            if (instanceBound.Intersects(ref pointsToBound[1], ref pointsToBound[2], ref pointsToBound[3]))
             {
-                velocity.Y += 3*gravity;
+                velocity.Y += 3 * gravity;
                 //bounceyness 
-                  //-  Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1]));
+                //-  Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1]));
             }
 
-            else if (instanceBound.Intersects(ref pointsToBound[0],ref pointsToBound[1], ref pointsToBound[2]))
+            else if (instanceBound.Intersects(ref pointsToBound[0], ref pointsToBound[1], ref pointsToBound[2]))
             {
-                velocity.Y += 3*gravity; 
-             //      /*bounceyness *
-               //    - Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0]));
-            
-            } 
+                velocity.Y += 3 * gravity;
+                //      /*bounceyness *
+                //    - Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0]));
+
+            }
 
         }
     }

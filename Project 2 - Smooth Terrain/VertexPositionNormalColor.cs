@@ -6,7 +6,7 @@ using SharpDX;
 using SharpDX.Toolkit;
 using SharpDX.Toolkit.Graphics;
 
-namespace Project1
+namespace Project
 {
     /// <summary>
     /// Describes a custom vertex format structure that contains position and color information.
@@ -20,7 +20,8 @@ namespace Project1
         /// <param name="position">The position of this vertex.</param>
         /// <param name="normal">The vertex normal.</param>
         /// <param name="color">The color of this vertex.</param>
-        public VertexPositionNormalColor(Vector3 position, Vector3 normal, Color color) : this()
+        public VertexPositionNormalColor(Vector3 position, Vector3 normal, Color color)
+            : this()
         {
             Position = position;
             Normal = normal;
@@ -53,7 +54,7 @@ namespace Project1
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is VertexPositionNormalColor&& Equals((VertexPositionNormalColor) obj);
+            return obj is VertexPositionNormalColor && Equals((VertexPositionNormalColor)obj);
         }
 
         public override int GetHashCode()

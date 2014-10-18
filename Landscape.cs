@@ -16,7 +16,7 @@ namespace Project1
         int verticesPerSide;
         static Random randomGen;
         public float highestPoint, lowestPoint;
-        static int detailLevel = 10;
+        static int detailLevel = 8;
 
         Vector3[][] pointMap ;
         Vector2[][] texturePoints;

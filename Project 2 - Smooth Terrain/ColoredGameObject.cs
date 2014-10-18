@@ -5,7 +5,7 @@ using System.Text;
 using SharpDX;
 using SharpDX.Toolkit;
 
-namespace Project1
+namespace Project
 {
     using SharpDX.Toolkit.Graphics;
     abstract public class ColoredGameObject : GameObject

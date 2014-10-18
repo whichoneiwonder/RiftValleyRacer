@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="Project.MainMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"    
+    d:DesignWidth="1280"
+    d:DesignHeight="800">
+    <Grid>
+        <Button x:Name="cmdStart" Content="Start" HorizontalAlignment="Left" Height="77" Margin="515,247,0,0" VerticalAlignment="Top" Width="163" Click="StartGame"/>
+        <Slider x:Name="sldDifficulty" HorizontalAlignment="Left" Height="38" Margin="208,10,0,0" VerticalAlignment="Top" Width="159" ValueChanged="changeDifficulty" Value="1" IsTabStop="False" Minimum="0.5" Maximum="3" LargeChange="0.1" SmallChange="0.01" StepFrequency="0.01"/>
+        <Button x:Name="cmdInstructions" Content="Instructions" HorizontalAlignment="Left" Height="77" Margin="749,247,0,0" VerticalAlignment="Top" Width="163" Click="LoadInstructions"/>
+    </Grid>
+</Page>
