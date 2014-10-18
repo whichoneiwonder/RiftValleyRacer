@@ -84,19 +84,16 @@ namespace Project
             // Set camera to begin in the zone of the player. When Player class is implemented, this should be changed.
             int xPos = lastPlayerZone[0] * chunkWidth + chunkWidth / 2,
                 zPos = lastPlayerZone[1] * chunkWidth + chunkWidth / 2;
-
+            player.position = new Vector3(xPos, 0, zPos);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-
             // Create an array of terrain chunks for the grid that the player can see.
             // This grid is centered on the player, and loads/unloads new chunks as the player moves.
-            RebuildGrid();
-            player.position = new Vector3((float)lastPlayerZone[0] * chunkWidth + chunkWidth / 2,
-                (float)currentTerrainChunk.fractal[chunkWidth / 2, chunkWidth / 2] + 15,
-                (float)lastPlayerZone[1] * chunkWidth + chunkWidth / 2);
+            RebuildGrid(true);
+            player.position.Y = (float)currentTerrainChunk.fractal[chunkWidth / 2, chunkWidth / 2]+15;
             player.velocity = new Vector3();
             // Create an input layout from the vertices
             base.LoadContent();
@@ -105,7 +102,6 @@ namespace Project
         private int[] playerZone()
         {
             int[] playerZone = { 1, 1 };
-            //  Until Player class is implemented, just return the zone of the camera.
             playerZone[0] = (int)player.position.X / chunkWidth;
             playerZone[1] = (int)player.position.Z / chunkWidth;
             return playerZone;
