@@ -80,34 +80,26 @@ namespace Project
         {
             Window.Title = "Rift Valley Racer";
           
-            // Set Player spawn zone to be the landscape centre, maximising exploration.
+            // Set player spawn zone to be the landscape centre, maximising exploration.
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor - cSizeFactor) / 2;
-
-            camera = new Camera(this);
-            player = new Racer(this, new Vector3(10, 10, 10), "HoverBike1");
-
-            // Set camera to begin in the zone of the player. When Player class is implemented, this should be changed.
             int xPos = lastPlayerZone[0] * chunkWidth + chunkWidth / 2,
                 zPos = lastPlayerZone[1] * chunkWidth + chunkWidth / 2;
-            Debug.WriteLine("xPos is: " + xPos);
-            Debug.WriteLine("zPos is:" + zPos);
 
-            //player.position = new Vector3(xPos, 0, zPos);
+            // Initialise camera and player in the correct zone.
+            camera = new Camera(this);
+            player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike1");
             
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            if (started)
-            {
-                // Create an array of terrain chunks for the grid that the player can see.
-                // This grid is centered on the player, and loads/unloads new chunks as the player moves.
-                RebuildGrid(true);
-                player.position.Y = (float)currentTerrainChunk.fractal[chunkWidth / 2, chunkWidth / 2] + 15;
-                //player.velocity = new Vector3();
-                // Create an input layout from the vertices
-            }
+            // Create an array of terrain chunks for the grid that the player can see.
+            // This grid is centered on the player, and loads/unloads new chunks as the player moves.
+            RebuildGrid(true);
+            player.position.Y = (float)currentTerrainChunk.fractal[chunkWidth / 2, chunkWidth / 2] + 15;
+            //player.velocity = new Vector3();
+            // Create an input layout from the vertices
             base.LoadContent();
         }
 
@@ -130,7 +122,6 @@ namespace Project
 
         private void RebuildGrid(bool reset = false) {
             int[] currentZone = playerZone();
-
             if (reset) {
                 // Create a brand new terrain grid (hashset of terrain chunks), appropriate to where the player is.
                 terrainGrid.Clear();
@@ -170,7 +161,6 @@ namespace Project
 
         protected override void Update(GameTime gameTime)
         {
-
             if (started)
             {
                 // Check where the player is, and replace chunks accordingly. Only replace chunks if player has changed zone.

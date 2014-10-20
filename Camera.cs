@@ -48,13 +48,12 @@ namespace Project
         public void Update(GameTime gameTime)
         {
 
-            // Translate cameraPosition relative to cameraDirection
+            // Set cameraPosition and cameraLook relative to player
             cameraPosition = game.player.position;
-            cameraPosition.Z -= 10;
-            //cameraPosition.Y += 5;
-
-            // Set cameraLook to equal cameraPosition, and translate it in direction of cameraDirection
-            cameraLook = (game.player.position);
+            cameraPosition.Z -= 3;
+            cameraPosition.Y += 3;
+            cameraLook = game.player.position;
+            cameraLook.Y += 1;
 
             // Update sun position and background colour
             sunPosition.X = (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds / 10.0));

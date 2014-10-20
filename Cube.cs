@@ -73,7 +73,7 @@ namespace Project
             };
 
             position = new Vector3();
-            velocity = new Vector3();
+            velocity = Vector3.Zero;
             camera = Project1Game.camera;
 
             inputLayout = VertexInputLayout.FromBuffer(0, vertices);
@@ -86,7 +86,7 @@ namespace Project
         public override void Update(GameTime gameTime)
         {
             // move the cube.
-            velocity.Y -= gravity;
+            //velocity.Y -= gravity;
             camera = Project1Game.camera;
             keyboard = keyboardManager.GetState();
 
@@ -95,10 +95,10 @@ namespace Project
                 velocity.Z += 1;
             }
 
-            checkForCollisions();
-
-            position = position + (velocity * (float)((gameTime.ElapsedGameTime.TotalMilliseconds - lastFrame) / 10.0));
-            basicEffect.World = Matrix.Translation(position);
+            //checkForCollisions();
+            position = new Vector3(100, 100, 100);
+            //position = position + (velocity * (float)((gameTime.ElapsedGameTime.TotalMilliseconds - lastFrame) / 10.0));
+            //basicEffect.World = Matrix.Translation(position);
 
 
             this.lastFrame = gameTime.ElapsedGameTime.TotalMilliseconds;
