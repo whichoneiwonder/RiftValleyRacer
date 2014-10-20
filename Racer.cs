@@ -85,7 +85,7 @@ namespace Project
             projection = Matrix.PerspectiveFovRH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
 
 
-            world = Matrix.Scaling(0.01f)* Matrix.RotationX((float)Math.PI/2f * delta/100f) *Matrix.RotationZ((float)Math.PI * delta/100f)  * Matrix.Translation(position);
+            world = Matrix.Scaling(0.01f)* Matrix.RotationX((float)Math.PI/2f * delta/100f) *Matrix.RotationZ((float)Math.PI * delta/100f) * Matrix.Translation(position);
 
             WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
         }
