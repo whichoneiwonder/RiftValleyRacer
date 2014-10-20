@@ -45,6 +45,8 @@ namespace Project
         private int chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
         private int[] lastPlayerZone = { 1, 1 }; // This is the zone in which the player spawns.
         private GraphicsDeviceManager graphicsDeviceManager;
+        private KeyboardManager kbManager;
+        private KeyboardState kbState;
         private Dictionary<Key, GameObject> terrainGrid = new Dictionary<Key, GameObject>();
         private Terrain currentTerrainChunk;
         public static Camera camera;
@@ -80,7 +82,7 @@ namespace Project
           
             // Set Player spawn zone to be the landscape centre, maximising exploration.
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor - cSizeFactor) / 2;
-           
+
             camera = new Camera(this);
             player = new Racer(this, new Vector3(10, 10, 10), "HoverBike1");
 
@@ -177,6 +179,9 @@ namespace Project
                     lastPlayerZone = playerZone();
                     RebuildGrid();
                 }
+
+                // Go back to the main menu for testing purposes
+              //  if (kb)
 
                 // Update camera
                 camera.Update(gameTime);

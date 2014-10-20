@@ -44,8 +44,6 @@ namespace Project
             opt = new Options(this);
 
             this.Children.Add(mainMenu);
-            this.Children.Add(howTo);
-            this.Children.Add(opt);
             
         }
 
