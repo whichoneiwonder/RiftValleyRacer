@@ -47,6 +47,7 @@ namespace Project
         private void StartGame(object sender, RoutedEventArgs e) 
         {
             parent.StartGame();
+            parent.Children.Remove(this);
         }
 
         private void NextPage(object sender, RoutedEventArgs e)
@@ -101,7 +102,6 @@ namespace Project
             else if (page_num == 0) { this.cmdPrev.Visibility = Windows.UI.Xaml.Visibility.Collapsed; }
             this.txtInstructions.Text = text_l[page_num];
         }
-
 
         private void GoBack(object sender, RoutedEventArgs e)
         {

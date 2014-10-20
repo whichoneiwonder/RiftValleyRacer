@@ -38,11 +38,18 @@ namespace Project
         }
 
         private void Exit(object sender, RoutedEventArgs e)
-        { 
+        {
+         //   var swapchain
+            Window.Current.Close();
         }
 
-        private void LoadOptions(object sender, RoutedEventArgs e) { }
-        private void LoadInstructions(object sender, RoutedEventArgs e)
+        private void LoadOptions(object sender, RoutedEventArgs e) 
+        {
+            parent.Children.Add(new Options(parent));
+            parent.Children.Remove(this);
+        }
+
+         private void LoadInstructions(object sender, RoutedEventArgs e)
         {
             parent.Children.Add(new Instructions(parent));
             parent.Children.Remove(this);
