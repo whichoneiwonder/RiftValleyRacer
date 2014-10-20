@@ -21,11 +21,11 @@
 using SharpDX;
 using SharpDX.Toolkit;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using Windows.UI.Input;
 using Windows.UI.Core;
 using Windows.Devices.Sensors;
-
 namespace Project
 {
     // Use this namespace here in case we need to use Direct3D11 namespace as well, as this
@@ -48,7 +48,8 @@ namespace Project
         private Dictionary<Key, GameObject> terrainGrid = new Dictionary<Key, GameObject>();
         private Terrain currentTerrainChunk;
         public static Camera camera;
-        public Cube player;
+        //public Cube player;
+        public Racer player;
         public AccelerometerReading accelerometerReading;
         public int score;
         public MainPage mainPage;
@@ -75,27 +76,36 @@ namespace Project
 
         protected override void Initialize()
         {
-            Window.Title = "Project 2";
-
+            Window.Title = "Rift Valley Racer";
+          
             // Set Player spawn zone to be the landscape centre, maximising exploration.
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor - cSizeFactor) / 2;
-            player = new Cube(this, gameTime);
+           
             camera = new Camera(this);
+            player = new Racer(this, new Vector3(10, 10, 10), "HoverBike1");
+
             // Set camera to begin in the zone of the player. When Player class is implemented, this should be changed.
             int xPos = lastPlayerZone[0] * chunkWidth + chunkWidth / 2,
                 zPos = lastPlayerZone[1] * chunkWidth + chunkWidth / 2;
-            player.position = new Vector3(xPos, 0, zPos);
+            Debug.WriteLine("xPos is: " + xPos);
+            Debug.WriteLine("zPos is:" + zPos);
+
+            //player.position = new Vector3(xPos, 0, zPos);
+            
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            // Create an array of terrain chunks for the grid that the player can see.
-            // This grid is centered on the player, and loads/unloads new chunks as the player moves.
-            RebuildGrid(true);
-            player.position.Y = (float)currentTerrainChunk.fractal[chunkWidth / 2, chunkWidth / 2]+15;
-            player.velocity = new Vector3();
-            // Create an input layout from the vertices
+            if (started)
+            {
+                // Create an array of terrain chunks for the grid that the player can see.
+                // This grid is centered on the player, and loads/unloads new chunks as the player moves.
+                RebuildGrid(true);
+                player.position.Y = (float)currentTerrainChunk.fractal[chunkWidth / 2, chunkWidth / 2] + 15;
+                //player.velocity = new Vector3();
+                // Create an input layout from the vertices
+            }
             base.LoadContent();
         }
 
@@ -159,38 +169,41 @@ namespace Project
         protected override void Update(GameTime gameTime)
         {
 
-
-            // Check where the player is, and replace chunks accordingly. Only replace chunks if player has changed zone.
-            if ((playerZone()[0] != lastPlayerZone[0]) || (playerZone()[1] != lastPlayerZone[1]))
+            if (started)
             {
-                lastPlayerZone = playerZone();
-                RebuildGrid();
+                // Check where the player is, and replace chunks accordingly. Only replace chunks if player has changed zone.
+                if ((playerZone()[0] != lastPlayerZone[0]) || (playerZone()[1] != lastPlayerZone[1]))
+                {
+                    lastPlayerZone = playerZone();
+                    RebuildGrid();
+                }
+
+                // Update camera
+                camera.Update(gameTime);
+
+
+                //update player
+                player.Update(gameTime);
+
+                // Update each of the terrain chunks.
+                foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Update(gameTime); };
             }
-
-            // Update camera
-            camera.Update(gameTime);
-
-
-            //update player
-            player.Update(gameTime);
-
-            // Update each of the terrain chunks.
-            foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Update(gameTime); };
-
             // Handle base.Update
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            // Clears the screen with the background colour
-            GraphicsDevice.Clear(camera.background);
+            if (started)
+            {
+                // Clears the screen with the background colour
+                GraphicsDevice.Clear(camera.background);
 
-            // Draw each of the terrain chunks.
-            foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Draw(gameTime); };
-            
-            player.Draw(gameTime);
+                // Draw each of the terrain chunks.
+                foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Draw(gameTime); };
 
+                player.Draw(gameTime);
+            }
             // Handle base.Draw
             base.Draw(gameTime);
         }

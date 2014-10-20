@@ -13,6 +13,7 @@ namespace Project
     abstract public class GameObject
     {
         public BasicEffect basicEffect;
+        public Effect effect;
         public VertexInputLayout inputLayout;
         public Project1Game game;
 

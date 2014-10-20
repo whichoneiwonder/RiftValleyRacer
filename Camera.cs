@@ -51,7 +51,7 @@ namespace Project
             // Translate cameraPosition relative to cameraDirection
             cameraPosition = game.player.position;
             cameraPosition.Z -= 10;
-            cameraPosition.Y += 5;
+            //cameraPosition.Y += 5;
 
             // Set cameraLook to equal cameraPosition, and translate it in direction of cameraDirection
             cameraLook = (game.player.position);

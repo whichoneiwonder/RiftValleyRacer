@@ -18,28 +18,94 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using SharpDX;
 
 namespace Project
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    // TASK 4: Instructions Page
     public sealed partial class Instructions
     {
+        // Checks for current page number
+        private static int page_num = 0;
+
+        private string[] text_l = {"1. To steer, tilt the tablet towards the direction you want to move your vehicle.",  
+                                   "2. The aim of the game is to reach the goal first before the opponent does.", 
+                                   "3. Follow the arrow which points towards the goal location and aim to find the shortest path.",
+                                   "The more you play, the better you'll be so keep on practising! What're you waiting for? Start playing and HAVE FUN! :D"}; 
+
         private MainPage parent;
+
         public Instructions(MainPage parent)
         {
             InitializeComponent();
             this.parent = parent;
+            this.txtInstructions.Text = text_l[page_num];
         }
 
-       
+        private void StartGame(object sender, RoutedEventArgs e) 
+        {
+            parent.StartGame();
+        }
+
+        private void NextPage(object sender, RoutedEventArgs e)
+        {
+            page_num++;
+            
+            if (page_num == 0) 
+            { 
+                this.imgTablet.Visibility = Windows.UI.Xaml.Visibility.Visible; 
+            } else { 
+                this.imgTablet.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+            
+            if (page_num > 0 && page_num < 3) 
+            { 
+                this.cmdPrev.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.cmdNext.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.cmdBack.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.cmdStart.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            } else if (page_num == 3)
+            { 
+                this.cmdNext.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                this.cmdBack.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                this.cmdStart.Visibility = Windows.UI.Xaml.Visibility.Visible; 
+            } else if (page_num == 0) 
+            { 
+                this.cmdPrev.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+            this.txtInstructions.Text = text_l[page_num];
+        }
+
+        private void PrevPage(object sender, RoutedEventArgs e)
+        {
+            page_num--;
+
+            if (page_num == 0) { this.imgTablet.Visibility = Windows.UI.Xaml.Visibility.Visible; }
+            else { this.imgTablet.Visibility = Windows.UI.Xaml.Visibility.Collapsed; }
+
+            if (page_num > 0 && page_num < 3)
+            {
+                this.cmdPrev.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.cmdNext.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.cmdBack.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.cmdStart.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+            else if (page_num == 3)
+            {
+                this.cmdNext.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                this.cmdBack.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                this.cmdStart.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+            else if (page_num == 0) { this.cmdPrev.Visibility = Windows.UI.Xaml.Visibility.Collapsed; }
+            this.txtInstructions.Text = text_l[page_num];
+        }
+
+
         private void GoBack(object sender, RoutedEventArgs e)
         {
+            page_num = 0;
             parent.Children.Add(parent.mainMenu);
             parent.Children.Remove(this);
         }

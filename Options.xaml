@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Project.Options"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Button x:Name="cmdEasy" Content="EASY" HorizontalAlignment="Left" Margin="600,300,0,0" VerticalAlignment="Top" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdNormal" Content="NORMAL" HorizontalAlignment="Left" Margin="750,300,0,0" VerticalAlignment="Top" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdHard" Content="HARD" HorizontalAlignment="Center" Margin="550,0,0,135" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdBack" Content="BACK" HorizontalAlignment="Right" Margin="0,50,50,0" VerticalAlignment="Top" Width="120" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="18"/>
+        <TextBlock HorizontalAlignment="Left" Margin="450,305,0,0" TextWrapping="Wrap" Text="Difficulty" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <TextBlock HorizontalAlignment="Left" Margin="635,100,0,0" TextWrapping="Wrap" Text="OPTIONS" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36" VerticalAlignment="Top"/>
+
+    </Grid>
+</Page>

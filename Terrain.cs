@@ -20,6 +20,9 @@ namespace Project {
         // Vertex array to store details of every vertex of every triangle in the terrain
         VertexPositionNormalColor[] land;
 
+        Matrix World;
+        Matrix WorldInverseTranspose;
+
         bool outOfBounds = false;
 
         public Terrain(Game game, int sizeFactor, int zoneX, int zoneZ) {
@@ -39,6 +42,8 @@ namespace Project {
 
             // Create vertices.
             VerticesFromArray((float)N, (float)zoneX, (float)zoneZ);
+            
+            effect = game.Content.Load<Effect>("Gouraud");
 
             // Setup a basic effect with default parameters
             basicEffect = new BasicEffect(game.GraphicsDevice) {
@@ -49,6 +54,8 @@ namespace Project {
                 Projection = Project1Game.camera.Projection,
                 World = Project1Game.camera.World
             };
+
+            World = Project1Game.camera.World;
 
             // Set ambient light to global ambient light
             basicEffect.AmbientLightColor = Project1Game.camera.ambientColour;
@@ -180,15 +187,26 @@ namespace Project {
             basicEffect.AmbientLightColor = Project1Game.camera.ambientColour;
             basicEffect.DirectionalLight0.Direction    = Project1Game.camera.sunPosition;
             basicEffect.DirectionalLight0.DiffuseColor = Project1Game.camera.sunColour;
+            WorldInverseTranspose = Matrix.Invert(Matrix.Transpose(World));
         }
 
         public override void Draw(GameTime gameTime) {
             // Setup the vertices
             game.GraphicsDevice.SetVertexBuffer(vertices);
             game.GraphicsDevice.SetVertexInputLayout(inputLayout);
+            
+            effect.Parameters["World"].SetValue(World);
+            effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
+            effect.Parameters["View"].SetValue(Project1Game.camera.View);
+            effect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
+            effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
+            effect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
+            effect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
+            effect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
 
             // Apply the basic effect technique and draw
             basicEffect.CurrentTechnique.Passes[0].Apply();
+            effect.CurrentTechnique.Passes[0].Apply();
             game.GraphicsDevice.Draw(PrimitiveType.TriangleList, vertices.ElementCount);
         }
 

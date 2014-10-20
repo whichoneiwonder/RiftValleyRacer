@@ -31,19 +31,28 @@ namespace Project
     {
         public readonly Project1Game game;
         public MainMenu mainMenu;
+        public Instructions howTo;
+        public Options opt;
+
         public MainPage()
         {
             InitializeComponent();
             game = new Project1Game(this);
             game.Run(this);
             mainMenu = new MainMenu(this);
+            howTo = new Instructions(this);
+            opt = new Options(this);
+
             this.Children.Add(mainMenu);
+            this.Children.Add(howTo);
+            this.Children.Add(opt);
+            
         }
 
         // TASK 1: Update the game's score
         public void UpdateScore(int score)
         {
-            txtScore.Text = "Score: " + score.ToString();
+           
         }
 
         // TASK 2: Starts the game.  Not that it seems easier to simply move the game.Run(this) command to this function,
@@ -52,6 +61,7 @@ namespace Project
         public void StartGame()
         {
             this.Children.Remove(mainMenu);
+            this.Children.Remove(howTo);
             game.started = true;
         }
     }

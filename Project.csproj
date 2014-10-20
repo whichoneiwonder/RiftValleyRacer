@@ -44,6 +44,9 @@
     <Compile Include="ColoredGameObject.cs" />
     <Compile Include="Cube.cs" />
     <Compile Include="FractalTools.cs" />
+    <Compile Include="Options.xaml.cs">
+      <DependentUpon>Options.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Project1Game.cs" />
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
@@ -56,6 +59,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="Racer.cs" />
     <Compile Include="Terrain.cs" />
     <Compile Include="VertexPositionNormalColor.cs" />
   </ItemGroup>
@@ -75,6 +79,7 @@
     <Content Include="Content\enemy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\tablet.png" />
     <ToolkitFxc Include="Content\Gouraud.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitFxc>
@@ -108,6 +113,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Options.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +165,18 @@
   </ItemGroup>
   <ItemGroup>
     <ToolkitModel Include="Content\Car.x">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </ToolkitModel>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Art\" />
+    <Folder Include="Sound\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Fonts\Modulario.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ToolkitModel Include="Content\HoverBike1.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
   </ItemGroup>
