@@ -27,7 +27,7 @@ namespace Project
             this.up = Vector3.UnitY;
             this.lateral = Vector3.Cross(this.up, this.heading);
 
-            this.model = game.Content.Load<Model>(modelName);
+            this.model = game.Content.Load<Model>(modelName );
 
             view = Matrix.LookAtRH(Project1Game.camera.cameraPosition, Project1Game.camera.cameraLook, Vector3.Up);
             projection = Matrix.PerspectiveFovRH(0.9f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);

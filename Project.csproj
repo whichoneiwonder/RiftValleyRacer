@@ -177,7 +177,19 @@
     <Content Include="Fonts\Modulario.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <ToolkitModel Include="Content\HoverBike1.obj">
+    <None Include="Content\HoverBike1.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\HoverBike2.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\HoverBike3.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\HoverBike4.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <ToolkitModel Include="Content\HoverBike4.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
   </ItemGroup>

@@ -87,7 +87,7 @@ namespace Project
 
             // Initialise camera and player in the correct zone.
             camera = new Camera(this);
-            player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike1");
+            player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike4");
             
             base.Initialize();
         }
