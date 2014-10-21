@@ -47,6 +47,18 @@ namespace Project
             
         }
 
+        private void Forward(object sender, RoutedEventArgs e)
+        {
+            this.txtUpdate.Text = "FORWARD";
+            this.game.player.accel += 0.0001f;
+        }
+
+        private void Backward(object sender, RoutedEventArgs e)
+        {
+            this.txtUpdate.Text = "BACKWARD";
+            this.game.player.accel -= 0.0001f;
+        }
+
         // TASK 1: Update the game's score
         public void UpdateScore(int score)
         {

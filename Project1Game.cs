@@ -173,13 +173,13 @@ namespace Project
                 // Go back to the main menu for testing purposes
               //  if (kb)
 
-                // Update camera
-                camera.Update(gameTime);
+             
 
 
                 //update player
                 player.Update(gameTime);
-
+                // Update camera
+                camera.Update(gameTime);
                 // Update each of the terrain chunks.
                 foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Update(gameTime); };
             }

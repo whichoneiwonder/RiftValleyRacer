@@ -15,13 +15,14 @@ namespace Project
         public Model model;
         public Matrix world, view, projection, WorldInverseTranspose;
         public Vector3 heading, lateral, up;
-
+        public float accel, vel;
 
         public Racer(Project1Game game, Vector3 pos, String modelName)
         {
             this.position = pos;
             this.game = game;
-
+            this.accel = 0f;
+            this.vel = 0f;
             this.heading = position - new Vector3(0, 0, 0);
             this.up = Vector3.UnitY;
             this.lateral = Vector3.Cross(this.up, this.heading);
@@ -40,7 +41,13 @@ namespace Project
 
             effect = game.Content.Load<Effect>("Phong");
 
-
+            //foreach (ModelMesh mesh in model.Meshes)
+            //{
+            //    foreach (ModelMeshPart part in mesh.MeshParts)
+            //    {
+            //        part.Effect = effect;
+            //    }
+            //}
 
 
         }
@@ -51,41 +58,62 @@ namespace Project
             //{
             //    foreach (Effect eff in mesh.Effects)
             //    {
-            //        eff.Parameters["World"].SetValue(world);
-            //        eff.Parameters["Projection"].SetValue(game.camera.Projection);
-            //        eff.Parameters["View"].SetValue(game.camera.View);
-            //        eff.Parameters["cameraPos"].SetValue(game.camera.cameraPos);
-            //        eff.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
-            //        eff.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
-            //        eff.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
-            //        eff.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
+                    effect.Parameters["World"].SetValue(world);
+                    effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
+                    effect.Parameters["View"].SetValue(Project1Game.camera.View);
+                    effect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
+                    effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
+                    effect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
+                    effect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
+                    effect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
+            //    }
+            //}
+            List<Matrix> bones = new List<Matrix>();
+                    int i = 0;
+                    while (i < model.Bones.Count)
+                    {
+                        i++;
+                        bones.Add(Matrix.Identity);
+                    }
+
+            //foreach (ModelMesh mesh in model.Meshes)
+            //{
+            //    foreach (Effect meshEffect in mesh.Effects)
+            //    {
+           
+            //        meshEffect.Parameters["World"].SetValue(world);
+            //        meshEffect.Parameters["Projection"].SetValue(projection);
+            //        meshEffect.Parameters["View"].SetValue(view);
+            //        meshEffect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
+            //        meshEffect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
+            //        meshEffect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
+            //        meshEffect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
+            //        meshEffect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
+
+                   
+
+            //        mesh.Draw(game.GraphicsDevice,bones.ToArray(), meshEffect);
             //    }
             //}
 
-            effect.Parameters["World"].SetValue(world);
-            effect.Parameters["Projection"].SetValue(projection);
-            effect.Parameters["View"].SetValue(view);
-            effect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
-            effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
-            effect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
-            effect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
-            effect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
-
-            effect.CurrentTechnique.Passes[0].Apply();
-
-            this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
+                   // effect.CurrentTechnique.Passes[0].Apply();
+                   this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
         }
 
         public override void Update(GameTime gameTime)
         {
+            float prevVel = vel;
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            position.Z = (float)(position.Z + vel * delta + 0.5f * accel * delta * delta);
+            vel = accel * delta;
+
 
             //this.position = Project1Game.camera.cameraPosition + Vector3.Normalize(Project1Game.camera.cameraDirection);
             view = Matrix.LookAtRH(Project1Game.camera.cameraPosition, Project1Game.camera.cameraLook, Vector3.Up); ;
             projection = Matrix.PerspectiveFovRH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
 
 
-            world = Matrix.Scaling(0.01f)* Matrix.RotationX((float)Math.PI/2f * delta/100f) *Matrix.RotationZ((float)Math.PI * delta/100f) * Matrix.Translation(position);
+            world = Matrix.Scaling(0.005f) * Matrix.RotationX((float)Math.PI) * Matrix.RotationZ((float)Math.PI) * Matrix.Translation(position);
 
             WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
         }

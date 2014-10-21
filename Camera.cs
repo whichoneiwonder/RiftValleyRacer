@@ -50,10 +50,10 @@ namespace Project
 
             // Set cameraPosition and cameraLook relative to player
             cameraPosition = game.player.position;
-            cameraPosition.Z -= 3;
-            cameraPosition.Y += 3;
+            cameraPosition.Z -= 3.0f;
+            cameraPosition.Y += 1.5f;
             cameraLook = game.player.position;
-            cameraLook.Y += 1;
+            cameraLook.Y += 1f;
 
             // Update sun position and background colour
             sunPosition.X = (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds / 10.0));

@@ -44,6 +44,7 @@
     <Compile Include="ColoredGameObject.cs" />
     <Compile Include="Cube.cs" />
     <Compile Include="FractalTools.cs" />
+    <Compile Include="GameInput.cs" />
     <Compile Include="Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
     </Compile>

@@ -26,9 +26,9 @@ float4x4 World;
 float4x4 View;
 float4x4 Projection;
 float4 cameraPos;
-float4 lightAmbCol = float4(0.4f, 0.4f, 0.4f, 1.0f);
-float4 lightPntPos = float4(0.0f, 0.0f, -2.0f, 1.0f);
-float4 lightPntCol = float4(1.0f, 1.0f, 1.0f, 1.0f);
+float4 lightAmbCol;// = float4(0.4f, 0.4f, 0.4f, 1.0f);
+float4 lightPntPos;// = float4(0.0f, 0.0f, -2.0f, 1.0f);
+float4 lightPntCol;// = float4(1.0f, 1.0f, 1.0f, 1.0f);
 float4x4 worldInvTrp;
 //
 

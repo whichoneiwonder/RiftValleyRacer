@@ -188,6 +188,18 @@ namespace Project {
             basicEffect.DirectionalLight0.Direction    = Project1Game.camera.sunPosition;
             basicEffect.DirectionalLight0.DiffuseColor = Project1Game.camera.sunColour;
             WorldInverseTranspose = Matrix.Invert(Matrix.Transpose(World));
+
+            effect.Parameters["World"].SetValue(World);
+            effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
+            effect.Parameters["View"].SetValue(Project1Game.camera.View);
+            effect.Parameters["cameraPos"].SetValue(new Vector4(Project1Game.camera.cameraPosition.X, Project1Game.camera.cameraPosition.Y, Project1Game.camera.cameraPosition.Z, 1.0f));
+            effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
+            effect.Parameters["lightAmbCol"].SetValue((Vector4)Project1Game.camera.ambientColour);
+            effect.Parameters["lightPntPos"].SetValue((Vector4)Project1Game.camera.sunPosition);
+            effect.Parameters["lightPntCol"].SetValue((Vector4)Project1Game.camera.sunColour);
+            
+
+
         }
 
         public override void Draw(GameTime gameTime) {
@@ -195,17 +207,9 @@ namespace Project {
             game.GraphicsDevice.SetVertexBuffer(vertices);
             game.GraphicsDevice.SetVertexInputLayout(inputLayout);
             
-            effect.Parameters["World"].SetValue(World);
-            effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
-            effect.Parameters["View"].SetValue(Project1Game.camera.View);
-            effect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
-            effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
-            effect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
-            effect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
-            effect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
 
             // Apply the basic effect technique and draw
-            basicEffect.CurrentTechnique.Passes[0].Apply();
+            //basicEffect.CurrentTechnique.Passes[0].Apply();
             effect.CurrentTechnique.Passes[0].Apply();
             game.GraphicsDevice.Draw(PrimitiveType.TriangleList, vertices.ElementCount);
         }
