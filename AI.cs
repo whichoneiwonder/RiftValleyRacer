@@ -1,123 +1,162 @@
 ﻿using SharpDX;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Project
+namespace Project1
 {
-    class AI
+    public class AI
     {
-        public static List<Vector2> findPath(Vector2 start, Vector2 end, double[,] fractal)
+        static Vector2 start;
+        static Vector2 end;
+        static Vector2 lastNode;
+
+        // Stores path cost between the start and a point in the array.
+        static int[,] g;
+
+        // Stores heuristic calculation between a point in the array and the goal point.
+        static int[,] h;
+
+        // Stores the sum of the two, to figure out the cost of the most efficient path to a goal.
+        static int[,] f;
+
+        // Stores optimal paths up to a point.
+        static Vector2[,] prev;
+
+        // Stores the terrain as a whole.
+        static double[,] map;
+        static int width;
+        static int height;
+
+        // Find a path over a map given a start and end point to move towards.
+        public static List<Vector2> findPath(Vector2 s, Vector2 e, double[,] m)
         {
-            // Defines points that have already been explored.
-            var closed = new List<Vector2>();
-            // Defines points that haven't been explored.
-            var open = new List<Vector2> {start};
-            // Just a way for us to figure out how to best figure out an optimal path of a point given its origin.
-            var prev = new Dictionary<Vector2, Vector2>();
+            // INITIALISE ALL THE THINGS
+            start = new Vector2(s.X, s.Y);
+            end = new Vector2(e.X, e.Y);
+            map = m;
 
-            // Get a point with its optimal distance
-            var dist = new Dictionary<Vector2, int>();
+            width = map.GetLength(0);
+            height = map.GetLength(1);
 
-            // A dictionary for a point and its straight-line heuristic value.
-            var calcDistance = new Dictionary<Vector2, float>();
+            g = new int[width, height];
+            h = new int[width, height];
+            f = new int[width, height];
+            prev = new Vector2[width, height];
 
-            // Add in the origin. There should be no weight on it.
-            dist.Add(start, 0);
+            List<Vector2> open = new List<Vector2>();
+            List<Vector2> closed = new List<Vector2>();
 
-            // Similarly, add in the origin and its corresponding heuristic value.
-            calcDistance.Add(start, Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y));
+            open.Add(start);
+            g[(int)start.X, (int)start.Y] = 0;
+            h[(int)start.X, (int)start.Y] = calculateHeuristic(start);
+            f[(int)start.X, (int)start.Y] = h[(int)start.X, (int)start.Y];
+            prev[(int)start.X, (int)start.Y] = new Vector2(-1, -1);
 
             while (open.Count > 0)
             {
-                // Find nodes with the lowest cost to the end.
-                var current = start;
-                foreach (var p in calcDistance.Keys)
+                int min = -1;
+                Vector2 point = new Vector2(-1, -1);
+
+                // Get the most optimalest point in the open set.
+                foreach (Vector2 p in open)
                 {
-                    if (calcDistance[p] < calcDistance[current])
+                    int distance = 0;
+
+                    if (prev[(int)p.X, (int)p.Y] != new Vector2(-1, -1))
+                        distance = g[(int)prev[(int)p.X, (int)p.Y].X, (int)prev[(int)p.X, (int)p.Y].Y]
+                            + calculateDistance(p, prev[(int)p.X, (int)p.Y]) + calculateHeuristic(p);
+
+                    if (distance <= min || min == -1)
                     {
-                        //Console.WriteLine(current.X + ", " + current.Y + " | " + p.X + ", " + p.Y);
-                        current = p;
+                        min = distance;
+                        point = p;
                     }
                 }
-
 
                 // Return a path if we reached the end.
-                if ((int)current.X == (int)end.X && (int)current.Y == (int)end.Y)
-                    return generatePath(prev, end);
+                if (point == end)
+                    return generatePath(point);
 
-                open.Remove(current);
-                closed.Add(current);
+                open.Remove(point);
+                closed.Add(point);
 
-                // Search through a point's surrounding neighbours.
-                foreach (var neighbour in getNeighbours(current, fractal))
+                List<Vector2> neighbours = getNeighbours(point);
+                foreach (Vector2 n in neighbours)
                 {
-                    var tempDistance = dist[current] + 1;
-
-                    // Ignore if there is a faster way to get to that neighbour.
-                    if (closed.Contains(neighbour)
-                        && tempDistance >= dist[neighbour])
+                    // Ignore if this point is already explored.
+                    if (closed.Contains(n))
                         continue;
 
-                    // Otherwise, if there isn't any, store this route instead.
-                    if (!closed.Contains(neighbour)
-                        || tempDistance < dist[neighbour])
+                    // Store a temporary distance containing the path
+                    // cost and the distance between the two points.
+                    int t = g[(int)point.X, (int)point.Y] + calculateDistance(n, point);
+
+                    // If either the current neighbour is unexplored, or if there is a
+                    // more optimal path to reach that neighbour, update the neighbour's
+                    // utility values accordingly.
+                    if (!open.Contains(n) || (open.Contains(n) && t < g[(int)n.X, (int)n.Y]))
                     {
-                        // If we find that we found a faster way to get to the neighbour, modify accordingly.
-                        if (prev.ContainsKey(neighbour))
-                            prev[neighbour] = current;
-                        else
-                            prev.Add(neighbour, current);
+                        // If the neighbour is unexplored, add it to the open set.
+                        if (!open.Contains(n))
+                            open.Add(n);
 
-                        // Set weights and utility values as well.
-                        dist[neighbour] = tempDistance;
-                        calcDistance[neighbour] = dist[neighbour] + Math.Abs(neighbour.X - end.X) + Math.Abs(neighbour.Y - end.Y);
-
-                        // If we haven't explored this node before,  add it to the open set.
-                        if (!open.Contains(neighbour))
-                            open.Add(neighbour);
+                        // Update utility values as necessary.
+                        prev[(int)n.X, (int)n.Y] = point;
+                        g[(int)n.X, (int)n.Y] = t;
+                        h[(int)n.X, (int)n.Y] = calculateHeuristic(n);
+                        f[(int)n.X, (int)n.Y] = t + h[(int)n.X, (int)n.Y];
                     }
                 }
+
+                lastNode = point;
             }
 
-            // If for some reason we break out of the loop, throw an exception saying we couldn't find a path.
-            throw new Exception("Could not find a path.");
+            return null;
         }
 
-        // Fetch all of the neighbours of a point.
-        private static List<Vector2> getNeighbours(Vector2 p, double[,] fractal)
+        // Calculate the straight-line heuristic value between the current point and the goal.
+        private static int calculateHeuristic(Vector2 p)
         {
-            var neighbours = new List<Vector2>();
+            return (int)(Math.Abs(p.X - end.X) + Math.Abs(p.Y - end.Y));
+        }
 
-            //Console.WriteLine("X: " + p.X + ", Y: " + p.Y);
-            // Add a point going up.
-            if (fractal[(int)p.X, (int)p.Y - 1] > 0)
-                neighbours.Add(new Vector2(p.X, p.Y - 1));
+        // Calculates the distance between one point and another.
+        private static int calculateDistance(Vector2 a, Vector2 b)
+        {
+            return (int)Math.Round(Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2)));
+        }
 
-            // Add a point going right.
-            if (fractal[(int)p.X + 1, (int)p.Y] > 0)
-                neighbours.Add(new Vector2(p.X + 1, p.Y));
+        // Get all neighbours for a certain point on the map.
+        private static List<Vector2> getNeighbours(Vector2 p)
+        {
+            List<Vector2> neighbours = new List<Vector2>();
+            bool left = p.X > 0 && map[(int)p.X - 1, (int)p.Y] > 0;
+            bool right = p.X < width - 1 && map[(int)p.X + 1, (int)p.Y] > 0;
+            bool up = p.Y > 0 && map[(int)p.X, (int)p.Y - 1] > 0;
+            bool down = p.Y < height - 1 && map[(int)p.X, (int)p.Y + 1] > 0;
 
-            // Add a point going down.
-            if (fractal[(int)p.X, (int)p.Y + 1] > 0)
-                neighbours.Add(new Vector2(p.X, p.Y + 1));
-
-            // Add a point going left.
-            if (fractal[(int)p.X - 1, (int)p.Y] > 0)
-                neighbours.Add(new Vector2(p.X - 1, p.Y));
-
+            if (up) neighbours.Add(new Vector2((int)p.X, (int)p.Y - 1));
+            if (right) neighbours.Add(new Vector2((int)p.X + 1, (int)p.Y));
+            if (down) neighbours.Add(new Vector2((int)p.X, (int)p.Y + 1));
+            if (left) neighbours.Add(new Vector2((int)p.X - 1, (int)p.Y));
+            if (up && right) neighbours.Add(new Vector2((int)p.X + 1, (int)p.Y - 1));
+            if (up && left) neighbours.Add(new Vector2((int)p.X - 1, (int)p.Y - 1));
+            if (down && right) neighbours.Add(new Vector2((int)p.X + 1, (int)p.Y + 1));
+            if (down && left) neighbours.Add(new Vector2((int)p.X - 1, (int)p.Y + 1));
             return neighbours;
         }
 
-        // Recursively walk the grid and find the shortest path to the start.
-        private static List<Vector2> generatePath(Dictionary<Vector2, Vector2> prev, Vector2 current)
+        // Recursively walk the grid and find the shortest path back to the start.
+        private static List<Vector2> generatePath(Vector2 p)
         {
-            if (!prev.ContainsKey(current))
-                return new List<Vector2> {current};
+            List<Vector2> path = new List<Vector2>();
 
-            var path = generatePath(prev, prev[current]);
-            path.Add(current);
+            // If we have not reached the termination point
+            // for the path, continue generating the path.
+            if (p.X > -1 && p.Y > -1)
+                path = generatePath(prev[(int)p.X, (int)p.Y]);
+
+            path.Add(p);
             return path;
         }
     }
