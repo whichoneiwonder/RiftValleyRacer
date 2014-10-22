@@ -8,12 +8,17 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="cmdEasy" Content="EASY" HorizontalAlignment="Left" Margin="600,300,0,0" VerticalAlignment="Top" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <Button x:Name="cmdNormal" Content="NORMAL" HorizontalAlignment="Left" Margin="750,300,0,0" VerticalAlignment="Top" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <Button x:Name="cmdHard" Content="HARD" HorizontalAlignment="Center" Margin="550,0,0,135" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <Button x:Name="cmdBack" Content="BACK" HorizontalAlignment="Right" Margin="0,50,50,0" VerticalAlignment="Top" Width="120" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="18"/>
-        <TextBlock HorizontalAlignment="Left" Margin="450,305,0,0" TextWrapping="Wrap" Text="Difficulty" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <TextBlock HorizontalAlignment="Left" Margin="635,100,0,0" TextWrapping="Wrap" Text="OPTIONS" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36" VerticalAlignment="Top"/>
-
+        <Button x:Name="cmdEasy" Content="EASY" HorizontalAlignment="Center" Margin="0,0,150,150" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdNormal" Content="NORMAL" HorizontalAlignment="Center" Margin="150,0,0,150" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdHard" Content="HARD" HorizontalAlignment="Center" Margin="450,0,0,150" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdBack" Content="BACK" HorizontalAlignment="Right" Margin="0,50,50,0" VerticalAlignment="Top" Width="120" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="18" Click="Return"/>
+        <TextBlock HorizontalAlignment="Left" Margin="350,305,0,0" TextWrapping="Wrap" Text="Difficulty" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0" TextWrapping="Wrap" Text="OPTIONS" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
+        <TextBlock HorizontalAlignment="Left" Margin="350,245,0,0" TextWrapping="Wrap" Text="Sound" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <TextBlock HorizontalAlignment="Left" Margin="350,195,0,0" TextWrapping="Wrap" Text="Input Mode" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <RadioButton Content="ON" HorizontalAlignment="Center" Margin="0,0,150,250" VerticalAlignment="Center" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <RadioButton Content="OFF" HorizontalAlignment="Center" Margin="0,0,0,250" VerticalAlignment="Center" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdTablet" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="18" Content="TABLET" HorizontalAlignment="Center" Margin="548,182,698,548" VerticalAlignment="Center" Width="120"/>
+        <Button x:Name="cmdDesktop" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="18" Content="DESKTOP" HorizontalAlignment="Center" Margin="698,183,548,549" VerticalAlignment="Center" Width="120"/>
     </Grid>
 </Page>

@@ -8,9 +8,9 @@
     mc:Ignorable="d"    
     d:DesignWidth="1280"
     d:DesignHeight="800">
-    <Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Button x:Name="cmdBack" Content="Back" HorizontalAlignment="Left" Height="60" Margin="950,70,0,0" VerticalAlignment="Top" Width="180" Click="GoBack"/>
-        <TextBlock x:Name="txtInstructions" HorizontalAlignment="Left" Height="148" Margin="415,73,0,0" TextWrapping="Wrap" FontSize="36" VerticalAlignment="Top" Width="366"/>
+        <TextBlock x:Name="txtInstructions" HorizontalAlignment="Center" Height="350" Margin="0,50,0,0" TextWrapping="Wrap" FontSize="36" VerticalAlignment="Top" Width="450"/>
         <Button x:Name="cmdNext" Content="Next" HorizontalAlignment="Left" Margin="950,150,0,0" VerticalAlignment="Top" Width="180" Height="60" Click="NextPage" Visibility="Visible"/>
         <Button x:Name="cmdPrev" Content="Previous" HorizontalAlignment="Left" Margin="120,150,0,0" VerticalAlignment="Top" Width="180" Height="60" Click="PrevPage" Visibility="Collapsed"/>
         <Grid Margin="381,264,539,376">

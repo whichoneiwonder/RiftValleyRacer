@@ -62,7 +62,7 @@ namespace Project
 
             // Update matrices
             View = Matrix.LookAtLH(cameraPosition, cameraLook, Vector3.UnitY);
-            Projection = Matrix.PerspectiveFovLH((float)Math.PI / 2.3f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
+            Projection = Matrix.PerspectiveFovLH((float)Math.PI / 2f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
 
         }
     }

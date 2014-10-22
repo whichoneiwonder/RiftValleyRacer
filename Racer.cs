@@ -3,6 +3,7 @@ using SharpDX.Toolkit;
 using SharpDX.Toolkit.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -15,15 +16,15 @@ namespace Project
         public Model model;
         public Matrix world, view, projection, WorldInverseTranspose;
         public Vector3 heading, lateral, up;
-        public float accel, vel;
-
+        public Vector3 accel, vel;
+        public float gravity = 0.9f;
         public Racer(Project1Game game, Vector3 pos, String modelName)
         {
             this.position = pos;
             this.game = game;
-            this.accel = 0f;
-            this.vel = 0f;
-            this.heading = position - new Vector3(0, 0, 0);
+            this.accel = new Vector3();
+            this.vel = new Vector3();
+            this.heading = Vector3.UnitZ;
             this.up = Vector3.UnitY;
             this.lateral = Vector3.Cross(this.up, this.heading);
 
@@ -39,18 +40,30 @@ namespace Project
 
             //    }    
 
-            effect = game.Content.Load<Effect>("Phong");
+            //effect = game.Content.Load<Effect>("Phong");
+            //basicEffect = new BasicEffect(game.GraphicsDevice)
+            //{
+            //    LightingEnabled = true,
+            //    View = view,
+            //    Projection = projection,
+            //    World = world,
+            //    //FogEnabled = true,
+            //    //FogColor = Color.Gray.ToVector3(),
+            //    //FogStart = 2.75f,
+            //    //FogEnd = 5.25f
 
+            //};
             //foreach (ModelMesh mesh in model.Meshes)
             //{
             //    foreach (ModelMeshPart part in mesh.MeshParts)
             //    {
-            //        part.Effect = effect;
+            //        part.Effect = basicEffect;
             //    }
             //}
 
 
         }
+       
 
         public override void Draw(GameTime gameTime)
         {
@@ -58,14 +71,14 @@ namespace Project
             //{
             //    foreach (Effect eff in mesh.Effects)
             //    {
-                    effect.Parameters["World"].SetValue(world);
-                    effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
-                    effect.Parameters["View"].SetValue(Project1Game.camera.View);
-                    effect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
-                    effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
-                    effect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
-                    effect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
-                    effect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
+                    //effect.Parameters["World"].SetValue(world);
+                    //effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
+                    //effect.Parameters["View"].SetValue(Project1Game.camera.View);
+                    //effect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
+                    //effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
+                    //effect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
+                    //effect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
+                    //effect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
             //    }
             //}
             List<Matrix> bones = new List<Matrix>();
@@ -97,18 +110,6 @@ namespace Project
             //}
 
                    // effect.CurrentTechnique.Passes[0].Apply();
-                   this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            float prevVel = vel;
-            float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            position.Z = (float)(position.Z + vel * delta + 0.5f * accel * delta * delta);
-            vel = accel * delta;
-
-
-            //this.position = Project1Game.camera.cameraPosition + Vector3.Normalize(Project1Game.camera.cameraDirection);
             view = Matrix.LookAtRH(Project1Game.camera.cameraPosition, Project1Game.camera.cameraLook, Vector3.Up); ;
             projection = Matrix.PerspectiveFovRH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
 
@@ -116,6 +117,48 @@ namespace Project
             world = Matrix.Scaling(0.005f) * Matrix.RotationX((float)Math.PI) * Matrix.RotationZ((float)Math.PI) * Matrix.Translation(position);
 
             WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
+            this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            Vector3[] pointsToBound = ((Terrain)game.getTerrainChunkUnderPlayer()).getTerrainUnderPoint(position);
+            BoundingSphere instanceBound = new BoundingSphere(position, 1f);
+            if (instanceBound.Intersects(ref pointsToBound[1], ref pointsToBound[2], ref pointsToBound[3]))
+            {
+                vel.Y += 3 * gravity;
+                //bounceyness 
+                //-  Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1]));
+            }
+
+            else if (instanceBound.Intersects(ref pointsToBound[0], ref pointsToBound[1], ref pointsToBound[2]))
+            {
+                vel.Y += 3 * gravity;
+                //      /*bounceyness *
+                //    - Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0]));
+
+            }
+
+            Vector3 prevVel = vel;
+            float delta =(float)gameTime.ElapsedGameTime.TotalMilliseconds / 200f;
+            Debug.WriteLine("delta is: " + delta);
+
+
+            vel.Y -= delta*gravity;
+
+
+
+            position = (position + vel * delta  + 0.5f * accel * delta * delta);
+            vel += accel * delta;
+            accel = new Vector3();
+
+            //this.position = Project1Game.camera.cameraPosition + Vector3.Normalize(Project1Game.camera.cameraDirection);
+            
+        }
+
+        public void accelerate(float factor)
+        {
+            this.accel += factor * Vector3.Normalize(heading);
         }
 
     }
