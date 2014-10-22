@@ -80,6 +80,9 @@
     <Content Include="Content\enemy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <ToolkitFxc Include="Content\TerrainShader.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </ToolkitFxc>
     <Content Include="Images\tablet.png" />
     <ToolkitFxc Include="Content\Gouraud.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

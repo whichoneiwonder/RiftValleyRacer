@@ -49,14 +49,14 @@ namespace Project
 
         private void Forward(object sender, RoutedEventArgs e)
         {
-            this.txtUpdate.Text = "FORWARD";
-            this.game.player.accel += 0.0001f;
+
+            this.game.player.accelerate(3f);
         }
 
         private void Backward(object sender, RoutedEventArgs e)
         {
-            this.txtUpdate.Text = "BACKWARD";
-            this.game.player.accel -= 0.0001f;
+            
+            this.game.player.accelerate(-3f);
         }
 
         // TASK 1: Update the game's score
@@ -65,9 +65,6 @@ namespace Project
            
         }
 
-        // TASK 2: Starts the game.  Not that it seems easier to simply move the game.Run(this) command to this function,
-        // however this seems to result in a reduction in texture quality on some machines.  Not sure why this is the case
-        // but this is an easy workaround.  Not we are also making the command button invisible after it is clicked
         public void StartGame()
         {
             this.Children.Remove(mainMenu);

@@ -43,7 +43,7 @@ namespace Project {
             // Create vertices.
             VerticesFromArray((float)N, (float)zoneX, (float)zoneZ);
             
-            effect = game.Content.Load<Effect>("Gouraud");
+            effect = game.Content.Load<Effect>("TerrainShader");
 
             // Setup a basic effect with default parameters
             basicEffect = new BasicEffect(game.GraphicsDevice) {
@@ -166,30 +166,67 @@ namespace Project {
                 vertex.Color = Color.SmoothStep(Color.SaddleBrown, Color.Green, (float)(-position.Y/(FractalTools.initialRange/2)));
             }
         }
-
+        /// <summary>
+        /// used for checking collisions with the terrain
+        /// returns a list of points describing the four closest terrain opints underneath the input position
+        /// </summary>
+        /// <param name="playerPos">  </param>
+        /// <returns></returns>
         public Vector3[] getTerrainUnderPoint(Vector3 playerPos) {
             List<Vector3> pointsList = new List<Vector3>();
-
+            //int cast (round down) the input position. this is now the X-Z position of the ffirst point
             int playerX = (int)playerPos.X;
             int playerZ = (int)playerPos.Z;
 
-            pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ));
-            pointsList.Add(new Vector3((float)playerX + 1, (float)fractal[playerX + 1 - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ));
-            pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ + 1 - (zIndex * N)], (float)playerZ + 1));
-            pointsList.Add(new Vector3((float)playerX + 1, (float)fractal[playerX + 1 - (xIndex * N), playerZ + 1 - (zIndex * N)], (float)playerZ + 1));
+
+
+            try
+            {
+                pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ));
+            }
+            catch
+            {
+                pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX +1 - (xIndex * N), playerZ+1 - (zIndex * N)], (float)playerZ));
+
+            }
+            try
+            {
+                pointsList.Add(new Vector3((float)playerX + 1, (float)fractal[playerX + 1 - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ));
+            }
+            catch (Exception e)
+            {
+                pointsList.Add(new Vector3((float)playerX + 1 , (float)fractal[playerX - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ));
+            }
+            try
+            {
+                pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ + 1 - (zIndex * N)], (float)playerZ + 1));
+            }
+            catch
+            {
+                pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ+1));
+            }
+            try
+            {
+                pointsList.Add(new Vector3((float)playerX + 1, (float)fractal[playerX + 1 - (xIndex * N), playerZ + 1 - (zIndex * N)], (float)playerZ + 1));
+            }
+            catch
+            {
+                pointsList.Add(new Vector3((float)playerX + 1, (float)fractal[playerX  - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ + 1));
+
+            }
 
             return pointsList.ToArray();
         }
 
         public override void Update(GameTime gameTime) {
             basicEffect.View = Project1Game.camera.View;
-            basicEffect.World = Project1Game.camera.World;
+
             basicEffect.AmbientLightColor = Project1Game.camera.ambientColour;
             basicEffect.DirectionalLight0.Direction    = Project1Game.camera.sunPosition;
             basicEffect.DirectionalLight0.DiffuseColor = Project1Game.camera.sunColour;
             WorldInverseTranspose = Matrix.Invert(Matrix.Transpose(World));
 
-            effect.Parameters["World"].SetValue(World);
+            effect.Parameters["World"].SetValue(Matrix.Identity);
             effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
             effect.Parameters["View"].SetValue(Project1Game.camera.View);
             effect.Parameters["cameraPos"].SetValue(new Vector4(Project1Game.camera.cameraPosition.X, Project1Game.camera.cameraPosition.Y, Project1Game.camera.cameraPosition.Z, 1.0f));
@@ -197,6 +234,8 @@ namespace Project {
             effect.Parameters["lightAmbCol"].SetValue((Vector4)Project1Game.camera.ambientColour);
             effect.Parameters["lightPntPos"].SetValue((Vector4)Project1Game.camera.sunPosition);
             effect.Parameters["lightPntCol"].SetValue((Vector4)Project1Game.camera.sunColour);
+            effect.Parameters["backgroundCol"].SetValue((Vector4)Project1Game.camera.background);
+            
             
 
 

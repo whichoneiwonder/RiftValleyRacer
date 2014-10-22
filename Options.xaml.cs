@@ -27,7 +27,14 @@ namespace Project
 
         public Options(MainPage parent)
         {
+            this.parent = parent;
             this.InitializeComponent();
+        }
+
+        private void Return(object sender, RoutedEventArgs e)
+        {
+             parent.Children.Add(parent.mainMenu);
+            parent.Children.Remove(this);
         }
     }
 }
