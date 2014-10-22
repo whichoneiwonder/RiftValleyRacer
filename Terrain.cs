@@ -178,40 +178,40 @@ namespace Project {
             int playerX = (int)playerPos.X;
             int playerZ = (int)playerPos.Z;
 
-
+            //return a Vector3(Xindex, YfromFractal, Zindex) for the four points around the player
 
             try
             {
-                pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ));
+                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerX,playerZ], (float)playerZ));
             }
             catch
             {
-                pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX +1 - (xIndex * N), playerZ+1 - (zIndex * N)], (float)playerZ));
+                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerX +1 , playerZ+1 ], (float)playerZ));
 
             }
             try
             {
-                pointsList.Add(new Vector3((float)playerX + 1, (float)fractal[playerX + 1 - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ));
+                pointsList.Add(new Vector3((float)playerX + 1, (float)FractalTools.fractal[playerX + 1 , playerZ ], (float)playerZ));
             }
-            catch (Exception e)
+            catch 
             {
-                pointsList.Add(new Vector3((float)playerX + 1 , (float)fractal[playerX - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ));
-            }
-            try
-            {
-                pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ + 1 - (zIndex * N)], (float)playerZ + 1));
-            }
-            catch
-            {
-                pointsList.Add(new Vector3((float)playerX, (float)fractal[playerX - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ+1));
+                pointsList.Add(new Vector3((float)playerX + 1 , (float)FractalTools.fractal[playerX , playerZ ], (float)playerZ));
             }
             try
             {
-                pointsList.Add(new Vector3((float)playerX + 1, (float)fractal[playerX + 1 - (xIndex * N), playerZ + 1 - (zIndex * N)], (float)playerZ + 1));
+                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerX , playerZ + 1 ], (float)playerZ + 1));
             }
             catch
             {
-                pointsList.Add(new Vector3((float)playerX + 1, (float)fractal[playerX  - (xIndex * N), playerZ - (zIndex * N)], (float)playerZ + 1));
+                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerX , playerZ ], (float)playerZ+1));
+            }
+            try
+            {
+                pointsList.Add(new Vector3((float)playerX + 1, (float)FractalTools.fractal[playerX + 1 , playerZ + 1 ], (float)playerZ + 1));
+            }
+            catch
+            {
+                pointsList.Add(new Vector3((float)playerX + 1, (float)FractalTools.fractal[playerX  , playerZ ], (float)playerZ + 1));
 
             }
 

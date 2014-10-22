@@ -126,16 +126,16 @@ namespace Project
             BoundingSphere instanceBound = new BoundingSphere(position, 1f);
             if (instanceBound.Intersects(ref pointsToBound[1], ref pointsToBound[2], ref pointsToBound[3]))
             {
-                vel.Y += 3 * gravity;
+                vel.Y = 1f;
                 //bounceyness 
-                //-  Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1]));
+                accel+=  Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1]));
             }
 
             else if (instanceBound.Intersects(ref pointsToBound[0], ref pointsToBound[1], ref pointsToBound[2]))
             {
-                vel.Y += 3 * gravity;
+                vel.Y=1f ;
                 //      /*bounceyness *
-                //    - Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0]));
+                accel += Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0]));
 
             }
 
