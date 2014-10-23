@@ -13,7 +13,7 @@ namespace Project
     using SharpDX.Toolkit.Graphics;
     class FractalTools {
 
-        static int N, chunkN;
+        public static int N, chunkN;
         public static double initialRange, smoothing;
         public static double[,] fractal;
         public static Vector3[,] vertexNormalIndex;
