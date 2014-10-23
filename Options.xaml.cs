@@ -31,6 +31,16 @@ namespace Project
             this.InitializeComponent();
         }
 
+        private void pickRed(object sender, RoutedEventArgs e) { }
+
+        private void pickBlue(object sender, RoutedEventArgs e)
+        { }
+            private void pickGreen(object sender, RoutedEventArgs e)
+        
+        {}
+            
+            private void pickPurple(object sender, RoutedEventArgs e)
+        {}
         private void Return(object sender, RoutedEventArgs e)
         {
              parent.Children.Add(parent.mainMenu);

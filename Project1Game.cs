@@ -44,27 +44,27 @@ namespace Project
                     smoothing = 2.1f;  // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
 
         private int chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
-        private int[] lastPlayerZone = { 1, 1 }, goalStart; // This is the zone in which the player spawns.
+        private int[] lastPlayerZone = { 1, 1 };
+        private int[] goalStart; // This is the zone in which the player spawns.
         private GraphicsDeviceManager graphicsDeviceManager;
-        private KeyboardManager kbManager;
-        private KeyboardState kbState;
+        
         private Dictionary<Key, GameObject> terrainGrid = new Dictionary<Key, GameObject>();
         private Terrain currentTerrainChunk;
         public static Camera camera;
         //public Cube player;
         public Racer player;
-        public AccelerometerReading accelerometerReading;
         public int score;
         public MainPage mainPage;
         public static float mouseX, mouseY;
-
+        public Goal goal;
         public bool started = false;
-
+        public Boolean isPaused;
         /// <summary>
         /// Initializes a new instance of the <see cref="Project1Game" /> class.
         /// </summary>
         public Project1Game(MainPage mainPage)
         {
+
             // Creates a graphics manager. This is mandatory.
             graphicsDeviceManager = new GraphicsDeviceManager(this);
 
@@ -80,7 +80,7 @@ namespace Project
         protected override void Initialize()
         {
             Window.Title = "Rift Valley Racer";
-
+            isPaused = false;
             // Set player spawn zone to be the landscape centre, maximising exploration.
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor - cSizeFactor) / 2;
             int xPos = lastPlayerZone[0] * chunkWidth + chunkWidth / 2,
@@ -89,9 +89,10 @@ namespace Project
             // Initialise camera and player in the correct zone.
             camera = new Camera(this);
             player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike4");
-            //goalStart[0] = goalStart[1] = FractalTools.N - FractalTools.chunkN - 50;
-            //TODO figure out what Goal is
-            //Goal goal = new Goal(this, new Vector3(goalStart[0], (float)FractalTools.fractal[goalStart[1], goalStart[0]], goalStart[1]), "Goal");
+            int temp = FractalTools.N - FractalTools.chunkN;
+            
+            
+            goal = new Goal(this, new Vector3(temp, (float)FractalTools.fractal[temp, temp], temp));
 
 
             // Create goal.

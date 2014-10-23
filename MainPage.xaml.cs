@@ -53,7 +53,8 @@ namespace Project
             else { this.game.player.forward = true; }
         }
 
-
+        private void Pause(object sender, RoutedEventArgs e)
+        { }
         private void Backward(object sender, RoutedEventArgs e)
         {
             if (this.game.player.backward) { this.game.player.backward = false; }
