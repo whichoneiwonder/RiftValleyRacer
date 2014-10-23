@@ -39,8 +39,8 @@ namespace Project
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-         //   var swapchain
-            Window.Current.Close();
+        
+            App.Current.Exit();
         }
 
         private void LoadOptions(object sender, RoutedEventArgs e) 

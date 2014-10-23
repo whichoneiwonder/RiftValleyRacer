@@ -133,10 +133,11 @@ namespace Project
 
         public override void Update(GameTime gameTime)
         {
-
-            accelerometerReading = accelerometer.GetCurrentReading();
-            yaw -= (float) (0.01*accelerometerReading.AccelerationX);
-            
+            if (accelerometer != null)
+            {
+                accelerometerReading = accelerometer.GetCurrentReading();
+                yaw -= (float)(0.01 * accelerometerReading.AccelerationX);
+            }
             BoundingSphere instanceBound = new BoundingSphere(position, 0.1f);
             Vector3 normalForce = new Vector3();
             Vector3[] pointsToBound = ((Terrain)game.getTerrainChunkUnderPlayer()).getTerrainUnderPoint(position);

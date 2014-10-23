@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using Windows.UI.Input;
 using Windows.UI.Core;
 using Windows.Devices.Sensors;
+using Windows.Media;
 namespace Project
 {
     // Use this namespace here in case we need to use Direct3D11 namespace as well, as this
@@ -36,10 +37,9 @@ namespace Project
     public class Project1Game : Game
     {
         // BEWARE: THE NUMBER OF BINARY FILES SERIALISED TO DISK = 4 TO THE POWER OF tSizeFactor-cSizeFactor. BE CAREFUL! Default difference = 5.
-        const int tSizeFactor = 10,    // Sets terrain size. Set between 7 and 13.               Default = 11.
-                    cSizeFactor = 5,     // Sets chunk size.   Set between 4 and 8.                Default = 6.
-                    loadGridSize = 5;     // Sets width of loaded chunk grid. MUST BE ODD.          Default = 3.
-        int scale = (int)Math.Pow(2, tSizeFactor / 2);            // Sets the downsize increment for the fractal array.
+        public int tSizeFactor = 10;    // Sets terrain size. Set between 7 and 13.               Default = 11.
+        const int cSizeFactor = 5,     // Sets chunk size.   Set between 4 and 8.                Default = 6.
+                    loadGridSize = 5;     // Sets width of loaded chunk grid. MUST BE ODD.          Default = 3. 
         const float tRangeFactor = 1f,    // Sets overall landscape height.  Set between 0.1 and 2. Default = 1.
                     smoothing = 2.1f;  // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
 
@@ -47,11 +47,10 @@ namespace Project
         private int[] lastPlayerZone = { 1, 1 };
         private int[] goalStart; // This is the zone in which the player spawns.
         private GraphicsDeviceManager graphicsDeviceManager;
-        
+        public SystemMediaTransportControls bgMusic;
         private Dictionary<Key, GameObject> terrainGrid = new Dictionary<Key, GameObject>();
         private Terrain currentTerrainChunk;
         public static Camera camera;
-        //public Cube player;
         public Racer player;
         public int score;
         public MainPage mainPage;
@@ -85,13 +84,12 @@ namespace Project
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor - cSizeFactor) / 2;
             int xPos = lastPlayerZone[0] * chunkWidth + chunkWidth / 2,
                 zPos = lastPlayerZone[1] * chunkWidth + chunkWidth / 2;
-
+            // Sets the downsize increment for the fractal array.
+            int scale = (int)Math.Pow(2, tSizeFactor / 2);       
             // Initialise camera and player in the correct zone.
             camera = new Camera(this);
             player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike4");
             int temp = FractalTools.N - FractalTools.chunkN;
-            
-            
             goal = new Goal(this, new Vector3(temp, (float)FractalTools.fractal[temp, temp], temp));
 
 
