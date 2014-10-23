@@ -44,7 +44,7 @@ namespace Project
                     smoothing = 2.1f;  // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
 
         private int chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
-        private int[] lastPlayerZone = { 1, 1 }; // This is the zone in which the player spawns.
+        private int[] lastPlayerZone = { 1, 1 }, goalStart; // This is the zone in which the player spawns.
         private GraphicsDeviceManager graphicsDeviceManager;
         private KeyboardManager kbManager;
         private KeyboardState kbState;
@@ -89,6 +89,9 @@ namespace Project
             // Initialise camera and player in the correct zone.
             camera = new Camera(this);
             player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike4");
+            goalStart[0] = goalStart[1] = FractalTools.N - FractalTools.chunkN - 50;
+            goal = new Goal(this, new Vector3(goalStart[0], (float)FractalTools.fractal[goalStart[1], goalStart[0]], goalStart[1]), "Goal");
+
 
             // Create goal.
             // The goal should be placed within (terrainWidth / scale) and (terrainHeight / scale)
@@ -100,17 +103,12 @@ namespace Project
             // Generate a smaller array to facilitate pathfinding based on a scale.
             double[,] smallArray = new double[(terrainWidth / scale) + 1, (terrainHeight / scale) + 1];
 
-
-
             for (int x = 0; x / scale < smallArray.GetLength(0); x += scale)
-            {
                 for (int y = 0; y / scale < smallArray.GetLength(1); y += scale)
                     smallArray[(x / scale), (y / scale)] = Math.Abs(FractalTools.fractal[x, y]);
-            }
 
             // Pass the array into the AI class to find a path.
             // JUST SETTING SOME DUMMY VALUES HERE FOR TESTING.
-
             List<Vector2> path = AI.findPath(Vector2.Zero, new Vector2(terrainWidth / scale, terrainHeight / scale), smallArray);
 
             if (path != null)
@@ -121,7 +119,8 @@ namespace Project
             // of the opponent and the position of the goal.
             // path.add(goalPosition);
 
-
+            foreach (Vector2 node in path)
+                Debug.WriteLine(node);
 
             base.Initialize();
         }
