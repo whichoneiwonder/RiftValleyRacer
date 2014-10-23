@@ -1,6 +1,7 @@
 ﻿using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Project
 {
@@ -31,8 +32,8 @@ namespace Project
         public static List<Vector2> findPath(Vector2 s, Vector2 e, double[,] m)
         {
             // INITIALISE ALL THE THINGS
-            start = new Vector2(s.X, s.Y);
-            end = new Vector2(e.X, e.Y);
+            start = s;
+            end = e;
             map = m;
 
             width = map.GetLength(0);
@@ -50,19 +51,20 @@ namespace Project
             g[(int)start.X, (int)start.Y] = 0;
             h[(int)start.X, (int)start.Y] = calculateHeuristic(start);
             f[(int)start.X, (int)start.Y] = h[(int)start.X, (int)start.Y];
-            prev[(int)start.X, (int)start.Y] = new Vector2(-1, -1);
+            prev[(int)start.X, (int)start.Y] = -Vector2.One;
 
             while (open.Count > 0)
             {
+                
                 int min = -1;
-                Vector2 point = new Vector2(-1, -1);
+                Vector2 point = -Vector2.One;
 
-                // Get the most optimalest point in the open set.
+                // Get the most optimal point in the open set.
                 foreach (Vector2 p in open)
                 {
                     int distance = 0;
 
-                    if (prev[(int)p.X, (int)p.Y] != new Vector2(-1, -1))
+                    if (prev[(int)p.X, (int)p.Y] != -Vector2.One && prev[(int)p.X, (int)p.Y] != new Vector2(width, height))
                         distance = g[(int)prev[(int)p.X, (int)p.Y].X, (int)prev[(int)p.X, (int)p.Y].Y]
                             + calculateDistance(p, prev[(int)p.X, (int)p.Y]) + calculateHeuristic(p);
 
@@ -72,9 +74,9 @@ namespace Project
                         point = p;
                     }
                 }
-
+                //Debug.WriteLine("P: " + point.X + ", " + point.Y + " | E: " + end.X + ", " + end.Y);
                 // Return a path if we reached the end.
-                if (point == end)
+                if (calculateDistance(point, end) <= 5)
                     return generatePath(point);
 
                 open.Remove(point);
@@ -99,7 +101,7 @@ namespace Project
                         // If the neighbour is unexplored, add it to the open set.
                         if (!open.Contains(n))
                             open.Add(n);
-
+                        
                         // Update utility values as necessary.
                         prev[(int)n.X, (int)n.Y] = point;
                         g[(int)n.X, (int)n.Y] = t;
@@ -123,7 +125,11 @@ namespace Project
         // Calculates the distance between one point and another.
         private static int calculateDistance(Vector2 a, Vector2 b)
         {
-            return (int)Math.Round(Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2)));
+            Vector3 i = new Vector3(a.X, (float)map[(int)a.X, (int)a.Y], a.Y);
+            //Debug.WriteLine(b);
+            //Debug.WriteLine((float)map[(int)b.X, (int)b.Y]);
+            Vector3 j = new Vector3(b.X, (float)map[(int)b.X, (int)b.Y], b.Y);
+            return (int)Math.Round(Math.Sqrt(Math.Pow(i.X - j.X, 2) + Math.Pow(i.Y - j.Y, 2) + Math.Pow(i.Z - j.Z, 2)));
         }
 
         // Get all neighbours for a certain point on the map.
@@ -142,7 +148,7 @@ namespace Project
             if (up && right) neighbours.Add(new Vector2((int)p.X + 1, (int)p.Y - 1));
             if (up && left) neighbours.Add(new Vector2((int)p.X - 1, (int)p.Y - 1));
             if (down && right) neighbours.Add(new Vector2((int)p.X + 1, (int)p.Y + 1));
-            if (down && left) neighbours.Add(new Vector2((int)p.X - 1, (int)p.Y + 1));
+            if (down && left) neighbours.Add(new Vector2((int)p.X - 1, (int)p.Y + 1));/**/
             return neighbours;
         }
 
