@@ -50,10 +50,10 @@ namespace Project
 
             // Set cameraPosition and cameraLook relative to player
             cameraPosition = game.player.position;
-            cameraPosition.Z -= 0.50f;
-            cameraPosition.Y += 0.2f;
-            cameraLook = game.player.position- game.player.vel/100f;
-            cameraLook.Y += 0.1f;
+            cameraPosition.Z -= 0.2f;
+            cameraPosition.Y += 0.02f;
+            cameraLook = game.player.position - game.player.vel / 1000f;
+            //cameraLook.Y += 0.01f;
 
             // Update sun position and background colour
             sunPosition.X = (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds / 10.0));
@@ -62,7 +62,7 @@ namespace Project
 
             // Update matrices
             View = Matrix.LookAtRH(cameraPosition, cameraLook, Vector3.UnitY);
-            Projection = Matrix.PerspectiveFovRH((float)Math.PI / 2f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
+            Projection = Matrix.PerspectiveFovRH((float)Math.PI / 2f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.0001f, 1000.0f);
 
         }
     }
