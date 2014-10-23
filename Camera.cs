@@ -49,10 +49,10 @@ namespace Project
         {
 
             // Set cameraPosition and cameraLook relative to player
-            cameraPosition = game.player.position;
-            cameraPosition.Z -= 0.2f;
+            cameraPosition = game.player.position - game.player.vel / 100f;
+            cameraPosition -= 0.05f*game.player.heading;
             cameraPosition.Y += 0.02f;
-            cameraLook = game.player.position - game.player.vel / 1000f;
+            cameraLook = game.player.position+game.player.heading+ game.player.vel/20f;
             //cameraLook.Y += 0.01f;
 
             // Update sun position and background colour

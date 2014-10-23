@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-
+using Windows.Devices.Sensors;
 
 namespace Project
 {
@@ -19,6 +19,11 @@ namespace Project
         public Vector3 accel, vel;
         public float gravity = 3f;
         public bool forward = false, backward = false;
+
+        public Accelerometer accelerometer;
+        public AccelerometerReading accelerometerReading;
+        private float yaw;
+
         public Racer(Project1Game game, Vector3 pos, String modelName)
         {
             this.position = pos;
@@ -28,12 +33,14 @@ namespace Project
             this.heading = Vector3.UnitZ;
             this.up = Vector3.UnitY;
             this.lateral = Vector3.Cross(this.up, this.heading);
+            yaw = 0;
 
             this.model = game.Content.Load<Model>(modelName );
-
+            accelerometer = Accelerometer.GetDefault();
+            
             view = Matrix.LookAtRH(Project1Game.camera.cameraPosition, Project1Game.camera.cameraLook, Vector3.Up);
             projection = Matrix.PerspectiveFovRH(0.9f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
-            world = Matrix.Translation(position) * Matrix.RotationZ((float)Math.PI);
+            world = Matrix.Translation(position) * Matrix.RotationZ((float)Math.PI) * Matrix.RotationY(yaw);
 
             //foreach(ModelMesh mesh in model.Meshes){
             //    foreach(Effect effect in mesh.Effects){
@@ -111,11 +118,14 @@ namespace Project
             //}
 
                    // effect.CurrentTechnique.Passes[0].Apply();
-            view = Matrix.LookAtRH(Project1Game.camera.cameraPosition, Project1Game.camera.cameraLook, Vector3.Up); ;
-            projection = Matrix.PerspectiveFovRH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
+            view =Project1Game.camera.View;
+            projection = Project1Game.camera.Projection;
 
-
-            world = Matrix.Scaling(0.0001f) * Matrix.RotationX((float)Math.PI) * Matrix.RotationZ((float)Math.PI) * Matrix.Translation(position);
+            world = Matrix.Scaling(0.0001f) *
+                Matrix.RotationX((float)Math.PI) *
+                Matrix.RotationZ((float)Math.PI)*
+                Matrix.RotationY(yaw) *
+                Matrix.Translation(position);
 
             WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
             this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
@@ -123,6 +133,10 @@ namespace Project
 
         public override void Update(GameTime gameTime)
         {
+
+            accelerometerReading = accelerometer.GetCurrentReading();
+            yaw -= (float) (0.01*accelerometerReading.AccelerationX);
+            
             BoundingSphere instanceBound = new BoundingSphere(position, 0.1f);
             Vector3 normalForce = new Vector3();
             Vector3[] pointsToBound = ((Terrain)game.getTerrainChunkUnderPlayer()).getTerrainUnderPoint(position);
@@ -194,22 +208,27 @@ namespace Project
             Debug.WriteLine("delta is: " + delta);
 
 
-            if (!touchingTerrain) { accel.Y -= gravity; }
+            if (!touchingTerrain) 
+            { 
+                accel.Y -= gravity/2f;
+                
+            }
             accel -= 0.05f * vel;
 
             float factor = 0;
             if (forward) { factor = 3f; }
             else if (backward) { factor = -3f; }
             this.accel += factor * Vector3.Normalize(heading);
-            float maxVel = 5f;
+            float maxVel = 3f;
             if (vel.Length() > maxVel) { vel *= maxVel / vel.Length() ; }
 
             position = (position + vel * delta + 0.5f * accel * delta * delta);
             vel += accel * delta;
 
+            heading = Vector3.Transform(Vector3.UnitZ, Matrix3x3.RotationY(yaw));
+
 
             accel = new Vector3();
-
             //this.position = Project1Game.camera.cameraPosition + Vector3.Normalize(Project1Game.camera.cameraDirection);
             
         }
