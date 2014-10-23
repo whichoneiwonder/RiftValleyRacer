@@ -1,0 +1,16 @@
+# Blender v2.71 (sub 0) OBJ File: 'goalTriangle.blend'
+# www.blender.org
+mtllib goalTriangle.mtl
+o Cone
+v 0.000000 -0.561231 -1.000000
+v 1.000000 -0.561231 0.000000
+v -0.000000 -0.561231 1.000000
+v 0.000000 0.561231 0.000000
+v -1.000000 -0.561231 -0.000000
+usemtl Material.001
+s off
+f 3 4 5
+f 1 4 2
+f 5 4 1
+f 2 4 3
+f 1 2 3 5

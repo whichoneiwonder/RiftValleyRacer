@@ -1,0 +1,20 @@
+﻿<Page
+    x:Class="Project.Pause"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Button x:Name="cmdMenu" Content="Main Menu" FontSize="22" Width="180" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="0,0,0,400" VerticalAlignment="Center" Click="cmdMenu_Click" />
+        <Button x:Name="cmdReturn" Content="Return" FontSize="22" Width="180" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="0,0,0,200" VerticalAlignment="Center" Click="cmdReturn_Click"/>
+        <Button x:Name="cmdExit" Content="Exit" FontSize="22" Width="180" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Click="cmdExit_Click"/>
+      
+
+        <TextBlock FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" FontSize="76" Margin="0,50,0,0" TextWrapping="Wrap" Text="PAUSE" VerticalAlignment="Top"/>
+
+
+    </Grid>
+</Page>
