@@ -17,7 +17,8 @@ namespace Project
         public Matrix world, view, projection, WorldInverseTranspose;
         public Vector3 heading, lateral, up;
         public Vector3 accel, vel;
-        public float gravity = 0.9f;
+        public float gravity = 1.5f;
+        public bool forward = false, backward = false;
         public Racer(Project1Game game, Vector3 pos, String modelName)
         {
             this.position = pos;
@@ -114,7 +115,7 @@ namespace Project
             projection = Matrix.PerspectiveFovRH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
 
 
-            world = Matrix.Scaling(0.005f) * Matrix.RotationX((float)Math.PI) * Matrix.RotationZ((float)Math.PI) * Matrix.Translation(position);
+            world = Matrix.Scaling(0.0005f) * Matrix.RotationX((float)Math.PI) * Matrix.RotationZ((float)Math.PI) * Matrix.Translation(position);
 
             WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
             this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
@@ -122,43 +123,91 @@ namespace Project
 
         public override void Update(GameTime gameTime)
         {
+            BoundingSphere instanceBound = new BoundingSphere(position, 2f);
+            Vector3 normalForce = new Vector3();
             Vector3[] pointsToBound = ((Terrain)game.getTerrainChunkUnderPlayer()).getTerrainUnderPoint(position);
-            BoundingSphere instanceBound = new BoundingSphere(position, 1f);
-            if (instanceBound.Intersects(ref pointsToBound[1], ref pointsToBound[2], ref pointsToBound[3]))
-            {
-                vel.Y = 1f;
-                //bounceyness 
-                accel+=  Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1]));
+            float avgheight = 0f;
+            int numPoints = 0;
+            foreach(Vector3 vec in pointsToBound){
+                avgheight+= vec.Y;
+                numPoints++;
             }
+            avgheight/=(float)numPoints;
 
-            else if (instanceBound.Intersects(ref pointsToBound[0], ref pointsToBound[1], ref pointsToBound[2]))
+            while (true)
             {
-                vel.Y=1f ;
-                //      /*bounceyness *
-                accel += Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0]));
+                Boolean belowTerrain = true;
+                
+                foreach(Vector3 point in pointsToBound){
+                    if(position.Y > point.Y){
+                        belowTerrain = false;
+                    }    
+                }
 
+                instanceBound.Center = position;
+                if (belowTerrain)
+                {
+                    position.Y = avgheight;
+                }
+
+
+                else if (instanceBound.Contains(ref pointsToBound[2], ref pointsToBound[1], ref pointsToBound[3]) != ContainmentType.Disjoint)
+                {
+                    vel.Y+= 0.001f;
+
+                    //bounceyness 
+                    normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1])) / 2f;
+                     position += normalForce / 200f;
+                    //position -= vel * 0.01f;
+                     accel += normalForce*0.01f;
+
+                }
+
+                else if (instanceBound.Contains(ref pointsToBound[1], ref pointsToBound[0], ref pointsToBound[2]) != ContainmentType.Disjoint)
+                {
+                    vel.Y += 0.001f;
+                    //      /*bounceyness *
+                    normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0])) / 2f;
+                    position += normalForce/200f;
+                    //position-=vel*0.01f;
+                    accel += normalForce*0.01f ;
+
+                }
+                 
+                else
+                {
+                    
+                    vel = (vel +vel+ Vector3.Reflect(vel, normalForce))/3f;
+                    Debug.WriteLine(accel);
+                    break;
+                }
+
+                
             }
 
             Vector3 prevVel = vel;
-            float delta =(float)gameTime.ElapsedGameTime.TotalMilliseconds / 200f;
+            float delta =(float)gameTime.ElapsedGameTime.TotalMilliseconds / 500f;
             Debug.WriteLine("delta is: " + delta);
 
 
-            vel.Y -= delta*gravity;
+            accel.Y -=  gravity;
+            accel -= 0.05f * vel;
 
+            float factor = 0;
+            if (forward) { factor = 3f; }
+            else if (backward) { factor = -3f; }
+            this.accel += factor * Vector3.Normalize(heading);
+            float maxVel = 10f;
+            if (vel.Length() > maxVel) { vel *= maxVel / vel.Length() ; }
 
-
-            position = (position + vel * delta  + 0.5f * accel * delta * delta);
+            position = (position + vel * delta + 0.5f * accel * delta * delta);
             vel += accel * delta;
+
+
             accel = new Vector3();
 
             //this.position = Project1Game.camera.cameraPosition + Vector3.Normalize(Project1Game.camera.cameraDirection);
             
-        }
-
-        public void accelerate(float factor)
-        {
-            this.accel += factor * Vector3.Normalize(heading);
         }
 
     }

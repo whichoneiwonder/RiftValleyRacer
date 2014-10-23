@@ -39,8 +39,8 @@ namespace Project
             background = new Color(0.4f, 0.4f, 0.8f, 1);
 
             // Set up matrices
-            View = Matrix.LookAtLH(cameraPosition, cameraLook, Vector3.UnitY);
-            Projection = Matrix.PerspectiveFovLH((float)Math.PI / 2.3f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
+            View = Matrix.LookAtRH(cameraPosition, cameraLook, Vector3.UnitY);
+            Projection = Matrix.PerspectiveFovRH((float)Math.PI / 2.3f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
             World = Matrix.RotationX(0) * Matrix.RotationY(0) * Matrix.RotationZ(0);
             this.game = game;
         }
@@ -50,10 +50,10 @@ namespace Project
 
             // Set cameraPosition and cameraLook relative to player
             cameraPosition = game.player.position;
-            cameraPosition.Z -= 3.0f;
-            cameraPosition.Y += 1.5f;
-            cameraLook = game.player.position;
-            cameraLook.Y += 1f;
+            cameraPosition.Z -= 0.50f;
+            cameraPosition.Y += 0.2f;
+            cameraLook = game.player.position- game.player.vel/100f;
+            cameraLook.Y += 0.1f;
 
             // Update sun position and background colour
             sunPosition.X = (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds / 10.0));
@@ -61,8 +61,8 @@ namespace Project
             background = new Color(0.25f * (-sunPosition.Y + 1f), 0.35f * (-sunPosition.Y + 1f), 0.8f * (-sunPosition.Y + 1f), 1);
 
             // Update matrices
-            View = Matrix.LookAtLH(cameraPosition, cameraLook, Vector3.UnitY);
-            Projection = Matrix.PerspectiveFovLH((float)Math.PI / 2f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
+            View = Matrix.LookAtRH(cameraPosition, cameraLook, Vector3.UnitY);
+            Projection = Matrix.PerspectiveFovRH((float)Math.PI / 2f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
 
         }
     }

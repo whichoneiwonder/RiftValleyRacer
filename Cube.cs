@@ -67,8 +67,8 @@ namespace Project
             {
                 VertexColorEnabled = true,
                 LightingEnabled = false,
-                View = Matrix.LookAtLH(new Vector3(0, 0, -10), new Vector3(0, 0, 0), Vector3.UnitY),
-                Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 100.0f),
+                View = Matrix.LookAtRH(new Vector3(0, 0, -10), new Vector3(0, 0, 0), Vector3.UnitY),
+                Projection = Matrix.PerspectiveFovRH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 100.0f),
                 World = Matrix.Identity
             };
 

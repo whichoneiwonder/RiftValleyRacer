@@ -89,8 +89,9 @@ namespace Project
             // Initialise camera and player in the correct zone.
             camera = new Camera(this);
             player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike4");
-            goalStart[0] = goalStart[1] = FractalTools.N - FractalTools.chunkN - 50;
-            goal = new Goal(this, new Vector3(goalStart[0], (float)FractalTools.fractal[goalStart[1], goalStart[0]], goalStart[1]), "Goal");
+            //goalStart[0] = goalStart[1] = FractalTools.N - FractalTools.chunkN - 50;
+            //TODO figure out what Goal is
+            //Goal goal = new Goal(this, new Vector3(goalStart[0], (float)FractalTools.fractal[goalStart[1], goalStart[0]], goalStart[1]), "Goal");
 
 
             // Create goal.
@@ -155,7 +156,7 @@ namespace Project
             }
         }
 
-        private void RebuildGrid(bool reset = false)
+        private void RebuildGrid(bool reset = true)
         {
             int[] currentZone = playerZone();
             if (reset)

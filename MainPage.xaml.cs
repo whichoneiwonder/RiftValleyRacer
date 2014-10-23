@@ -49,14 +49,15 @@ namespace Project
 
         private void Forward(object sender, RoutedEventArgs e)
         {
-
-            this.game.player.accelerate(3f);
+            if (this.game.player.forward) { this.game.player.forward = false; }
+            else { this.game.player.forward = true; }
         }
+
 
         private void Backward(object sender, RoutedEventArgs e)
         {
-            
-            this.game.player.accelerate(-3f);
+            if (this.game.player.backward) { this.game.player.backward = false; }
+            else { this.game.player.backward = true; }
         }
 
         // TASK 1: Update the game's score
