@@ -90,9 +90,9 @@ namespace Project
             camera = new Camera(this);
             player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike4");
             int temp = FractalTools.N - FractalTools.chunkN;
-            
-            
-            goal = new Goal(this, new Vector3(temp, (float)FractalTools.fractal[temp, temp], temp));
+
+
+            goal = new Goal(this, new Vector3(xPos, 10, zPos));
 
 
             // Create goal.
