@@ -8,10 +8,9 @@
     mc:Ignorable="d"    
     d:DesignWidth="1280"
     d:DesignHeight="800">
-<Button x:Name="cmdThrust" Click="Forward" BorderBrush="Transparent" HorizontalAlignment="Center" Background="Transparent" Margin="0,0,0,0" VerticalAlignment="Top" Height="168" Width="691" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
-<Button x:Name="cmdReverse" Click="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="168" Width="691" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdThrust" Click="Forward" BorderBrush="Transparent" HorizontalAlignment="Center" Background="Transparent" Margin="30,0,155,0" VerticalAlignment="Top" Height="168" Width="1091" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdReverse" Click="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="168" Width="691" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
 
-<Button x:Name="cmdPause" Content="Pause" HorizontalAlignment="Right" Margin="0,50,50,0" VerticalAlignment="Top" Click="Pause"/>
-<TextBlock HorizontalAlignment="Left" Margin="420,61,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-<MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/riftvalleyracer.wav" AutoPlay="True" IsLooping="True"/>
+    <Button x:Name="cmdPause" Content="Pause" HorizontalAlignment="Right" Margin="0,50,50,0" VerticalAlignment="Top" Click="Pause"/>
+    <MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/riftvalleyracer.wav" AutoPlay="True" IsLooping="True"/>
 </SwapChainBackgroundPanel>

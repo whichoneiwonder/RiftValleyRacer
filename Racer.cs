@@ -72,27 +72,27 @@ namespace Project
         public override void Update(GameTime gameTime)
         {
 
-            if (opponent)
-            {
-                Vector3 velocity = new Vector3(Project1Game.opponentPath[0].X, 0, Project1Game.opponentPath[0].Y);
+            //if (opponent)
+            //{
+            //    Vector3 velocity = new Vector3(Project1Game.opponentPath[0].X, 0, Project1Game.opponentPath[0].Y);
 
-                // Aim for the first element in the opponent path list
-                position = position + Vector3.Normalize(velocity);
+            //    // Aim for the first element in the opponent path list
+            //    position = position + Vector3.Normalize(velocity);
 
-                // If the first element has been reached near enough, remove it
-                if (Math.Abs(position.X - (float)Project1Game.opponentPath[0].X) < 10 &&
-                    Math.Abs(position.Z - (float)Project1Game.opponentPath[0].Y) < 10)
-                {
-                    Project1Game.opponentPath.RemoveAt(0);
-                }
+            //    // If the first element has been reached near enough, remove it
+            //    if (Math.Abs(position.X - (float)Project1Game.opponentPath[0].X) < 10 &&
+            //        Math.Abs(position.Z - (float)Project1Game.opponentPath[0].Y) < 10)
+            //    {
+            //        Project1Game.opponentPath.RemoveAt(0);
+            //    }
 
-                // Ensure opponent stays above terrain
-                if (position.Y < FractalTools.fractal[(int)position.Z, (int)position.X] + 10)
-                {
-                    position.Y = (float)FractalTools.fractal[(int)position.Z, (int)position.X] + 10;
-                }
-                return;
-            }
+            //    // Ensure opponent stays above terrain
+            //    if (position.Y < FractalTools.fractal[(int)position.Z, (int)position.X] + 10)
+            //    {
+            //        position.Y = (float)FractalTools.fractal[(int)position.Z, (int)position.X] + 10;
+            //    }
+            //    return;
+            //}
 
             if (accelerometer != null)
             {

@@ -51,8 +51,8 @@ namespace Project
         private Dictionary<Key, GameObject> terrainGrid = new Dictionary<Key, GameObject>();
         private Terrain currentTerrainChunk;
         public static Camera camera;
-        public Racer player, opponent;
-        public static List<Vector2> opponentPath;
+        public Racer player; //opponent;
+        //public static List<Vector2> opponentPath;
         public int score;
         public MainPage mainPage;
         public static float mouseX, mouseY;
@@ -91,8 +91,8 @@ namespace Project
             // Initialise camera and player in the correct zone.
             camera = new Camera(this);
             player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike4");
-            opponent = new Racer(this, new Vector3(xPos+10, 10, zPos), "HoverBike4");
-            opponent.opponent = true;
+           // opponent = new Racer(this, new Vector3(xPos+10, 10, zPos), "HoverBike4");
+           // opponent.opponent = true;
             int temp = FractalTools.N - FractalTools.chunkN;
 
 
@@ -117,7 +117,7 @@ namespace Project
 
             // Pass the array into the AI class to find a path.
             Vector2 opponentPosition = new Vector2(xPos+10, zPos);
-            opponentPath = AI.findPath(opponentPosition/scale, new Vector2(terrainWidth / scale, terrainHeight / scale), smallArray);
+           // opponentPath = AI.findPath(opponentPosition/scale, new Vector2(terrainWidth / scale, terrainHeight / scale), smallArray);
 
             base.Initialize();
         }
@@ -205,7 +205,7 @@ namespace Project
 
         protected override void Update(GameTime gameTime)
         {
-            if (started)
+            if (started && isPaused == false)
             {
                 // Check where the player is, and replace chunks accordingly. Only replace chunks if player has changed zone.
                 if ((playerZone()[0] != lastPlayerZone[0]) || (playerZone()[1] != lastPlayerZone[1]))
@@ -223,7 +223,7 @@ namespace Project
                 //update player
                 player.Update(gameTime);
                 // Update oppponent
-                opponent.Update(gameTime);
+               // opponent.Update(gameTime);
                 // Update camera
                 camera.Update(gameTime);
                 // Update each of the terrain chunks.
@@ -244,7 +244,7 @@ namespace Project
                 foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Draw(gameTime); };
 
                 player.Draw(gameTime);
-                opponent.Draw(gameTime);
+               // opponent.Draw(gameTime);
             }
             // Handle base.Draw
             base.Draw(gameTime);
