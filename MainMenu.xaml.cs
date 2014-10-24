@@ -49,6 +49,7 @@ namespace Project
             parent.Children.Remove(this);
         }
 
+      
          private void LoadInstructions(object sender, RoutedEventArgs e)
         {
             parent.Children.Add(new Instructions(parent));

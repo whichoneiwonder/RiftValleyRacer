@@ -13,4 +13,29 @@
 
     <Button x:Name="cmdPause" Content="Pause" HorizontalAlignment="Right" Margin="0,50,50,0" VerticalAlignment="Top" Click="Pause"/>
     <MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/riftvalleyracer.wav" AutoPlay="True" IsLooping="True"/>
+<<<<<<< HEAD
+=======
+    <Button x:Name="cmdThrust" Click="Forward" BorderBrush="Transparent" Content="THRUST" HorizontalAlignment="Left" Background="Transparent" Margin="72,52,0,0" VerticalAlignment="Top" Height="691" Width="168" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdReverse" Click="Backward" Content="REVERSE" HorizontalAlignment="Left" Margin="1060,102,0,0" VerticalAlignment="Top" Height="691" Width="168" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <TextBlock HorizontalAlignment="Left" Margin="420,61,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+    <Button x:Name="cmdPause" Content="Button" HorizontalAlignment="Left" Margin="1203,37,0,0" VerticalAlignment="Top" Click="Pause"/>
+    <Image x:Name="arrow_RIGHT" Visibility ="Collapsed" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,150,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
+        <Image.RenderTransform>
+            <CompositeTransform Rotation="180"/>
+        </Image.RenderTransform>
+    </Image>
+    <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,150,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
+        <Image.RenderTransform>
+            <CompositeTransform Rotation="90"/>
+        </Image.RenderTransform>
+    </Image>
+    <Image x:Name="arrow_LEFT" Visibility ="Collapsed" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,150,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
+    </Image>
+    <Image x:Name="arrow_DOWN" Visibility ="Collapsed" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,150,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
+        <Image.RenderTransform>
+            <CompositeTransform Rotation="270"/>
+        </Image.RenderTransform>
+    </Image>
+
+>>>>>>> 7d46f18227391e1a70f5f6cc0791bf7c19ca60ff
 </SwapChainBackgroundPanel>

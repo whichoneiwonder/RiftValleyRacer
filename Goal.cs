@@ -3,6 +3,7 @@ using SharpDX.Toolkit;
 using SharpDX.Toolkit.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -27,12 +28,12 @@ namespace Project
 
 
         public override void Update(GameTime gameTime)
-        {
-
-            world = Matrix.Translation(position+5f*Vector3.UnitY) * Matrix.RotationY(gameTime.ElapsedGameTime.Seconds);
-            view = Matrix.LookAtRH(Project1Game.camera.cameraPosition, Project1Game.camera.cameraLook, Vector3.UnitY);
-            projection = Matrix.PerspectiveFovRH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
-
+        { 
+            world = Matrix.Scaling(0.05f)*Matrix.RotationY((float)gameTime.TotalGameTime.TotalSeconds ) * Matrix.Translation(position );
+            //- 5f * Vector3.UnitY);
+            view = Project1Game.camera.View;
+            projection = Project1Game.camera.Projection;
+            
 
         }
 

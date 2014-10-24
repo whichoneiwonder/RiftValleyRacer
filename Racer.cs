@@ -14,11 +14,16 @@ namespace Project
     {
         public Vector3 position;
         public Model model;
-        public Matrix world, view, projection, WorldInverseTranspose;
+        public Matrix world, view, projection;
         public Vector3 heading, lateral, up;
         public Vector3 accel, vel;
+<<<<<<< HEAD
         public float gravity = 3f;
         public bool forward = false, backward = false, opponent = false;
+=======
+        public float gravity = 5f;
+        public bool forward = false, backward = false;
+>>>>>>> 7d46f18227391e1a70f5f6cc0791bf7c19ca60ff
 
         public Accelerometer accelerometer;
         public AccelerometerReading accelerometerReading;
@@ -42,11 +47,16 @@ namespace Project
             projection = Matrix.PerspectiveFovRH(0.9f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
             world = Matrix.Translation(position) * Matrix.RotationZ((float)Math.PI) * Matrix.RotationY(yaw);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7d46f18227391e1a70f5f6cc0791bf7c19ca60ff
         }
        
 
         public override void Draw(GameTime gameTime)
         {
+<<<<<<< HEAD
             
             List<Matrix> bones = new List<Matrix>();
                     int i = 0;
@@ -56,6 +66,10 @@ namespace Project
                         bones.Add(Matrix.Identity);
                     }
             
+=======
+           
+             
+>>>>>>> 7d46f18227391e1a70f5f6cc0791bf7c19ca60ff
             view =Project1Game.camera.View;
             projection = Project1Game.camera.Projection;
 
@@ -65,7 +79,7 @@ namespace Project
                 Matrix.RotationY(yaw) *
                 Matrix.Translation(position);
 
-            WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
+            //WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
             this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
         }
 
