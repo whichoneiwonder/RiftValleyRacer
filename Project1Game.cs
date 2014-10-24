@@ -94,15 +94,7 @@ namespace Project
            // opponent = new Racer(this, new Vector3(xPos+10, 10, zPos), "HoverBike4");
            // opponent.opponent = true;
             int temp = FractalTools.N - FractalTools.chunkN;
-<<<<<<< HEAD
 
-
-            goal = new Goal(this, new Vector3(xPos+10, 10, zPos+10));
-
-            //            goal = new Goal(this, new Vector3(temp, (float)FractalTools.fractal[temp, temp], temp));
-
-
-=======
             Random rand = new Random();
             if (rand.Next(2) == 1)
             {
@@ -121,7 +113,6 @@ namespace Project
             }
             goal = new Goal(this, new Vector3(goalX, (float)FractalTools.fractal[goalX, goalZ] + 1f, goalZ));
             
->>>>>>> 7d46f18227391e1a70f5f6cc0791bf7c19ca60ff
             // Create goal.
             // The goal should be placed within (terrainWidth / scale) and (terrainHeight / scale)
             // The + 1 values are there to kind of establish the boundaries of the grid.
@@ -234,9 +225,6 @@ namespace Project
                     lastPlayerZone = playerZone();
                     RebuildGrid();
                 }
-
-                // Go back to the main menu for testing purposes
-                //  if (kb)
 
 
 

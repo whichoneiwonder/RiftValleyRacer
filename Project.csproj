@@ -81,13 +81,10 @@
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\splash_screen.png" />
     <Content Include="Assets\StoreLogo.png" />
-<<<<<<< HEAD
     <Content Include="Assets\StoreLogo150.png" />
     <Content Include="Assets\StoreLogo30.png" />
-=======
     <Content Include="Content\arrow_dir.png" />
     <Content Include="Content\arrow_dir2.png" />
->>>>>>> 7d46f18227391e1a70f5f6cc0791bf7c19ca60ff
     <Content Include="Content\enemy projectile.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

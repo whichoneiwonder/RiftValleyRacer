@@ -34,6 +34,7 @@ namespace Project
         public MainMenu mainMenu;
         public Instructions howTo;
         public Options opt;
+        public Pause pause;
 
         public MainPage()
         {
@@ -43,7 +44,7 @@ namespace Project
             mainMenu = new MainMenu(this);
             howTo = new Instructions(this);
             opt = new Options(this);
-
+            pause = new Pause(this);
             this.Children.Add(mainMenu);
             
         }
@@ -56,7 +57,11 @@ namespace Project
         }
 
         private void Pause(object sender, RoutedEventArgs e)
-        { }
+        {
+            this.game.isPaused = true;
+            this.Children.Add(pause);
+        }
+
         private void Backward(object sender, RoutedEventArgs e)
         {
             if (this.game.player.backward) { this.game.player.backward = false; }
@@ -77,14 +82,14 @@ namespace Project
           this.arrow_LEFT.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
           
           this.arrow_RIGHT.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-
+          
             float dotprod = Vector2.Dot(heading, toGoal);
             Double angle = Math.Acos((double)dotprod);
             if(dotprod > 0){
                 
-                if (angle >= Math.PI*(3f/4f))
+                if (angle <= Math.PI/4f)
                 {
-                    //this.arrow_LEFT.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    this.arrow_LEFT.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 } 
                 else if( angle <= Math.PI/4f){
 

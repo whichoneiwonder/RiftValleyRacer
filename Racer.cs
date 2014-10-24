@@ -17,14 +17,9 @@ namespace Project
         public Matrix world, view, projection;
         public Vector3 heading, lateral, up;
         public Vector3 accel, vel;
-<<<<<<< HEAD
-        public float gravity = 3f;
+         public float gravity = 5f;
         public bool forward = false, backward = false, opponent = false;
-=======
-        public float gravity = 5f;
-        public bool forward = false, backward = false;
->>>>>>> 7d46f18227391e1a70f5f6cc0791bf7c19ca60ff
-
+ 
         public Accelerometer accelerometer;
         public AccelerometerReading accelerometerReading;
         private float yaw;
@@ -46,17 +41,11 @@ namespace Project
             view = Matrix.LookAtRH(Project1Game.camera.cameraPosition, Project1Game.camera.cameraLook, Vector3.Up);
             projection = Matrix.PerspectiveFovRH(0.9f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
             world = Matrix.Translation(position) * Matrix.RotationZ((float)Math.PI) * Matrix.RotationY(yaw);
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 7d46f18227391e1a70f5f6cc0791bf7c19ca60ff
-        }
+     }
        
 
         public override void Draw(GameTime gameTime)
         {
-<<<<<<< HEAD
             
             List<Matrix> bones = new List<Matrix>();
                     int i = 0;
@@ -66,10 +55,6 @@ namespace Project
                         bones.Add(Matrix.Identity);
                     }
             
-=======
-           
-             
->>>>>>> 7d46f18227391e1a70f5f6cc0791bf7c19ca60ff
             view =Project1Game.camera.View;
             projection = Project1Game.camera.Projection;
 

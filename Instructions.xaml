@@ -9,13 +9,10 @@
     d:DesignWidth="1280"
     d:DesignHeight="800">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="cmdBack" Content="Back" HorizontalAlignment="Left" Height="60" Margin="950,70,0,0" VerticalAlignment="Top" Width="180" Click="GoBack"/>
-        <TextBlock x:Name="txtInstructions" HorizontalAlignment="Center" Height="350" Margin="0,50,0,0" TextWrapping="Wrap" FontSize="36" VerticalAlignment="Top" Width="450"/>
-        <Button x:Name="cmdNext" Content="Next" HorizontalAlignment="Left" Margin="950,150,0,0" VerticalAlignment="Top" Width="180" Height="60" Click="NextPage" Visibility="Visible"/>
-        <Button x:Name="cmdPrev" Content="Previous" HorizontalAlignment="Left" Margin="120,150,0,0" VerticalAlignment="Top" Width="180" Height="60" Click="PrevPage" Visibility="Collapsed"/>
-        <Grid Margin="381,264,539,376">
-            <Image x:Name="imgTablet" Source="Images/tablet.png" HorizontalAlignment="Center" Height="56" VerticalAlignment="Center" Width="512" Margin="-162,123,10,-19" Visibility="Collapsed"/>
-        </Grid>
-        <Button x:Name="cmdStart" Content="Let's get on it!" HorizontalAlignment="Left" Height="60" Margin="950,70,0,0" VerticalAlignment="Top" Width="180" Click="StartGame" Visibility="Collapsed"/>
+        <Button x:Name="cmdBack" Content="Back" HorizontalAlignment="Left" Height="60" Margin="950,70,0,0" VerticalAlignment="Top" Width="180" Click="GoBack" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <TextBlock x:Name="txtInstructions" HorizontalAlignment="Center" Height="498" Margin="415,50,415,0" TextWrapping="Wrap" FontSize="36" VerticalAlignment="Top" Width="450" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdNext" Content="Next" HorizontalAlignment="Left" Margin="950,150,0,0" VerticalAlignment="Top" Width="180" Height="60" Click="NextPage" Visibility="Visible" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdPrev" Content="Previous" HorizontalAlignment="Left" Margin="120,150,0,0" VerticalAlignment="Top" Width="180" Height="60" Click="PrevPage" Visibility="Collapsed" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdStart" Content="Let's get on it!" HorizontalAlignment="Left" Height="60" Margin="950,70,0,0" VerticalAlignment="Top" Width="180" Click="StartGame" Visibility="Collapsed" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
     </Grid>
 </Page>
