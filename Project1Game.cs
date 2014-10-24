@@ -45,7 +45,7 @@ namespace Project
 
         private int chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
         private int[] lastPlayerZone = { 1, 1 };
-        private int[] goalStart; // This is the zone in which the player spawns.
+        private int goalX, goalZ;
         private GraphicsDeviceManager graphicsDeviceManager;
         public SystemMediaTransportControls bgMusic;
         private Dictionary<Key, GameObject> terrainGrid = new Dictionary<Key, GameObject>();
@@ -90,9 +90,24 @@ namespace Project
             camera = new Camera(this);
             player = new Racer(this, new Vector3(xPos, 10, zPos), "HoverBike4");
             int temp = FractalTools.N - FractalTools.chunkN;
-            goal = new Goal(this, new Vector3(temp, (float)FractalTools.fractal[temp, temp], temp));
-
-
+            Random rand = new Random();
+            if (rand.Next(2) == 1)
+            {
+                goalX = 10;
+            } else
+            {
+                goalX = temp;
+            }
+            if (rand.Next(2) == 1)
+            {
+                goalZ = 10;
+            }
+            else
+            {
+                goalZ = temp;
+            }
+            goal = new Goal(this, new Vector3(goalX, (float)FractalTools.fractal[goalX, goalZ] + 1f, goalZ));
+            
             // Create goal.
             // The goal should be placed within (terrainWidth / scale) and (terrainHeight / scale)
             // The + 1 values are there to kind of establish the boundaries of the grid.
@@ -130,7 +145,7 @@ namespace Project
             // Create an array of terrain chunks for the grid that the player can see.
             // This grid is centered on the player, and loads/unloads new chunks as the player moves.
             RebuildGrid(true);
-            player.position.Y = (float)currentTerrainChunk.fractal[chunkWidth / 2, chunkWidth / 2] + 15;
+            player.position.Y = (float)currentTerrainChunk.fractal[chunkWidth / 2, chunkWidth / 2] + 1;
             //player.velocity = new Vector3();
             // Create an input layout from the vertices
             base.LoadContent();
@@ -222,17 +237,21 @@ namespace Project
 
 
 
-
                 //update player
                 player.Update(gameTime);
                 // Update camera
                 camera.Update(gameTime);
+                goal.Update(gameTime);
+                mainPage.Seek();
                 // Update each of the terrain chunks.
                 foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Update(gameTime); };
             }
             // Handle base.Update
             base.Update(gameTime);
         }
+
+        // TASK 1: Update the game's score
+        
 
         protected override void Draw(GameTime gameTime)
         {
@@ -243,7 +262,7 @@ namespace Project
 
                 // Draw each of the terrain chunks.
                 foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Draw(gameTime); };
-
+                this.goal.Draw(gameTime);
                 player.Draw(gameTime);
             }
             // Handle base.Draw

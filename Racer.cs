@@ -14,10 +14,10 @@ namespace Project
     {
         public Vector3 position;
         public Model model;
-        public Matrix world, view, projection, WorldInverseTranspose;
+        public Matrix world, view, projection;
         public Vector3 heading, lateral, up;
         public Vector3 accel, vel;
-        public float gravity = 3f;
+        public float gravity = 5f;
         public bool forward = false, backward = false;
 
         public Accelerometer accelerometer;
@@ -42,82 +42,14 @@ namespace Project
             projection = Matrix.PerspectiveFovRH(0.9f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
             world = Matrix.Translation(position) * Matrix.RotationZ((float)Math.PI) * Matrix.RotationY(yaw);
 
-            //foreach(ModelMesh mesh in model.Meshes){
-            //    foreach(Effect effect in mesh.Effects){
-            //        model. = game.Content.Load<Effect>("Phong");
-
-            //    }    
-
-            //effect = game.Content.Load<Effect>("Phong");
-            //basicEffect = new BasicEffect(game.GraphicsDevice)
-            //{
-            //    LightingEnabled = true,
-            //    View = view,
-            //    Projection = projection,
-            //    World = world,
-            //    //FogEnabled = true,
-            //    //FogColor = Color.Gray.ToVector3(),
-            //    //FogStart = 2.75f,
-            //    //FogEnd = 5.25f
-
-            //};
-            //foreach (ModelMesh mesh in model.Meshes)
-            //{
-            //    foreach (ModelMeshPart part in mesh.MeshParts)
-            //    {
-            //        part.Effect = basicEffect;
-            //    }
-            //}
-
 
         }
        
 
         public override void Draw(GameTime gameTime)
         {
-            //foreach (ModelMesh mesh in model.Meshes)
-            //{
-            //    foreach (Effect eff in mesh.Effects)
-            //    {
-                    //effect.Parameters["World"].SetValue(world);
-                    //effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
-                    //effect.Parameters["View"].SetValue(Project1Game.camera.View);
-                    //effect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
-                    //effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
-                    //effect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
-                    //effect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
-                    //effect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
-            //    }
-            //}
-            List<Matrix> bones = new List<Matrix>();
-                    int i = 0;
-                    while (i < model.Bones.Count)
-                    {
-                        i++;
-                        bones.Add(Matrix.Identity);
-                    }
-
-            //foreach (ModelMesh mesh in model.Meshes)
-            //{
-            //    foreach (Effect meshEffect in mesh.Effects)
-            //    {
            
-            //        meshEffect.Parameters["World"].SetValue(world);
-            //        meshEffect.Parameters["Projection"].SetValue(projection);
-            //        meshEffect.Parameters["View"].SetValue(view);
-            //        meshEffect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
-            //        meshEffect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
-            //        meshEffect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
-            //        meshEffect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
-            //        meshEffect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
-
-                   
-
-            //        mesh.Draw(game.GraphicsDevice,bones.ToArray(), meshEffect);
-            //    }
-            //}
-
-                   // effect.CurrentTechnique.Passes[0].Apply();
+             
             view =Project1Game.camera.View;
             projection = Project1Game.camera.Projection;
 
@@ -127,7 +59,7 @@ namespace Project
                 Matrix.RotationY(yaw) *
                 Matrix.Translation(position);
 
-            WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
+            //WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
             this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
         }
 
