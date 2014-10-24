@@ -163,6 +163,7 @@ namespace Project
                 path = generatePath(prev[(int)p.X, (int)p.Y]);
 
             path.Add(p);
+
             return path;
         }
     }

@@ -18,7 +18,7 @@ namespace Project
         public Vector3 heading, lateral, up;
         public Vector3 accel, vel;
         public float gravity = 3f;
-        public bool forward = false, backward = false;
+        public bool forward = false, backward = false, opponent = false;
 
         public Accelerometer accelerometer;
         public AccelerometerReading accelerometerReading;
@@ -42,53 +42,12 @@ namespace Project
             projection = Matrix.PerspectiveFovRH(0.9f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 900.0f);
             world = Matrix.Translation(position) * Matrix.RotationZ((float)Math.PI) * Matrix.RotationY(yaw);
 
-            //foreach(ModelMesh mesh in model.Meshes){
-            //    foreach(Effect effect in mesh.Effects){
-            //        model. = game.Content.Load<Effect>("Phong");
-
-            //    }    
-
-            //effect = game.Content.Load<Effect>("Phong");
-            //basicEffect = new BasicEffect(game.GraphicsDevice)
-            //{
-            //    LightingEnabled = true,
-            //    View = view,
-            //    Projection = projection,
-            //    World = world,
-            //    //FogEnabled = true,
-            //    //FogColor = Color.Gray.ToVector3(),
-            //    //FogStart = 2.75f,
-            //    //FogEnd = 5.25f
-
-            //};
-            //foreach (ModelMesh mesh in model.Meshes)
-            //{
-            //    foreach (ModelMeshPart part in mesh.MeshParts)
-            //    {
-            //        part.Effect = basicEffect;
-            //    }
-            //}
-
-
         }
        
 
         public override void Draw(GameTime gameTime)
         {
-            //foreach (ModelMesh mesh in model.Meshes)
-            //{
-            //    foreach (Effect eff in mesh.Effects)
-            //    {
-                    //effect.Parameters["World"].SetValue(world);
-                    //effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
-                    //effect.Parameters["View"].SetValue(Project1Game.camera.View);
-                    //effect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
-                    //effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
-                    //effect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
-                    //effect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
-                    //effect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
-            //    }
-            //}
+            
             List<Matrix> bones = new List<Matrix>();
                     int i = 0;
                     while (i < model.Bones.Count)
@@ -96,28 +55,7 @@ namespace Project
                         i++;
                         bones.Add(Matrix.Identity);
                     }
-
-            //foreach (ModelMesh mesh in model.Meshes)
-            //{
-            //    foreach (Effect meshEffect in mesh.Effects)
-            //    {
-           
-            //        meshEffect.Parameters["World"].SetValue(world);
-            //        meshEffect.Parameters["Projection"].SetValue(projection);
-            //        meshEffect.Parameters["View"].SetValue(view);
-            //        meshEffect.Parameters["cameraPos"].SetValue(Project1Game.camera.cameraPosition);
-            //        meshEffect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
-            //        meshEffect.Parameters["lightAmbCol"].SetValue(Project1Game.camera.ambientColour);
-            //        meshEffect.Parameters["lightPntPos"].SetValue(Project1Game.camera.sunPosition);
-            //        meshEffect.Parameters["lightPntCol"].SetValue(Project1Game.camera.sunColour);
-
-                   
-
-            //        mesh.Draw(game.GraphicsDevice,bones.ToArray(), meshEffect);
-            //    }
-            //}
-
-                   // effect.CurrentTechnique.Passes[0].Apply();
+            
             view =Project1Game.camera.View;
             projection = Project1Game.camera.Projection;
 
@@ -134,9 +72,33 @@ namespace Project
         public override void Update(GameTime gameTime)
         {
 
-            accelerometerReading = accelerometer.GetCurrentReading();
-            yaw -= (float) (0.01*accelerometerReading.AccelerationX);
-            
+            if (opponent)
+            {
+                Vector3 velocity = new Vector3(Project1Game.opponentPath[0].X, 0, Project1Game.opponentPath[0].Y);
+
+                // Aim for the first element in the opponent path list
+                position = position + Vector3.Normalize(velocity);
+
+                // If the first element has been reached near enough, remove it
+                if (Math.Abs(position.X - (float)Project1Game.opponentPath[0].X) < 10 &&
+                    Math.Abs(position.Z - (float)Project1Game.opponentPath[0].Y) < 10)
+                {
+                    Project1Game.opponentPath.RemoveAt(0);
+                }
+
+                // Ensure opponent stays above terrain
+                if (position.Y < FractalTools.fractal[(int)position.Z, (int)position.X] + 10)
+                {
+                    position.Y = (float)FractalTools.fractal[(int)position.Z, (int)position.X] + 10;
+                }
+                return;
+            }
+
+            if (accelerometer != null)
+            {
+                accelerometerReading = accelerometer.GetCurrentReading();
+                yaw -= (float)(0.01 * accelerometerReading.AccelerationX);
+            }
             BoundingSphere instanceBound = new BoundingSphere(position, 0.1f);
             Vector3 normalForce = new Vector3();
             Vector3[] pointsToBound = ((Terrain)game.getTerrainChunkUnderPlayer()).getTerrainUnderPoint(position);
@@ -164,7 +126,6 @@ namespace Project
                     position.Y = avgheight;
                 }
 
-
                 else if (instanceBound.Contains(ref pointsToBound[2], ref pointsToBound[1], ref pointsToBound[3]) != ContainmentType.Disjoint)
                 {
                     vel.Y+= 0.0001f;
@@ -188,25 +149,14 @@ namespace Project
                     accel += normalForce*0.001f ;
                     touchingTerrain = true;
 
-                }
-                 
-                else
-                {
-                    
-                    vel = (vel +vel+vel+ Vector3.Reflect(vel, normalForce))/4f;
-                    Debug.WriteLine(accel);
-
-                    
+                } else  {
+                    vel = (vel +vel+vel+ Vector3.Reflect(vel, normalForce))/4f;                    
                     break;
                 }
-
-                
             }
 
             Vector3 prevVel = vel;
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Debug.WriteLine("delta is: " + delta);
-
 
             if (!touchingTerrain) 
             { 

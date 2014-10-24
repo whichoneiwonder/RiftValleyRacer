@@ -79,11 +79,17 @@
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\splash_screen.png" />
     <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\StoreLogo150.png" />
+    <Content Include="Assets\StoreLogo30.png" />
     <Content Include="Content\enemy projectile.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\enemy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\riftvalleyracer.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <ToolkitFxc Include="Content\TerrainShader.fx">
@@ -184,7 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Art\" />
-    <Folder Include="Sound\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Modulario.ttf" />
