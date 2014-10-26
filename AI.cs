@@ -31,9 +31,10 @@ namespace Project
         // Find a path over a map given a start and end point to move towards.
         public static List<Vector2> findPath(Vector2 s, Vector2 e, double[,] m)
         {
-            // INITIALISE ALL THE THINGS
-            start = s;
-            end = e;
+            // Cast XY values of each vector as ints, so that
+            // they can be found on the map array.
+            start = new Vector2((int)s.X, (int)s.Y);
+            end = new Vector2((int)e.X, (int)e.Y);
             map = m;
 
             width = map.GetLength(0);

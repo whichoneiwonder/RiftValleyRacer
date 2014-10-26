@@ -40,7 +40,9 @@ namespace Project
         private void cmdMenu_Click(object sender, RoutedEventArgs e)
         {
             parent.Children.Remove(this);
+            parent.game.Exit();
             parent.Children.Add(parent.mainMenu);
+            
         }
 
         private void cmdExit_Click(object sender, RoutedEventArgs e)

@@ -71,27 +71,26 @@ namespace Project
         public override void Update(GameTime gameTime)
         {
 
-            //if (opponent)
-            //{
-            //    Vector3 velocity = new Vector3(Project1Game.opponentPath[0].X, 0, Project1Game.opponentPath[0].Y);
+            if (opponent)
+            {
 
-            //    // Aim for the first element in the opponent path list
-            //    position = position + Vector3.Normalize(velocity);
+                // If the first element has been reached near enough, remove it
+                if (Math.Abs(position.X - (float)Project1Game.opponentPath[0].X) < 100 &&
+                    Math.Abs(position.Z - (float)Project1Game.opponentPath[0].Y) < 100)
+                {
+                    Project1Game.opponentPath.RemoveAt(0);
+                }
 
-            //    // If the first element has been reached near enough, remove it
-            //    if (Math.Abs(position.X - (float)Project1Game.opponentPath[0].X) < 10 &&
-            //        Math.Abs(position.Z - (float)Project1Game.opponentPath[0].Y) < 10)
-            //    {
-            //        Project1Game.opponentPath.RemoveAt(0);
-            //    }
+                Vector3 velocity = new Vector3(Project1Game.opponentPath[0].X, 0, Project1Game.opponentPath[0].Y);
 
-            //    // Ensure opponent stays above terrain
-            //    if (position.Y < FractalTools.fractal[(int)position.Z, (int)position.X] + 10)
-            //    {
-            //        position.Y = (float)FractalTools.fractal[(int)position.Z, (int)position.X] + 10;
-            //    }
-            //    return;
-            //}
+                // Aim for the first element in the opponent path list
+                position = position + Vector3.Normalize(velocity)*0.1f;
+
+                // Ensure opponent stays on terrain at a set height
+                position.Y = (float)FractalTools.fractal[(int)position.Z, (int)position.X] + 0.3f;
+
+                return;
+            }
 
             if (accelerometer != null)
             {
@@ -120,10 +119,7 @@ namespace Project
                 }
 
                 instanceBound.Center = position;
-                if (belowTerrain)
-                {
-                    position.Y = avgheight;
-                }
+                if (belowTerrain) { position.Y = avgheight; }
 
                 else if (instanceBound.Contains(ref pointsToBound[2], ref pointsToBound[1], ref pointsToBound[3]) != ContainmentType.Disjoint)
                 {
@@ -132,7 +128,6 @@ namespace Project
                     //bounceyness 
                     normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1])) / 2f;
                      position += normalForce / 2000f;
-                    //position -= vel * 0.01f;
                      accel += normalForce*0.001f;
                      touchingTerrain = true;
 
@@ -141,10 +136,10 @@ namespace Project
                 else if (instanceBound.Contains(ref pointsToBound[1], ref pointsToBound[0], ref pointsToBound[2]) != ContainmentType.Disjoint)
                 {
                     vel.Y += 0.0001f;
-                    //      /*bounceyness *
+                    // bounceyness
                     normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0])) / 2f;
                     position += normalForce/2000f;
-                    //position-=vel*0.01f;
+
                     accel += normalForce*0.001f ;
                     touchingTerrain = true;
 
@@ -157,11 +152,7 @@ namespace Project
             Vector3 prevVel = vel;
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (!touchingTerrain) 
-            { 
-                accel.Y -= gravity/2f;
-                
-            }
+            if (!touchingTerrain) { accel.Y -= gravity/2f; }
             accel -= 0.05f * vel;
 
             float factor = 0;
@@ -176,9 +167,7 @@ namespace Project
 
             heading = Vector3.Transform(Vector3.UnitZ, Matrix3x3.RotationY(yaw));
 
-
             accel = new Vector3();
-            //this.position = Project1Game.camera.cameraPosition + Vector3.Normalize(Project1Game.camera.cameraDirection);
             
         }
 

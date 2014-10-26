@@ -47,13 +47,11 @@ namespace Project
 
         public void Update(GameTime gameTime)
         {
-
             // Set cameraPosition and cameraLook relative to player
             cameraPosition = game.player.position - game.player.vel / 100f;
-            cameraPosition -= 0.05f*game.player.heading;
+            cameraPosition -= 0.02f * game.player.heading;
             cameraPosition.Y += 0.02f;
-            cameraLook = game.player.position+game.player.heading+ game.player.vel/20f;
-            //cameraLook.Y += 0.01f;
+            cameraLook = game.opponent.position + game.player.heading + game.player.vel / 20f;
 
             // Update sun position and background colour
             sunPosition.X = (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds / 10.0));

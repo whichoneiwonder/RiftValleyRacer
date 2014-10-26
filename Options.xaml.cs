@@ -39,10 +39,10 @@ namespace Project
         { }
         private void pickGreen(object sender, RoutedEventArgs e)
         {}
-            
         private void pickPurple(object sender, RoutedEventArgs e)
         {}
-        
+                    
+
         private void Return(object sender, RoutedEventArgs e)
         {
             parent.Children.Add(parent.mainMenu);
@@ -52,6 +52,16 @@ namespace Project
         private void changeSize(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             parent.game.tSizeFactor = (int)e.NewValue; 
+        }
+
+        private void rdOff_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void rdOn_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
        
     }

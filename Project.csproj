@@ -230,9 +230,9 @@
     <None Include="Content\HoverBike3.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Content\HoverBike3.obj">
+    <ToolkitModel Include="Content\HoverBike3.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </ToolkitModel>
     <None Include="Content\HoverBike4.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
