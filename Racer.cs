@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using Windows.Devices.Sensors;
 
 namespace Project
@@ -17,7 +18,7 @@ namespace Project
         public Matrix world, view, projection;
         public Vector3 heading, lateral, up;
         public Vector3 accel, vel;
-         public float gravity = 5f;
+        public float gravity = 15f, thrustPower = 5f, opponentStepSize = 0.25f, maxPlayerSpeed = 15f;
         public bool forward = false, backward = false, opponent = false;
  
         public Accelerometer accelerometer;
@@ -58,7 +59,7 @@ namespace Project
             view =Project1Game.camera.View;
             projection = Project1Game.camera.Projection;
 
-            world = Matrix.Scaling(0.0001f) *
+            world = Matrix.Scaling(0.01f) *
                 Matrix.RotationX((float)Math.PI) *
                 Matrix.RotationZ((float)Math.PI)*
                 Matrix.RotationY(yaw) *
@@ -71,33 +72,40 @@ namespace Project
         public override void Update(GameTime gameTime)
         {
 
+            // If this is an opponent racer, update the object with the following block
             if (opponent)
             {
+                // If there are no points left, or the game has been won, remain stationery
+                if (Project1Game.opponentPath.Count == 0) { return; }
 
                 // If the first element has been reached near enough, remove it
-                if (Math.Abs(position.X - (float)Project1Game.opponentPath[0].X) < 100 &&
-                    Math.Abs(position.Z - (float)Project1Game.opponentPath[0].Y) < 100)
-                {
+                if (Math.Abs(position.X - (float)Project1Game.opponentPath[0].X) < 1 &&
+                    Math.Abs(position.Z - (float)Project1Game.opponentPath[0].Y) < 1) {
                     Project1Game.opponentPath.RemoveAt(0);
+                    if (Project1Game.opponentPath.Count == 0) {
+                        return;
+                    }
                 }
 
-                Vector3 velocity = new Vector3(Project1Game.opponentPath[0].X, 0, Project1Game.opponentPath[0].Y);
-
-                // Aim for the first element in the opponent path list
-                position = position + Vector3.Normalize(velocity)*0.1f;
+                // Set the current goal according to the next point in the path,
+                // and set the velocity to the vector pointing there from the current position
+                Vector3 currentGoalPosition = new Vector3(Project1Game.opponentPath[0].X, 
+                                                         (float)FractalTools.fractal[(int)position.Z, (int)position.X]+1.5f, 
+                                                          Project1Game.opponentPath[0].Y),
+                        velocity = Vector3.Subtract(currentGoalPosition, position);
 
                 // Ensure opponent stays on terrain at a set height
-                position.Y = (float)FractalTools.fractal[(int)position.Z, (int)position.X] + 0.3f;
+                if (position.Y < (float)FractalTools.fractal[(int)position.Z, (int)position.X]+1.5f) {
+                    position.Y = (float)FractalTools.fractal[(int)position.Z, (int)position.X]+1.5f;
+                }
 
+                // Move, given the velocity
+                position += Vector3.Normalize(velocity)*opponentStepSize;
                 return;
             }
 
-            if (accelerometer != null)
-            {
-                accelerometerReading = accelerometer.GetCurrentReading();
-                yaw -= (float)(0.01 * accelerometerReading.AccelerationX);
-            }
-            BoundingSphere instanceBound = new BoundingSphere(position, 0.1f);
+            // If this is the player racer, update the object with the following block
+            BoundingSphere instanceBound = new BoundingSphere(position, 1.3f);
             Vector3 normalForce = new Vector3();
             Vector3[] pointsToBound = ((Terrain)game.getTerrainChunkUnderPlayer()).getTerrainUnderPoint(position);
             float avgheight = 0f;
@@ -123,28 +131,27 @@ namespace Project
 
                 else if (instanceBound.Contains(ref pointsToBound[2], ref pointsToBound[1], ref pointsToBound[3]) != ContainmentType.Disjoint)
                 {
-                    vel.Y+= 0.0001f;
+                    vel.Y+= 0.01f;
 
                     //bounceyness 
                     normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1])) / 2f;
-                     position += normalForce / 2000f;
-                     accel += normalForce*0.001f;
-                     touchingTerrain = true;
-
+                    position += normalForce / 200f;
+                    accel += normalForce*0.01f;
+                    touchingTerrain = true;
                 }
 
                 else if (instanceBound.Contains(ref pointsToBound[1], ref pointsToBound[0], ref pointsToBound[2]) != ContainmentType.Disjoint)
                 {
-                    vel.Y += 0.0001f;
+                    vel.Y += 0.01f;
                     // bounceyness
                     normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0])) / 2f;
-                    position += normalForce/2000f;
+                    position += normalForce/200f;
 
-                    accel += normalForce*0.001f ;
+                    accel += normalForce*0.01f ;
                     touchingTerrain = true;
 
                 } else  {
-                    vel = (vel +vel+vel+ Vector3.Reflect(vel, normalForce))/4f;                    
+                    vel = (vel*3 + Vector3.Reflect(vel, normalForce))/4f;                    
                     break;
                 }
             }
@@ -156,11 +163,28 @@ namespace Project
             accel -= 0.05f * vel;
 
             float factor = 0;
-            if (forward) { factor = 3f; }
-            else if (backward) { factor = -3f; }
+
+            // If there is an accelerometer present, utilise it as a controller
+            if (accelerometer != null) {
+                accelerometerReading = accelerometer.GetCurrentReading();
+                yaw -= (float)(0.01 * accelerometerReading.AccelerationX);
+                if (forward) { factor = 1f * thrustPower; } else if (backward) { factor = -1f * thrustPower; }
+            } else {
+                yaw -= (float)(0.01 * Project1Game.direction);
+                factor = Project1Game.accel * thrustPower;
+            }
+
             this.accel += factor * Vector3.Normalize(heading);
-            float maxVel = 3f;
-            if (vel.Length() > maxVel) { vel *= maxVel / vel.Length() ; }
+
+            if (vel.Length() > maxPlayerSpeed) { vel *= maxPlayerSpeed / vel.Length() ; }
+
+            // Ensure racer stays within boundaries at all times
+            if (position.X > FractalTools.N - FractalTools.chunkN) {
+                position.X = FractalTools.N - FractalTools.chunkN;
+            }
+            if (position.Z > FractalTools.N - FractalTools.chunkN) {
+                position.Z = FractalTools.N - FractalTools.chunkN;
+            }
 
             position = (position + vel * delta + 0.5f * accel * delta * delta);
             vel += accel * delta;

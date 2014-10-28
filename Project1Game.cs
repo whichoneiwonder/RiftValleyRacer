@@ -20,6 +20,7 @@
 
 using SharpDX;
 using SharpDX.Toolkit;
+using SharpDX.Toolkit.Input;
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ using Windows.UI.Input;
 using Windows.UI.Core;
 using Windows.Devices.Sensors;
 using Windows.Media;
+
 namespace Project
 {
     // Use this namespace here in case we need to use Direct3D11 namespace as well, as this
@@ -37,28 +39,30 @@ namespace Project
     public class Project1Game : Game
     {
         // BEWARE: THE NUMBER OF BINARY FILES SERIALISED TO DISK = 4 TO THE POWER OF tSizeFactor-cSizeFactor. BE CAREFUL! Default difference = 5.
-        public int tSizeFactor = 10;    // Sets terrain size. Set between 7 and 13.               Default = 11.
-        const int cSizeFactor = 5,     // Sets chunk size.   Set between 4 and 8.                Default = 6.
-                    loadGridSize = 5;     // Sets width of loaded chunk grid. MUST BE ODD.          Default = 3. 
-        const float tRangeFactor = 1f,    // Sets overall landscape height.  Set between 0.1 and 2. Default = 1.
-                    smoothing = 2.1f;  // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
+        public int  tSizeFactor = 11;        // Sets terrain size. Set between 7 and 13.               Default = 11.
+        const int   cSizeFactor = 6,         // Sets chunk size.   Set between 4 and 8.                Default = 6.
+                    loadGridSize = 5;        // Sets width of loaded chunk grid. MUST BE ODD.          Default = 3. 
+        const float tRangeFactor = 1.2f,     // Sets overall landscape height.  Set between 0.1 and 2. Default = 1.
+                    smoothing = 2.17f;       // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
 
+        private KeyboardState keyboardState;
+        private KeyboardManager keyboardManager;
+        private GraphicsDeviceManager graphicsDeviceManager;
         private int chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
         private int[] lastPlayerZone = { 1, 1 };
-        private GraphicsDeviceManager graphicsDeviceManager;
-        public SystemMediaTransportControls bgMusic;
         private Dictionary<Key, GameObject> terrainGrid = new Dictionary<Key, GameObject>();
         private Terrain currentTerrainChunk;
-        public static Camera camera;
-        public Racer player, opponent;
-        public static List<Vector2> opponentPath;
-        public int score;
-        public MainPage mainPage;
-        public static float mouseX, mouseY;
-        public Vector2 goalStart;
+        public SystemMediaTransportControls bgMusic;
         public Goal goal;
-        public bool started = false;
-        public Boolean isPaused;
+        public Racer player, opponent;
+        public MainPage mainPage;
+        public bool started = false, isPaused;
+        public static Camera camera;
+        public static Vector2 goalStart;
+        public static List<Vector2> opponentPath;
+        public static bool gameEnd = false;
+        public static int direction = 0, accel = 0;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Project1Game" /> class.
         /// </summary>
@@ -82,6 +86,8 @@ namespace Project
             Window.Title = "Rift Valley Racer";
             isPaused = false;
 
+            keyboardManager = new KeyboardManager(this);
+
             // Set player spawn zone to be the landscape centre, maximising exploration.
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor - cSizeFactor) / 2;
             int xPos = lastPlayerZone[0] * chunkWidth + chunkWidth / 2,
@@ -99,7 +105,7 @@ namespace Project
             opponent.opponent = true;
 
             goalStart = (FractalTools.N-chunkWidth-chunkWidth) * Vector2.One;
-            goal = new Goal(this, new Vector3(goalStart.X, (float)FractalTools.fractal[(int)goalStart.Y, (int)goalStart.X] + 0.1f, goalStart.Y));
+            goal = new Goal(this, new Vector3(goalStart.X, (float)FractalTools.fractal[(int)goalStart.Y, (int)goalStart.X] + 2f, goalStart.Y));
             
             // Create goal.
             // The goal should be placed within (terrainWidth / scale) and (terrainHeight / scale)
@@ -115,20 +121,23 @@ namespace Project
 
             // Pass the array into the AI class to find a path.
             Vector2 opponentPosition = new Vector2(opponent.position.X, opponent.position.Z);
-            opponentPath = AI.findPath(opponentPosition / scale,
-                new Vector2(FractalTools.N / scale, FractalTools.N / scale), smallArray);
+            opponentPath = AI.findPath(opponentPosition / scale, goalStart / scale, smallArray);
 
-            if (opponentPath != null)
-            {
-                Project1Game.opponentPath.RemoveAt(0);
-            }
-            else
-            {
-                opponentPath.Add(goalStart);
-            }
+            // Remove the initial point from the path to get it ready for the opponent, and ensure it is non-null
+            if (opponentPath != null) { Project1Game.opponentPath.RemoveAt(0); }
 
-            for (int i = 0; i < opponentPath.Count; i++)
+            // Scale all path points back to approximate where they actually are in the terrain
+            for (int i = 0; i < opponentPath.Count; i++) {
                 opponentPath[i] *= scale;
+            }
+
+            // Set the final point for the opponent to reach as the goal itself
+            opponentPath.Add(goalStart);
+
+            /*
+            // Print out all points in the opponent path for debugging
+            foreach (Vector2 point in opponentPath) { Debug.WriteLine(point); }
+            */
 
             base.Initialize();
         }
@@ -160,7 +169,7 @@ namespace Project
             }
         }
 
-        private void RebuildGrid(bool reset = true)
+        private void RebuildGrid(bool reset = false)
         {
             int[] currentZone = playerZone();
             if (reset)
@@ -211,20 +220,24 @@ namespace Project
             }
         }
 
-        protected override void Update(GameTime gameTime)
-        {
-            if (started && isPaused == false)
-            {
+        protected override void Update(GameTime gameTime) {
+            // Update keyboardState and set direction according to left and right keypresses
+            keyboardState = keyboardManager.GetState();
+            bool leftKey = (keyboardState.IsKeyDown(Keys.Left)), rightKey = (keyboardState.IsKeyDown(Keys.Right)),
+                 upKey   = (keyboardState.IsKeyDown(Keys.Up)),   downKey  = (keyboardState.IsKeyDown(Keys.Down));
+            if (leftKey && rightKey || !leftKey && !rightKey) { direction = 0; } else if (leftKey) { direction = -1; } else if (rightKey) { direction = 1; }
+            if (upKey && downKey || !upKey && !downKey) { accel = 0; } else if (upKey) { accel = 1; } else if (downKey) { accel = -1; }
+
+            if (started && isPaused == false) {
                 // Check where the player is, and replace chunks accordingly. Only replace chunks if player has changed zone.
-                if ((playerZone()[0] != lastPlayerZone[0]) || (playerZone()[1] != lastPlayerZone[1]))
-                {
-                    lastPlayerZone = playerZone();
+                if ((playerZone()[0] != lastPlayerZone[0]) || (playerZone()[1] != lastPlayerZone[1])) {
                     RebuildGrid();
+                    lastPlayerZone = playerZone();
                 }
 
                 //update player
                 player.Update(gameTime);
-                
+
                 // Update oppponent
                 opponent.Update(gameTime);
 
@@ -233,14 +246,14 @@ namespace Project
                 goal.Update(gameTime);
                 mainPage.Seek();
 
-                if (Math.Abs(player.position.X - goal.position.X) < 30f && Math.Abs(player.position.Z - goal.position.Z) < 30f)
-                {
-                    Debug.WriteLine("YOU WON");
+                if (Math.Abs(player.position.X - goal.position.X) <= 10f && Math.Abs(player.position.Z - goal.position.Z) <= 1f) {
+                    Debug.WriteLine("PLAYER WON");
+                    gameEnd = true;
                     App.Current.Exit();
                 }
-                if (Math.Abs(opponent.position.X - goal.position.X) < 30f && Math.Abs(opponent.position.Z - goal.position.Z) < 30f)
-                {
-                    Debug.WriteLine("YOU LOST");
+                if (Math.Abs(opponent.position.X - goal.position.X) <= 10f && Math.Abs(opponent.position.Z - goal.position.Z) <= 1f) {
+                    Debug.WriteLine("OPPONENT WON");
+                    gameEnd = true;
                     App.Current.Exit();
                 }
 
@@ -249,6 +262,7 @@ namespace Project
             }
             // Handle base.Update
             base.Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)
@@ -260,7 +274,13 @@ namespace Project
 
                 // Draw each of the terrain chunks.
                 foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Draw(gameTime); };
-                this.goal.Draw(gameTime);
+
+                // If the player should be able to see the goal, draw it
+                if (Math.Abs(player.position.X - goalStart.X) < chunkWidth*2 &&
+                    Math.Abs(player.position.Z - goalStart.Y) < chunkWidth*2) {
+                    goal.Draw(gameTime);
+                }
+
                 player.Draw(gameTime);
                 opponent.Draw(gameTime);
             }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpDX;
 using SharpDX.Toolkit;
+using System.Diagnostics;
 
 
 // The following code is modified from the Lab solution for week 4.
@@ -40,7 +41,7 @@ namespace Project
 
             // Set up matrices
             View = Matrix.LookAtRH(cameraPosition, cameraLook, Vector3.UnitY);
-            Projection = Matrix.PerspectiveFovRH((float)Math.PI / 2.3f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
+            Projection = Matrix.PerspectiveFovRH((float)Math.PI / 1.6f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
             World = Matrix.RotationX(0) * Matrix.RotationY(0) * Matrix.RotationZ(0);
             this.game = game;
         }
@@ -48,10 +49,10 @@ namespace Project
         public void Update(GameTime gameTime)
         {
             // Set cameraPosition and cameraLook relative to player
-            cameraPosition = game.player.position - game.player.vel / 100f;
-            cameraPosition -= 0.02f * game.player.heading;
-            cameraPosition.Y += 0.02f;
-            cameraLook = game.opponent.position + game.player.heading + game.player.vel / 20f;
+            cameraPosition = game.player.position - game.player.vel / 20f;
+            cameraPosition -= 1.7f * game.player.heading;
+            cameraPosition.Y += 1.2f;
+            cameraLook = game.player.position + game.player.heading * 1.7f + game.player.vel / 20f;
 
             // Update sun position and background colour
             sunPosition.X = (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds / 10.0));
@@ -60,7 +61,7 @@ namespace Project
 
             // Update matrices
             View = Matrix.LookAtRH(cameraPosition, cameraLook, Vector3.UnitY);
-            Projection = Matrix.PerspectiveFovRH((float)Math.PI / 2f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.0001f, 1000.0f);
+            Projection = Matrix.PerspectiveFovRH((float)Math.PI / 1.6f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
 
         }
     }

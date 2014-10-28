@@ -186,32 +186,32 @@ namespace Project {
             }
             catch
             {
-                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerZ +1 , playerX+1 ], (float)playerZ));
+                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerZ + 4 , playerX + 4], (float)playerZ));
 
             }
             try
             {
-                pointsList.Add(new Vector3((float)playerX + 1, (float)FractalTools.fractal[playerZ, playerX + 1], (float)playerZ));
+                pointsList.Add(new Vector3((float)playerX + 4, (float)FractalTools.fractal[playerZ, playerX + 4], (float)playerZ));
             }
             catch 
             {
-                pointsList.Add(new Vector3((float)playerX + 1 , (float)FractalTools.fractal[playerZ, playerX ], (float)playerZ));
+                pointsList.Add(new Vector3((float)playerX + 4 , (float)FractalTools.fractal[playerZ, playerX], (float)playerZ));
             }
             try
             {
-                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerZ+1 , playerX ], (float)playerZ + 1));
+                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerZ + 4 , playerX], (float)playerZ + 4));
             }
             catch
             {
-                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerZ , playerX ], (float)playerZ+1));
+                pointsList.Add(new Vector3((float)playerX, (float)FractalTools.fractal[playerZ , playerX], (float)playerZ + 4));
             }
             try
             {
-                pointsList.Add(new Vector3((float)playerX + 1, (float)FractalTools.fractal[playerZ + 1 , playerX + 1 ], (float)playerZ + 1));
+                pointsList.Add(new Vector3((float)playerX + 4, (float)FractalTools.fractal[playerZ + 4 , playerX + 4], (float)playerZ + 4));
             }
             catch
             {
-                pointsList.Add(new Vector3((float)playerX + 1, (float)FractalTools.fractal[playerZ  , playerX ], (float)playerZ + 1));
+                pointsList.Add(new Vector3((float)playerX + 4, (float)FractalTools.fractal[playerZ, playerX], (float)playerZ + 4));
 
             }
 
@@ -235,9 +235,6 @@ namespace Project {
             effect.Parameters["lightPntPos"].SetValue((Vector4)Project1Game.camera.sunPosition);
             effect.Parameters["lightPntCol"].SetValue((Vector4)Project1Game.camera.sunColour);
             effect.Parameters["backgroundCol"].SetValue((Vector4)Project1Game.camera.background);
-            
-            
-
 
         }
 
