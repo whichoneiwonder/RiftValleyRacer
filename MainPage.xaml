@@ -7,30 +7,22 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"    
     d:DesignWidth="1280"
-    d:DesignHeight="800">
+    d:DesignHeight="800"
+    >
+
     <Button x:Name="cmdThrust" Click="Forward" BorderBrush="Transparent" HorizontalAlignment="Center" Background="Transparent" Margin="30,0,155,0" VerticalAlignment="Top" Height="168" Width="1091" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
     <Button x:Name="cmdReverse" Click="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="168" Width="691" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
 
     <Button x:Name="cmdPause" Content="Pause" HorizontalAlignment="Right" Margin="0,50,50,0" VerticalAlignment="Top" Click="Pause"/>
     <MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/riftvalleyracer.wav" AutoPlay="True" IsLooping="True"/>
 
-    <Image x:Name="arrow_RIGHT" Visibility ="Collapsed" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,150,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
+
+    <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="60" Margin="610,184,610,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.5,0.5">
         <Image.RenderTransform>
-            <CompositeTransform Rotation="180"/>
+            <RotateTransform x:Name="Arrow_Up_rotation_transform"   />
         </Image.RenderTransform>
     </Image>
-    <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,150,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
-        <Image.RenderTransform>
-            <CompositeTransform Rotation="90"/>
-        </Image.RenderTransform>
-    </Image>
-    <Image x:Name="arrow_LEFT" Visibility ="Collapsed" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,150,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
-    </Image>
-    <Image x:Name="arrow_DOWN" Visibility ="Collapsed" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,150,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
-        <Image.RenderTransform>
-            <CompositeTransform Rotation="270"/>
-        </Image.RenderTransform>
-    </Image>
+
 
 
 </SwapChainBackgroundPanel>

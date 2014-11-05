@@ -49,19 +49,23 @@ namespace Project
         {
             
             List<Matrix> bones = new List<Matrix>();
-                    int i = 0;
-                    while (i < model.Bones.Count)
-                    {
-                        i++;
-                        bones.Add(Matrix.Identity);
-                    }
-            
+            int i = 0;
+            while (i < model.Bones.Count)
+            {
+                i++;
+                bones.Add(Matrix.Identity);
+            }
+            float pitch = -Vector3.Dot(Vector3.Normalize(vel), heading) * Vector3.Normalize(vel).Y;
+
+
+
             view =Project1Game.camera.View;
             projection = Project1Game.camera.Projection;
 
             world = Matrix.Scaling(0.01f) *
                 Matrix.RotationX((float)Math.PI) *
-                Matrix.RotationZ((float)Math.PI)*
+                Matrix.RotationZ((float)Math.PI) *
+                Matrix.RotationX(pitch)*
                 Matrix.RotationY(yaw) *
                 Matrix.Translation(position);
 
@@ -190,7 +194,7 @@ namespace Project
             vel += accel * delta;
 
             heading = Vector3.Transform(Vector3.UnitZ, Matrix3x3.RotationY(yaw));
-
+            heading.Y = Vector3.Normalize(vel).Y /2f;
             accel = new Vector3();
             
         }
