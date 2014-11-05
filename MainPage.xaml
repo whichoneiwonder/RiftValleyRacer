@@ -17,7 +17,8 @@
     <MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/riftvalleyracer.wav" AutoPlay="True" IsLooping="True"/>
 
 
-    <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" Height="60" Margin="0,6,0,499" Width="60" RenderTransformOrigin="0.5,0.5">
+    <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="60" Margin="610,184,610,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.5,0.5">
+
         <Image.RenderTransform>
             <RotateTransform x:Name="Arrow_Up_rotation_transform"   />
         </Image.RenderTransform>

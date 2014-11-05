@@ -103,6 +103,7 @@ namespace Project
                 this.Arrow_Up_rotation_transform.Angle = angle;
             }
             catch { };
+
             return angle;
         }
 
