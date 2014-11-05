@@ -61,7 +61,7 @@ namespace Project
         public static Vector2 goalStart;
         public static List<Vector2> opponentPath;
         public static bool gameEnd = false;
-        public static int direction = 0, accel = 0;
+        public static int keyBoardInputDirection = 0, accel = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Project1Game" /> class.
@@ -101,7 +101,7 @@ namespace Project
             player = new Racer(this, new Vector3(xPos, (float)FractalTools.fractal[zPos, xPos] + 0f, zPos), "HoverBike4");
             
             // AI Racer objects
-            opponent = new Racer(this, new Vector3(xPos, (float)FractalTools.fractal[zPos, xPos] + 0f, zPos), "HoverBike4");
+            opponent = new Racer(this, new Vector3(xPos+10, (float)FractalTools.fractal[zPos+1, xPos+10] + 0f, zPos+1), "HoverBike4");
             opponent.opponent = true;
 
             goalStart = (FractalTools.N-chunkWidth-chunkWidth) * Vector2.One;
@@ -125,6 +125,8 @@ namespace Project
 
             // Remove the initial point from the path to get it ready for the opponent, and ensure it is non-null
             if (opponentPath != null) { Project1Game.opponentPath.RemoveAt(0); }
+            Project1Game.opponentPath.RemoveAt(0);
+
 
             // Scale all path points back to approximate where they actually are in the terrain
             for (int i = 0; i < opponentPath.Count; i++) {
@@ -225,7 +227,7 @@ namespace Project
             keyboardState = keyboardManager.GetState();
             bool leftKey = (keyboardState.IsKeyDown(Keys.Left)), rightKey = (keyboardState.IsKeyDown(Keys.Right)),
                  upKey   = (keyboardState.IsKeyDown(Keys.Up)),   downKey  = (keyboardState.IsKeyDown(Keys.Down));
-            if (leftKey && rightKey || !leftKey && !rightKey) { direction = 0; } else if (leftKey) { direction = -1; } else if (rightKey) { direction = 1; }
+            if (leftKey && rightKey || !leftKey && !rightKey) { keyBoardInputDirection = 0; } else if (leftKey) { keyBoardInputDirection = -1; } else if (rightKey) { keyBoardInputDirection = 1; }
             if (upKey && downKey || !upKey && !downKey) { accel = 0; } else if (upKey) { accel = 1; } else if (downKey) { accel = -1; }
 
             if (started && isPaused == false) {
