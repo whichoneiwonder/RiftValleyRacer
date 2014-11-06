@@ -240,11 +240,11 @@ namespace Project
 
                 //update player
                 player.Update(gameTime);
-                player.goalDistance = Math.Abs(goal.position.X - player.position.X);
+                player.goalDistance =  (goal.position  - player.position ).Length();
 
                 // Update oppponent
                 opponent.Update(gameTime);
-                opponent.goalDistance = Math.Abs(goal.position.X - player.position.X);
+                opponent.goalDistance = (goal.position - opponent.position).Length();
 
                 if (player.goalDistance < opponent.goalDistance)
                 {
