@@ -18,7 +18,7 @@ namespace Project
         public Matrix world, view, projection;
         public Vector3 heading, lateral, up;
         public Vector3 accel, vel, prevVel;
-        public float gravity = 10f, thrustPower = 5f, opponentStepSize = 0.25f, maxPlayerSpeed = 20f;
+        public float gravity = 15f, thrustPower = 7f, opponentStepSize = 0.25f, maxPlayerSpeed = 20f;
         public bool forward = false, backward = false, opponent = false;
  
         public Accelerometer accelerometer;
@@ -103,7 +103,16 @@ namespace Project
 
 
                 accel = (thrustPower+10) * Vector3.Normalize(currentGoalPosition - position);
-                
+                Vector3 tempVel = vel;
+                tempVel.Y = 0;
+                tempVel.Normalize();
+                float dotprod = Vector3.Dot(tempVel, Vector3.UnitZ);
+                yaw = (float)( Math.Acos((double)dotprod)  );
+
+                if (Vector3.Cross(Vector3.UnitZ, tempVel).Y < 0f)
+                {
+                    yaw= -yaw;
+                }
                 
             }
 

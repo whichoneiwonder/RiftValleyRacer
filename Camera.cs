@@ -56,11 +56,12 @@ namespace Project
 
             // Update sun position and background colour
             sunPosition = new Vector3(0f, -1f, 0f);
-            Matrix3x3 transform = Matrix3x3.RotationX((float)gameTime.ElapsedGameTime.TotalMilliseconds/100f);
+            Matrix3x3 transform = Matrix3x3.RotationX((float)gameTime.ElapsedGameTime.TotalSeconds/100f);
             Vector3.Transform( sunPosition, transform);
 
-            background = new Color(0.25f * (-sunPosition.Y + 1f), 0.35f * (-sunPosition.Y + 1f), 0.8f * (-sunPosition.Y + 1f), 1);
-            sunPosition += game.player.position;
+            background = new Color(0.25f * (-sunPosition.Y + 1f), 0.35f * (-sunPosition.Y + 1f), 0.8f * ( 1f), 1);
+            sunPosition*= 200f;
+            sunPosition+= game.player.position;
 
             // Update matrices
             View = Matrix.LookAtRH(cameraPosition, cameraLook, Vector3.UnitY);
