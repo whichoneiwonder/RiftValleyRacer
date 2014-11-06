@@ -24,7 +24,7 @@ namespace Project
 
         public override void Update(GameTime gameTime)
         { 
-            world = Matrix.Scaling(3f)*Matrix.RotationY((float)gameTime.TotalGameTime.TotalSeconds) * Matrix.Translation(position);
+            world =  Matrix.Scaling(6f,60f,6f)*Matrix.RotationY((float)gameTime.TotalGameTime.TotalSeconds) * Matrix.Translation(position);
             view = Project1Game.camera.View;
             projection = Project1Game.camera.Projection;
         }
