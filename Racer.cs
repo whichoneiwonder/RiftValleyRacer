@@ -17,13 +17,13 @@ namespace Project
         public Model model;
         public Matrix world, view, projection;
         public Vector3 heading, lateral, up;
-        public Vector3 accel, vel;
-        public float gravity = 15f, thrustPower = 5f, opponentStepSize = 0.25f, maxPlayerSpeed = 15f;
+        public Vector3 accel, vel, prevVel;
+        public float gravity = 15f, thrustPower = 7f, opponentStepSize = 0.25f, maxPlayerSpeed = 20f;
         public bool forward = false, backward = false, opponent = false;
- 
         public Accelerometer accelerometer;
         public AccelerometerReading accelerometerReading;
         private float yaw;
+        public float goalDistance;
 
         public Racer(Project1Game game, Vector3 pos, String modelName)
         {
@@ -49,19 +49,23 @@ namespace Project
         {
             
             List<Matrix> bones = new List<Matrix>();
-                    int i = 0;
-                    while (i < model.Bones.Count)
-                    {
-                        i++;
-                        bones.Add(Matrix.Identity);
-                    }
-            
+            int i = 0;
+            while (i < model.Bones.Count)
+            {
+                i++;
+                bones.Add(Matrix.Identity);
+            }
+            float pitch = -Vector3.Dot(Vector3.Normalize(vel), heading) * Vector3.Normalize(vel).Y;
+
+
+
             view =Project1Game.camera.View;
             projection = Project1Game.camera.Projection;
 
             world = Matrix.Scaling(0.01f) *
                 Matrix.RotationX((float)Math.PI) *
-                Matrix.RotationZ((float)Math.PI)*
+                Matrix.RotationZ((float)Math.PI) *
+                Matrix.RotationX(pitch)*
                 Matrix.RotationY(yaw) *
                 Matrix.Translation(position);
 
@@ -78,30 +82,38 @@ namespace Project
                 // If there are no points left, or the game has been won, remain stationery
                 if (Project1Game.opponentPath.Count == 0) { return; }
 
-                // If the first element has been reached near enough, remove it
-                if (Math.Abs(position.X - (float)Project1Game.opponentPath[0].X) < 1 &&
-                    Math.Abs(position.Z - (float)Project1Game.opponentPath[0].Y) < 1) {
-                    Project1Game.opponentPath.RemoveAt(0);
-                    if (Project1Game.opponentPath.Count == 0) {
-                        return;
-                    }
-                }
+                
 
                 // Set the current goal according to the next point in the path,
                 // and set the velocity to the vector pointing there from the current position
-                Vector3 currentGoalPosition = new Vector3(Project1Game.opponentPath[0].X, 
-                                                         (float)FractalTools.fractal[(int)position.Z, (int)position.X]+1.5f, 
-                                                          Project1Game.opponentPath[0].Y),
-                        velocity = Vector3.Subtract(currentGoalPosition, position);
-
-                // Ensure opponent stays on terrain at a set height
-                if (position.Y < (float)FractalTools.fractal[(int)position.Z, (int)position.X]+1.5f) {
-                    position.Y = (float)FractalTools.fractal[(int)position.Z, (int)position.X]+1.5f;
+                Vector3 currentGoalPosition = new Vector3(Project1Game.opponentPath[0].X,
+                                                         (float)FractalTools.fractal[(int)Project1Game.opponentPath[0].Y, (int)Project1Game.opponentPath[0].X] +2f,
+                                                          Project1Game.opponentPath[0].Y);
+                
+                // If the first element has been reached near enough, remove it
+                if ( ((this.position-currentGoalPosition).Length() < 10f ||
+                    (this.position - game.goal.position).Length() < (currentGoalPosition  - game.goal.position).Length()) &&
+                    Project1Game.opponentPath.Count > 1)
+                {
+                    Project1Game.opponentPath.RemoveAt(0);
+                    currentGoalPosition = new Vector3(Project1Game.opponentPath[0].X,
+                                                         (float)FractalTools.fractal[(int)position.Z, (int)position.X] + 1.5f,
+                                                          Project1Game.opponentPath[0].Y);
                 }
 
-                // Move, given the velocity
-                position += Vector3.Normalize(velocity)*opponentStepSize;
-                return;
+                
+                accel = (thrustPower+10) * Vector3.Normalize(currentGoalPosition - position);
+                Vector3 tempVel = vel;
+                tempVel.Y = 0;
+                tempVel.Normalize();
+                float dotprod = Vector3.Dot(tempVel, Vector3.UnitZ);
+                yaw = (float)( Math.Acos((double)dotprod)  );
+
+                if (Vector3.Cross(Vector3.UnitZ, tempVel).Y < 0f)
+                {
+                    yaw= -yaw;
+                }
+                
             }
 
             // If this is the player racer, update the object with the following block
@@ -131,51 +143,56 @@ namespace Project
 
                 else if (instanceBound.Contains(ref pointsToBound[2], ref pointsToBound[1], ref pointsToBound[3]) != ContainmentType.Disjoint)
                 {
-                    vel.Y+= 0.01f;
+                     
 
                     //bounceyness 
                     normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1])) / 2f;
                     position += normalForce / 200f;
-                    accel += normalForce*0.01f;
+                    accel += normalForce ;
                     touchingTerrain = true;
                 }
 
                 else if (instanceBound.Contains(ref pointsToBound[1], ref pointsToBound[0], ref pointsToBound[2]) != ContainmentType.Disjoint)
                 {
-                    vel.Y += 0.01f;
+                     
                     // bounceyness
                     normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0])) / 2f;
                     position += normalForce/200f;
 
-                    accel += normalForce*0.01f ;
+                    accel += normalForce  ;
                     touchingTerrain = true;
 
                 } else  {
-                    vel = (vel*3 + Vector3.Reflect(vel, normalForce))/4f;                    
+                                    
                     break;
                 }
             }
 
-            Vector3 prevVel = vel;
+            prevVel = vel;
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (!touchingTerrain) { accel.Y -= gravity/2f; }
+            else { vel = (vel * 3 + Vector3.Reflect(vel, normalForce)) / 4f; }
             accel -= 0.05f * vel;
+            if (!this.opponent)
+            {
+                float factor = 0;
 
-            float factor = 0;
+                // If there is an accelerometer present, utilise it as a controller
+                if (accelerometer != null)
+                {
+                    accelerometerReading = accelerometer.GetCurrentReading();
+                    yaw -= (float)(0.01 * accelerometerReading.AccelerationX);
+                    if (forward) { factor = 1f * thrustPower; } else if (backward) { factor = -1f * thrustPower; }
+                }
+                else
+                {
+                    yaw -= (float)(0.01 * Project1Game.keyBoardInputDirection);
+                    factor = Project1Game.accel * thrustPower;
+                }
 
-            // If there is an accelerometer present, utilise it as a controller
-            if (accelerometer != null) {
-                accelerometerReading = accelerometer.GetCurrentReading();
-                yaw -= (float)(0.01 * accelerometerReading.AccelerationX);
-                if (forward) { factor = 1f * thrustPower; } else if (backward) { factor = -1f * thrustPower; }
-            } else {
-                yaw -= (float)(0.01 * Project1Game.direction);
-                factor = Project1Game.accel * thrustPower;
+                this.accel += factor * Vector3.Normalize(heading);
             }
-
-            this.accel += factor * Vector3.Normalize(heading);
-
             if (vel.Length() > maxPlayerSpeed) { vel *= maxPlayerSpeed / vel.Length() ; }
 
             // Ensure racer stays within boundaries at all times
@@ -190,7 +207,7 @@ namespace Project
             vel += accel * delta;
 
             heading = Vector3.Transform(Vector3.UnitZ, Matrix3x3.RotationY(yaw));
-
+            heading.Y = Vector3.Normalize(vel).Y /2f;
             accel = new Vector3();
             
         }

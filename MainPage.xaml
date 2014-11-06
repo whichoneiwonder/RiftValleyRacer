@@ -8,33 +8,19 @@
     mc:Ignorable="d"    
     d:DesignWidth="1280"
     d:DesignHeight="800">
-    <Button x:Name="cmdThrust" Click="Forward" BorderBrush="Transparent" HorizontalAlignment="Left" Background="Transparent" Margin="0,0,0,0" VerticalAlignment="Center" Height="600" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press">
-        <TextBlock TextWrapping="Wrap" Text="TextBlock"/>
-    </Button>
-    <Button x:Name="cmdReverse" Click="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Height="600" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdThrust" Click="Forward" BorderBrush="Transparent" HorizontalAlignment="Left" Background="Transparent" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdReverse" Click="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
 
     <Button x:Name="cmdPause" Content="Pause" HorizontalAlignment="Right" Margin="0,25,25,0" VerticalAlignment="Top" Click="Pause" Width="125"/>
     <MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/Ouroboros.mp3" AutoPlay="True" IsLooping="True"/>
-
-    <Image x:Name="arrow_RIGHT" Visibility ="Collapsed" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,50,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
+    <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="60" Margin="0,50,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.5,0.5">
         <Image.RenderTransform>
-            <CompositeTransform Rotation="180"/>
-        </Image.RenderTransform>
-    </Image>
-    <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,50,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
-        <Image.RenderTransform>
-            <CompositeTransform Rotation="90"/>
-        </Image.RenderTransform>
-    </Image>
-    <Image x:Name="arrow_LEFT" Visibility ="Collapsed" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,50,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
-    </Image>
-    <Image x:Name="arrow_DOWN" Visibility ="Collapsed" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="128" Margin="0,50,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="0.5,0.5">
-        <Image.RenderTransform>
-            <CompositeTransform Rotation="270"/>
+            <RotateTransform x:Name="Arrow_Up_rotation_transform"/>
         </Image.RenderTransform>
     </Image>
     <TextBlock x:Name="txtTime" FontFamily="/Fonts/Modulario.TTF#Modulario" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,250,0" TextWrapping="Wrap" Text="0" Height="75" Width="75" FontSize="86" />
-    <TextBlock x:Name="txtPosition" FontStyle="Italic" FontWeight="ExtraBold" FontFamily="/Fonts/Modulario.TTF#Modulario" HorizontalAlignment="Left" Margin="150,50,0,0" TextWrapping="Wrap" Text="1st" VerticalAlignment="Top" Height="100" Width="150" FontSize="86"/>
+    <TextBlock x:Name="txtPosition" FontStyle="Italic" FontWeight="ExtraBold" FontFamily="/Fonts/Modulario.TTF#Modulario" HorizontalAlignment="Left" Margin="153,56,0,0" TextWrapping="Wrap" Text="1st" VerticalAlignment="Top" Height="100" Width="150" FontSize="76"/>
+
 
 
 </SwapChainBackgroundPanel>

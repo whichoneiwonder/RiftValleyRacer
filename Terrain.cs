@@ -219,22 +219,8 @@ namespace Project {
         }
 
         public override void Update(GameTime gameTime) {
-            basicEffect.View = Project1Game.camera.View;
-
-            basicEffect.AmbientLightColor = Project1Game.camera.ambientColour;
-            basicEffect.DirectionalLight0.Direction    = Project1Game.camera.sunPosition;
-            basicEffect.DirectionalLight0.DiffuseColor = Project1Game.camera.sunColour;
-            WorldInverseTranspose = Matrix.Invert(Matrix.Transpose(World));
-
-            effect.Parameters["World"].SetValue(Matrix.Identity);
-            effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
-            effect.Parameters["View"].SetValue(Project1Game.camera.View);
-            effect.Parameters["cameraPos"].SetValue(new Vector4(Project1Game.camera.cameraPosition.X, Project1Game.camera.cameraPosition.Y, Project1Game.camera.cameraPosition.Z, 1.0f));
-            effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
-            effect.Parameters["lightAmbCol"].SetValue((Vector4)Project1Game.camera.ambientColour);
-            effect.Parameters["lightPntPos"].SetValue((Vector4)Project1Game.camera.sunPosition);
-            effect.Parameters["lightPntCol"].SetValue((Vector4)Project1Game.camera.sunColour);
-            effect.Parameters["backgroundCol"].SetValue((Vector4)Project1Game.camera.background);
+            
+           
 
         }
 
@@ -242,7 +228,17 @@ namespace Project {
             // Setup the vertices
             game.GraphicsDevice.SetVertexBuffer(vertices);
             game.GraphicsDevice.SetVertexInputLayout(inputLayout);
-            
+            WorldInverseTranspose = Matrix.Invert(Matrix.Transpose(World));
+
+            effect.Parameters["World"].SetValue(Matrix.Identity);
+            effect.Parameters["Projection"].SetValue(Project1Game.camera.Projection);
+            effect.Parameters["View"].SetValue(Project1Game.camera.View);
+            effect.Parameters["cameraPos"].SetValue(new Vector4(Project1Game.camera.cameraPosition.X, Project1Game.camera.cameraPosition.Y, Project1Game.camera.cameraPosition.Z, 1.0f));
+            effect.Parameters["worldInvTrp"].SetValue(WorldInverseTranspose);
+            effect.Parameters["lightAmbCol"].SetValue(new Vector4(Project1Game.camera.ambientColour, 1f));
+            effect.Parameters["lightPntPos"].SetValue(new Vector4(Project1Game.camera.sunPosition, 1f));
+            effect.Parameters["lightPntCol"].SetValue(new Vector4(Project1Game.camera.sunColour, 1f));
+            effect.Parameters["backgroundCol"].SetValue( (Vector4)Project1Game.camera.background);
 
             // Apply the basic effect technique and draw
             //basicEffect.CurrentTechnique.Passes[0].Apply();

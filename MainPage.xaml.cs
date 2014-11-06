@@ -35,6 +35,7 @@ namespace Project
         public Instructions howTo;
         public Options opt;
         public Pause pause;
+        public Finished finish;
 
         public MainPage()
         {
@@ -45,6 +46,7 @@ namespace Project
             howTo = new Instructions(this);
             opt = new Options(this);
             pause = new Pause(this);
+            finish = new Finished(this);
             this.Children.Add(mainMenu);
             
         }
@@ -69,56 +71,52 @@ namespace Project
             this.game.player.forward = false;
         }
 
-      
-      public void Seek()
+
+        public Double Seek()
         {
-            Vector2 heading = Vector2.Normalize(new Vector2(game.player.heading.X, game.player.heading.Z));
-            Vector2 toGoal = Vector2.Normalize(new Vector2(game.goal.position.X - game.player.position.X, game.goal.position.Z - game.player.position.Z));
+            Vector3 heading = (game.player.heading);
+            Vector3 toGoal = (game.goal.position - game.player.position);
+            heading.Y = 0;
+            toGoal.Y = 0;
+            heading.Normalize();
+            toGoal.Normalize();
+            this.arrow_UP.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
-          this.arrow_DOWN.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-          
-          this.arrow_UP.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-          
-          this.arrow_LEFT.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-          
-          this.arrow_RIGHT.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-          
-            float dotprod = Vector2.Dot(heading, toGoal);
-            Double angle = Math.Acos((double)dotprod);
-            if(dotprod > 0){
-                
-                if (angle <= Math.PI/4f)
-                {
-                    this.arrow_LEFT.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                } 
-                else if( angle <= Math.PI/4f){
 
-                    this.arrow_RIGHT.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                }
-                else
-                {
-                    this.arrow_UP.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            float dotprod = Vector3.Dot(heading, toGoal);
+            Double angle = 180 * Math.Acos((double)dotprod) / Math.PI;
 
-                }
-
-            }else 
+            if (Vector3.Cross(heading, toGoal).Y > 0f)
             {
-                if (angle >= Math.PI*(3f/4f))
-                {
-                    this.arrow_LEFT.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                }
-                else if (angle <= Math.PI / 4f)
-                {
-
-                    this.arrow_RIGHT.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                }
-                else
-                {
-                    this.arrow_DOWN.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                }
+                angle = -angle;
             }
-           
+            //account for the fact that the image points left
+            angle += 90;
+            while (angle > 359)
+            {
+                angle -= 360;
+            }
+            while (angle < 0)
+            {
+                angle += 360;
+            }
+            try
+            {
+                this.Arrow_Up_rotation_transform.Angle = angle;
+            }
+            catch { };
 
+            return angle;
+        }
+
+        public void first()
+        {
+            this.txtPosition.Text = "1ST";
+        }
+
+        public void second()
+        {
+            this.txtPosition.Text = "2ND";
         }
 
         public void StartGame()

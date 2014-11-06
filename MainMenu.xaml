@@ -8,11 +8,11 @@
     mc:Ignorable="d"    
     d:DesignWidth="1280"
     d:DesignHeight="800">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="4,0,-4,0">
-        <Button x:Name="cmdStart" Content="Start" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Left" Margin="200,250,0,0" VerticalAlignment="Top" Width="380" Height="160" Click="StartGame"/>
-        <Button x:Name="cmdInstructions" Content="How to play?!" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Left" Height="160" Margin="800,250,0,0" VerticalAlignment="Top" Width="380" Click="LoadInstructions"/>
-        <Button x:Name="cmdOptions" Content="Options" HorizontalAlignment="Left" Margin="200,550,0,0" FontFamily="/Fonts/Modulario.ttf#Modulario" VerticalAlignment="Top" Height="160" Width="380" Click="LoadOptions"/>
-        <Button x:Name="cmdExit" Content="Exit" HorizontalAlignment="Left" Margin="800,550,0,0" VerticalAlignment="Top" Width="380" Height="160" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="Exit"/>
-        <TextBlock HorizontalAlignment="Center" Margin="100,91,0,0" TextWrapping="Wrap" Text="RIFT VALLEY RACER" VerticalAlignment="Top" FontWeight="Bold" FontSize="96" IsColorFontEnabled="False"/>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0">
+        <Button x:Name="cmdStart" Content="Start" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="132,215,768,425" VerticalAlignment="Center" Width="380" Height="160" Click="StartGame"/>
+        <Button x:Name="cmdInstructions" Content="How to play?!" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Height="160" Margin="634,215,266,425" VerticalAlignment="Center" Width="380" Click="LoadInstructions"/>
+        <Button x:Name="cmdOptions" Content="Options" HorizontalAlignment="Center" Margin="132,473,768,167" FontFamily="/Fonts/Modulario.ttf#Modulario" VerticalAlignment="Center" Height="160" Width="380" Click="LoadOptions"/>
+        <Button x:Name="cmdExit" Content="Exit" HorizontalAlignment="Center" Margin="634,473,266,167" VerticalAlignment="Center" Width="380" Height="160" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="Exit"/>
+        <TextBlock Margin="135,46,255,638" TextWrapping="Wrap" Text="RIFT VALLEY RACER" FontWeight="Bold" FontSize="96" IsColorFontEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Page>

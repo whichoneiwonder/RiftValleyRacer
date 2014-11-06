@@ -9,7 +9,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock HorizontalAlignment="Center" Margin="0,100,0,0" TextWrapping="Wrap" Text="DEFEAT" VerticalAlignment="Top" Foreground="Red" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="106" FontStyle="Italic"/>
-        <Button x:Name="cmdMenu" Content="Main Menu" HorizontalAlignment="Center" Margin="553,532,544,182" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36" Width="270"/>
+        <Button x:Name="cmdMenu" Content="Main Menu" HorizontalAlignment="Center" Margin="553,532,544,182" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36" Width="270" Click="cmdMenu_Click"/>
         <Button x:Name="cmdExit" Content="Exit" HorizontalAlignment="Center" Margin="0,550,0,0" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36" Width="270"/>
         <TextBlock HorizontalAlignment="Left" Margin="250,50,0,0" TextWrapping="Wrap" Text="2ND" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
         <TextBlock HorizontalAlignment="Left" Margin="250,0,0,100" TextWrapping="Wrap" Text="1ST" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>

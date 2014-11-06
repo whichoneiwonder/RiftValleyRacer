@@ -25,10 +25,14 @@ namespace Project
         public readonly Project1Game game;
         private MainPage parent;
 
-        public Finished()
+        public Finished(MainPage parent)
         {
-
             this.InitializeComponent();
+            this.parent = parent;
+            if (parent.game.racer_won == "player")
+            {
+
+            }
         }
 
         private void cmdMenu_Click(object sender, RoutedEventArgs e)
