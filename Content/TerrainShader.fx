@@ -27,7 +27,7 @@ float4x4 View;
 float4x4 Projection;
 float4 cameraPos;
 float4 backgroundCol;
-float4 fogStart = 20.0f;
+float4 fogStart = 25.0f;
 float4 fogEnd = 75.0f;
 float4 lightAmbCol;// = float4(0.4f, 0.4f, 0.4f, 1.0f);
 float4 lightPntPos;// = float4(0.0f, 0.0f, -2.0f, 1.0f);
@@ -75,10 +75,10 @@ PS_IN VS( VS_IN input )
 
 	// Calculate specular reflections
 	float Ks = 1;
-	float specN = 5; // Values>>1 give tighter highlights
+	float specN = 20; // Values>>1 give tighter highlights
 	float3 V = normalize(cameraPos.xyz - worldVertex.xyz);
-	float3 R = normalize(2*LdotN*worldNormal.xyz - L.xyz);
-	//float3 R = normalize(0.5*(L.xyz+V.xyz)); //Blinn-Phong equivalent
+	//float3 R = normalize(2*LdotN*worldNormal.xyz - L.xyz);
+	float3 R = normalize(0.5*(L.xyz+V.xyz)); //Blinn-Phong equivalent
 	float3 spe = fAtt*lightPntCol.rgb*Ks*pow(saturate(dot(V,R)),specN);
 
 	// Combine reflection components
@@ -99,7 +99,10 @@ PS_IN VS( VS_IN input )
 float4 PS( PS_IN input ) : SV_Target
 {
 	PS_IN Out;
-	Out.col = lerp(input.col, backgroundCol, input.fog);
+	float4 fogCol = backgroundCol.xyzw  ;
+		fogCol.w = 0.9;
+	fogCol.b *= 0.9f;
+	Out.col = lerp(input.col, fogCol, input.fog);
 
 
 	return Out.col;
