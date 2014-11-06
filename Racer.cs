@@ -20,10 +20,10 @@ namespace Project
         public Vector3 accel, vel, prevVel;
         public float gravity = 15f, thrustPower = 7f, opponentStepSize = 0.25f, maxPlayerSpeed = 20f;
         public bool forward = false, backward = false, opponent = false;
- 
         public Accelerometer accelerometer;
         public AccelerometerReading accelerometerReading;
         private float yaw;
+        public float goalDistance;
 
         public Racer(Project1Game game, Vector3 pos, String modelName)
         {
@@ -101,7 +101,7 @@ namespace Project
                                                           Project1Game.opponentPath[0].Y);
                 }
 
-
+                
                 accel = (thrustPower+10) * Vector3.Normalize(currentGoalPosition - position);
                 Vector3 tempVel = vel;
                 tempVel.Y = 0;

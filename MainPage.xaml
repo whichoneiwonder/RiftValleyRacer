@@ -7,22 +7,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"    
     d:DesignWidth="1280"
-    d:DesignHeight="800"
-    >
+    d:DesignHeight="800">
+    <Button x:Name="cmdThrust" Click="Forward" BorderBrush="Transparent" HorizontalAlignment="Left" Background="Transparent" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdReverse" Click="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
 
-    <Button x:Name="cmdThrust" Click="Forward" BorderBrush="Transparent" HorizontalAlignment="Center" Background="Transparent" Margin="30,0,155,0" VerticalAlignment="Top" Height="168" Width="1091" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
-    <Button x:Name="cmdReverse" Click="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="168" Width="691" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
-
-    <Button x:Name="cmdPause" Content="Pause" HorizontalAlignment="Right" Margin="0,50,50,0" VerticalAlignment="Top" Click="Pause"/>
-    <MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/riftvalleyracer.wav" AutoPlay="True" IsLooping="True"/>
-
-
-    <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="60" Margin="610,184,610,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.5,0.5">
-
+    <Button x:Name="cmdPause" Content="Pause" HorizontalAlignment="Right" Margin="0,25,25,0" VerticalAlignment="Top" Click="Pause" Width="125"/>
+    <MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/Ouroboros.mp3" AutoPlay="True" IsLooping="True"/>
+    <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="60" Margin="0,50,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.5,0.5">
         <Image.RenderTransform>
-            <RotateTransform x:Name="Arrow_Up_rotation_transform"   />
+            <RotateTransform x:Name="Arrow_Up_rotation_transform"/>
         </Image.RenderTransform>
     </Image>
+    <TextBlock x:Name="txtTime" FontFamily="/Fonts/Modulario.TTF#Modulario" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,250,0" TextWrapping="Wrap" Text="0" Height="75" Width="75" FontSize="86" />
+    <TextBlock x:Name="txtPosition" FontStyle="Italic" FontWeight="ExtraBold" FontFamily="/Fonts/Modulario.TTF#Modulario" HorizontalAlignment="Left" Margin="153,56,0,0" TextWrapping="Wrap" Text="1st" VerticalAlignment="Top" Height="100" Width="150" FontSize="76"/>
 
 
 

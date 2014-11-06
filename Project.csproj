@@ -42,6 +42,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Arrow.cs" />
+    <Compile Include="Finished.xaml.cs">
+      <DependentUpon>Finished.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Camera.cs" />
     <Compile Include="ColoredGameObject.cs" />
     <Compile Include="Cube.cs" />
@@ -91,6 +94,7 @@
     <Content Include="Content\enemy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Sound\Ouroboros.mp3" />
     <Content Include="Sound\riftvalleyracer.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -116,6 +120,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Finished.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\StandardStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -212,6 +220,7 @@
     <None Include="Content\goalTriangle.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="Fonts\IAMSIMPL.ttf" />
     <ToolkitModel Include="Content\goalTriangle.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>

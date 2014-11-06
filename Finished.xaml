@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="Project.Finished"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock HorizontalAlignment="Center" Margin="0,100,0,0" TextWrapping="Wrap" Text="DEFEAT" VerticalAlignment="Top" Foreground="Red" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="106" FontStyle="Italic"/>
+        <Button x:Name="cmdMenu" Content="Main Menu" HorizontalAlignment="Center" Margin="553,532,544,182" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36" Width="270" Click="cmdMenu_Click"/>
+        <Button x:Name="cmdExit" Content="Exit" HorizontalAlignment="Center" Margin="0,550,0,0" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36" Width="270"/>
+        <TextBlock HorizontalAlignment="Left" Margin="250,50,0,0" TextWrapping="Wrap" Text="2ND" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
+        <TextBlock HorizontalAlignment="Left" Margin="250,0,0,100" TextWrapping="Wrap" Text="1ST" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,250,250" TextWrapping="Wrap" Text="Duration" VerticalAlignment="Center" Foreground="Brown" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
+        <TextBlock x:Name="txtDuration" HorizontalAlignment="Right" Margin="0,0,150,250" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
+        <TextBlock HorizontalAlignment="Left" Margin="250,250,0,0" TextWrapping="Wrap" Text="Results" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36" Foreground="Brown"/>
+
+        <TextBlock x:Name="txtOpponent" Foreground="Green" HorizontalAlignment="Center" Margin="50,0,0,100" TextWrapping="Wrap" Text="OPPONENT" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
+        <TextBlock x:Name="txtPlayer" Foreground="Red" HorizontalAlignment="Center" Margin="50,50,0,0" TextWrapping="Wrap" Text="PLAYER" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
+    </Grid>
+</Page>

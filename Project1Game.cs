@@ -56,6 +56,7 @@ namespace Project
         public Goal goal;
         public Racer player, opponent;
         public MainPage mainPage;
+        public string racer_won;
         public bool started = false, isPaused;
         public static Camera camera;
         public static Vector2 goalStart;
@@ -239,10 +240,17 @@ namespace Project
 
                 //update player
                 player.Update(gameTime);
+                player.goalDistance = Math.Abs(goal.position.X - player.position.X);
 
                 // Update oppponent
                 opponent.Update(gameTime);
+                opponent.goalDistance = Math.Abs(goal.position.X - player.position.X);
 
+                if (player.goalDistance < opponent.goalDistance)
+                {
+                    mainPage.first();
+                } else { mainPage.second(); }
+                
                 // Update camera
                 camera.Update(gameTime);
                 goal.Update(gameTime);
@@ -251,12 +259,17 @@ namespace Project
                 if (Math.Abs(player.position.X - goal.position.X) <= 10f && Math.Abs(player.position.Z - goal.position.Z) <= 1f) {
                     Debug.WriteLine("PLAYER WON");
                     gameEnd = true;
-                    App.Current.Exit();
+                    racer_won = "player";
+                    mainPage.Children.Add(mainPage.finish);
+                   // mainPage.Children.Add(mainPage.mainMenu);
                 }
                 if (Math.Abs(opponent.position.X - goal.position.X) <= 10f && Math.Abs(opponent.position.Z - goal.position.Z) <= 1f) {
                     Debug.WriteLine("OPPONENT WON");
                     gameEnd = true;
-                    App.Current.Exit();
+                    racer_won = "opponent";
+                    mainPage.Children.Add(mainPage.finish);
+               
+                    //mainPage.Children.Add(mainPage.mainMenu);
                 }
 
                 // Update each of the terrain chunks.

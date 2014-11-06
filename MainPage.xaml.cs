@@ -35,6 +35,7 @@ namespace Project
         public Instructions howTo;
         public Options opt;
         public Pause pause;
+        public Finished finish;
 
         public MainPage()
         {
@@ -45,6 +46,7 @@ namespace Project
             howTo = new Instructions(this);
             opt = new Options(this);
             pause = new Pause(this);
+            finish = new Finished(this);
             this.Children.Add(mainMenu);
             
         }
@@ -105,6 +107,16 @@ namespace Project
             catch { };
 
             return angle;
+        }
+
+        public void first()
+        {
+            this.txtPosition.Text = "1ST";
+        }
+
+        public void second()
+        {
+            this.txtPosition.Text = "2ND";
         }
 
         public void StartGame()

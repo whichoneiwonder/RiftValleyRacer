@@ -30,9 +30,10 @@ namespace Project
         // Checks for current page number
         private static int page_num = 0;
 
-        private string[] text_l = {"1. To steer, rotate the tablet towards the direction you want to move your vehicle.",  
-                                   "2. The aim of the game is to reach the goal first before the opponent does.", 
-                                   "3. Follow the red arrow above, which points towards the goal location.",
+        private string[] text_l = {"1. To steer, rotate the tablet towards the direction you want to move your vehicle.", 
+                                   "2. To move forward, touch the left of the screen and to reverse, touch the right of the screen.",
+                                   "3. The aim of the game is to reach the goal first before the opponent does.", 
+                                   "4. Follow the red arrow above which points towards the goal location.",
                                    "The more you play, the better you'll be! What're you waiting for? Start playing and HAVE FUN! :D"}; 
 
         private MainPage parent;
@@ -54,13 +55,13 @@ namespace Project
         {
             page_num++;
 
-            if (page_num > 0 && page_num < 3) 
+            if (page_num > 0 && page_num < 4) 
             { 
                 this.cmdPrev.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 this.cmdNext.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 this.cmdBack.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 this.cmdStart.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            } else if (page_num == 3)
+            } else if (page_num == 4)
             { 
                 this.cmdNext.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 this.cmdBack.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -76,14 +77,14 @@ namespace Project
         {
             page_num--;
 
-            if (page_num > 0 && page_num < 3)
+            if (page_num > 0 && page_num < 4)
             {
                 this.cmdPrev.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 this.cmdNext.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 this.cmdBack.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 this.cmdStart.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
-            else if (page_num == 3)
+            else if (page_num == 4)
             {
                 this.cmdNext.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 this.cmdBack.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -98,6 +99,11 @@ namespace Project
             page_num = 0;
             parent.Children.Add(parent.mainMenu);
             parent.Children.Remove(this);
+        }
+
+        private void txtInstructions_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
