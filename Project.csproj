@@ -91,6 +91,7 @@
     <Content Include="Content\enemy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Sound\Ouroboros.mp3" />
     <Content Include="Sound\riftvalleyracer.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -212,6 +213,7 @@
     <None Include="Content\goalTriangle.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="Fonts\IAMSIMPL.ttf" />
     <ToolkitModel Include="Content\goalTriangle.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
