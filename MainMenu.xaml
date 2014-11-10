@@ -9,10 +9,10 @@
     d:DesignWidth="1280"
     d:DesignHeight="800">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0">
-        <Button x:Name="cmdStart" Content="Start" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="0,0,550,175" VerticalAlignment="Center" Width="380" Height="160" Click="StartGame"/>
-        <Button x:Name="cmdInstructions" Content="How to play?!" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Height="160" Margin="550,0,0,175" VerticalAlignment="Center" Width="380" Click="LoadInstructions"/>
-        <Button x:Name="cmdOptions" Content="Options" HorizontalAlignment="Center" Margin="0,350,550,0" FontFamily="/Fonts/Modulario.ttf#Modulario" VerticalAlignment="Center" Height="160" Width="380" Click="LoadOptions"/>
-        <Button x:Name="cmdExit" Content="Exit" HorizontalAlignment="Center" Margin="550,350,0,0" VerticalAlignment="Center" Width="380" Height="160" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="Exit"/>
+        <Button x:Name="cmdStart" Content="Start" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="0,0,550,175" VerticalAlignment="Center" FontSize="30" Width="360" Height="140" Click="StartGame"/>
+        <Button x:Name="cmdInstructions" Content="How to play?!" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="30" HorizontalAlignment="Center" Height="140" Margin="550,0,0,175" VerticalAlignment="Center" Width="360" Click="LoadInstructions"/>
+        <Button x:Name="cmdOptions" Content="Options" HorizontalAlignment="Center" Margin="0,350,550,0" FontSize="30" FontFamily="/Fonts/Modulario.ttf#Modulario" VerticalAlignment="Center" Height="140" Width="360" Click="LoadOptions"/>
+        <Button x:Name="cmdExit" Content="Exit" HorizontalAlignment="Center" Margin="550,350,0,0" FontSize="30" VerticalAlignment="Center" Width="340" Height="140" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="Exit"/>
         <TextBlock Margin="0,50,0,0" TextWrapping="Wrap" Text="RIFT VALLEY RACER" FontWeight="Bold" FontSize="96" IsColorFontEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Top"/>
     </Grid>
 </Page>
