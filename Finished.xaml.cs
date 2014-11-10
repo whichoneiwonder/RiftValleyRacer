@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Project
@@ -29,16 +28,8 @@ namespace Project
         {
             this.parent = parent;
           // Need this fixed.
-            //this.txtDuration.Text = "" + this.game.elapsedTime;
-            if (parent.game.racer_won == "opponent")
-            {
-                this.txtOpponent.Text = "BOO!";
-                this.txtPlayer.Text = "Your mum!";
-            }
-            else if (parent.game.racer_won == "player")
-            { 
-                
-            }
+            
+
 
             this.InitializeComponent();
         }
@@ -53,6 +44,27 @@ namespace Project
         private void cmdExit_Click(object sender, RoutedEventArgs e)
         {
             App.Current.Exit();
+        }
+
+
+        public void FinishUpdate(String winner)
+        {
+            if (parent.game.racer_won == "opponent")
+            {
+                this.VictoryDefeat.Text = "DEFEAT";
+                this.VictoryDefeat.Foreground = new SolidColorBrush(Windows.UI.Colors.Red);
+                this.txtFirst.Text = "OPPONENT";
+                this.txtSecond.Text = "PLAYER";
+            }
+            else if (parent.game.racer_won == "player")
+            {
+                this.VictoryDefeat.Text = "VICTORY";
+                this.VictoryDefeat.Foreground = new SolidColorBrush(Windows.UI.Colors.Green);
+                this.txtFirst.Text = "PLAYER";
+                this.txtSecond.Text = "OPPONENT";
+            }
+
+            this.txtDuration.Text = "" + this.parent.game.elapsedTime.ToString();
         }
     }
 }
