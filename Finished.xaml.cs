@@ -49,5 +49,10 @@ namespace Project
             parent.game.Exit();
             parent.Children.Add(parent.mainMenu);
         }
+
+        private void cmdExit_Click(object sender, RoutedEventArgs e)
+        {
+            App.Current.Exit();
+        }
     }
 }

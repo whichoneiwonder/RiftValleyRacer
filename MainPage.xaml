@@ -19,6 +19,6 @@
         </Image.RenderTransform>
     </Image>
     <TextBlock x:Name="txtTime" FontFamily="/Fonts/Modulario.TTF#Modulario" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,250,0" TextWrapping="Wrap" Text="0" Height="75" Width="125" FontSize="86" />
-    <TextBlock x:Name="txtPosition" FontStyle="Italic" FontWeight="ExtraBold" FontFamily="/Fonts/Modulario.TTF#Modulario" HorizontalAlignment="Left" Margin="153,56,0,0" TextWrapping="Wrap" Text="1st" VerticalAlignment="Top" Height="100" Width="187" FontSize="76"/>
+    <TextBlock x:Name="txtPosition" FontStyle="Italic" FontWeight="ExtraBold" FontFamily="/Fonts/Modulario.TTF#Modulario" Foreground ="LightBlue" HorizontalAlignment="Left" Margin="153,56,0,0" TextWrapping="Wrap" Text="1st" VerticalAlignment="Top" Height="100" Width="187" FontSize="76"/>
 
 </SwapChainBackgroundPanel>
