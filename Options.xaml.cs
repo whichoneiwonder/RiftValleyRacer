@@ -33,14 +33,22 @@ namespace Project
         }
 
         private void pickRed(object sender, RoutedEventArgs e) 
-        { }
+        {
+            parent.modelToLoad = "HoverBike2";
+        }
 
         private void pickBlue(object sender, RoutedEventArgs e)
-        { }
+        {
+            parent.modelToLoad = "HoverBike1";
+        }
         private void pickGreen(object sender, RoutedEventArgs e)
-        {}
+        {
+            parent.modelToLoad = "HoverBike3";
+        }
         private void pickPurple(object sender, RoutedEventArgs e)
-        {}
+        {
+            parent.modelToLoad = "HoverBike4";
+        }
                     
 
         private void Return(object sender, RoutedEventArgs e)

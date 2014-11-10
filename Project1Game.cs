@@ -100,7 +100,7 @@ namespace Project
             
             // Initialise camera and player in the correct zone.
             camera = new Camera(this);
-            player = new Racer(this, new Vector3(xPos, (float)FractalTools.fractal[zPos, xPos] + 0f, zPos), "HoverBike4");
+            player = new Racer(this, new Vector3(xPos, (float)FractalTools.fractal[zPos, xPos] + 0f, zPos), mainPage.modelToLoad);
             
             // AI Racer objects
             opponent = new Racer(this, new Vector3(xPos+10, (float)FractalTools.fractal[zPos+1, xPos+10] + 0f, zPos+1), "HoverBike4");

@@ -227,15 +227,15 @@
     <None Include="Content\HoverBike1.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Content\HoverBike1.obj">
+    <ToolkitModel Include="Content\HoverBike1.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </ToolkitModel>
     <None Include="Content\HoverBike2.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Content\HoverBike2.obj">
+    <ToolkitModel Include="Content\HoverBike2.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </ToolkitModel>
     <None Include="Content\HoverBike3.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

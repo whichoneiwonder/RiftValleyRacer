@@ -36,7 +36,7 @@ namespace Project
         public Options opt;
         public Pause pause;
         public Finished finish;
-
+        public string modelToLoad = "HoverBike1";
         // Timer variables 
         public int time = 0;
 
@@ -134,6 +134,7 @@ namespace Project
 
         public void StartGame()
         {
+            game.player.loadMod(modelToLoad);
             this.Children.Remove(mainMenu);
             this.Children.Remove(howTo);
             game.started = true;

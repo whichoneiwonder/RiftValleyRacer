@@ -36,7 +36,7 @@ namespace Project
             this.lateral = Vector3.Cross(this.up, this.heading);
             yaw = 0;
 
-            this.model = game.Content.Load<Model>(modelName );
+            this.model = game.Content.Load<Model>(modelName);
             accelerometer = Accelerometer.GetDefault();
             
             view = Matrix.LookAtRH(Project1Game.camera.cameraPosition, Project1Game.camera.cameraLook, Vector3.Up);
@@ -47,14 +47,7 @@ namespace Project
 
         public override void Draw(GameTime gameTime)
         {
-            
-            List<Matrix> bones = new List<Matrix>();
-            int i = 0;
-            while (i < model.Bones.Count)
-            {
-                i++;
-                bones.Add(Matrix.Identity);
-            }
+
             float pitch = -Vector3.Dot(Vector3.Normalize(vel), heading) * Vector3.Normalize(vel).Y;
 
 
@@ -69,7 +62,7 @@ namespace Project
                 Matrix.RotationY(yaw) *
                 Matrix.Translation(position);
 
-            //WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(world));
+
             this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
         }
 
@@ -211,6 +204,14 @@ namespace Project
             accel = new Vector3();
             
         }
+
+        //Loading the model for the player
+        public void loadMod(String modelName)
+        {
+            this.model = game.Content.Load<Model>(modelName);
+
+        }
+
 
     }
 }
