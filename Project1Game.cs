@@ -63,6 +63,7 @@ namespace Project
         public static List<Vector2> opponentPath;
         public static bool gameEnd = false;
         public static int keyBoardInputDirection = 0, accel = 0;
+        public int elapsedTime = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Project1Game" /> class.
@@ -224,6 +225,7 @@ namespace Project
         }
 
         protected override void Update(GameTime gameTime) {
+           
             // Update keyboardState and set direction according to left and right keypresses
             keyboardState = keyboardManager.GetState();
             bool leftKey = (keyboardState.IsKeyDown(Keys.Left)), rightKey = (keyboardState.IsKeyDown(Keys.Right)),
@@ -260,24 +262,23 @@ namespace Project
                     Debug.WriteLine("PLAYER WON");
                     gameEnd = true;
                     racer_won = "player";
-                    mainPage.Children.Add(mainPage.finish);
-                   // mainPage.Children.Add(mainPage.mainMenu);
+                    // Ends the game by showing the finished screen (DEFEAT or VICTORY)
+                    mainPage.EndGame();
                 }
+
                 if (Math.Abs(opponent.position.X - goal.position.X) <= 10f && Math.Abs(opponent.position.Z - goal.position.Z) <= 1f) {
                     Debug.WriteLine("OPPONENT WON");
                     gameEnd = true;
                     racer_won = "opponent";
-                    mainPage.Children.Add(mainPage.finish);
-               
-                    //mainPage.Children.Add(mainPage.mainMenu);
+                    mainPage.EndGame();
                 }
 
                 // Update each of the terrain chunks.
                 foreach (KeyValuePair<Key, GameObject> chunk in terrainGrid) { if (chunk.Value != null) chunk.Value.Update(gameTime); };
             }
+
             // Handle base.Update
             base.Update(gameTime);
-
         }
 
         protected override void Draw(GameTime gameTime)
@@ -301,6 +302,16 @@ namespace Project
             }
             // Handle base.Draw
             base.Draw(gameTime);
+        }
+
+        public void formatTime(float secs)
+        {
+            TimeSpan t = TimeSpan.FromSeconds(secs/10);
+            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                            t.Hours,
+                            t.Minutes,
+                            t.Seconds,
+                            t.Milliseconds);
         }
 
         public GameObject getTerrainChunkUnderPlayer()

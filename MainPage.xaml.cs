@@ -37,6 +37,9 @@ namespace Project
         public Pause pause;
         public Finished finish;
 
+        // Timer variables 
+        public int time = 0;
+
         public MainPage()
         {
             InitializeComponent();
@@ -48,7 +51,6 @@ namespace Project
             pause = new Pause(this);
             finish = new Finished(this);
             this.Children.Add(mainMenu);
-            
         }
 
         private void Forward(object sender, RoutedEventArgs e)
@@ -107,6 +109,17 @@ namespace Project
             catch { };
 
             return angle;
+        }
+
+        public void EndGame()
+        {
+            this.game.Exit();
+            this.Children.Add(this.finish);
+        }
+
+        public void incrementTime(String time)
+        {
+            this.txtTime.Text = time; 
         }
 
         public void first()

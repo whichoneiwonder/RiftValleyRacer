@@ -27,12 +27,20 @@ namespace Project
 
         public Finished(MainPage parent)
         {
-            this.InitializeComponent();
             this.parent = parent;
-            if (parent.game.racer_won == "player")
+          // Need this fixed.
+            //this.txtDuration.Text = "" + this.game.elapsedTime;
+            if (parent.game.racer_won == "opponent")
             {
-
+                this.txtOpponent.Text = "BOO!";
+                this.txtPlayer.Text = "Your mum!";
             }
+            else if (parent.game.racer_won == "player")
+            { 
+                
+            }
+
+            this.InitializeComponent();
         }
 
         private void cmdMenu_Click(object sender, RoutedEventArgs e)
