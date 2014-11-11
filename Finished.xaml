@@ -13,7 +13,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="250,50,0,0" TextWrapping="Wrap" Text="2ND" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
         <TextBlock HorizontalAlignment="Left" Margin="250,0,0,100" TextWrapping="Wrap" Text="1ST" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
         <TextBlock HorizontalAlignment="Right" Margin="0,0,250,250" TextWrapping="Wrap" Text="Duration" VerticalAlignment="Center" Foreground="Brown" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
-        <TextBlock x:Name="txtDuration" HorizontalAlignment="Right" Margin="0,0,150,250" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
+        <TextBlock x:Name="txtDuration" HorizontalAlignment="Right" Margin="0,0,140,250" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
         <TextBlock HorizontalAlignment="Left" Margin="250,250,0,0" TextWrapping="Wrap" Text="Results" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36" Foreground="Brown"/>
 
         <TextBlock x:Name="txtFirst" Foreground="Green" HorizontalAlignment="Center" Margin="50,0,0,100" TextWrapping="Wrap" Text="FIRST" VerticalAlignment="Center" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>

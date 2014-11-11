@@ -179,14 +179,12 @@ namespace Project
                 {
                     accelerometerReading = accelerometer.GetCurrentReading();
                     yaw -= (float)(0.01 * accelerometerReading.AccelerationX);
-                    if (forward) { factor = 1f * thrustPower; } else if (backward) { factor = -1f * thrustPower; }
-                }
-                else
-                {
+                    if (forward) { factor = 1f * thrustPower; }
+                    else if (backward) { factor = -1f * thrustPower; }
+                } else {
                     yaw -= (float)(0.01 * Project1Game.keyBoardInputDirection);
                     factor = Project1Game.accel * thrustPower;
                 }
-
                 this.accel += factor * Vector3.Normalize(heading);
             }
             if (vel.Length() > maxPlayerSpeed) { vel *= maxPlayerSpeed / vel.Length() ; }
@@ -226,12 +224,6 @@ namespace Project
             heading = Vector3.Transform(Vector3.UnitZ, Matrix3x3.RotationY(yaw));
             heading.Y = Vector3.Normalize(vel).Y /2f;
             accel = new Vector3();
-
-            
-      
-
-            
-
         }
 
         //Loading the model for the player

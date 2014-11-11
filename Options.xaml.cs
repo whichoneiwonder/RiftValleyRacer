@@ -66,12 +66,12 @@ namespace Project
 
         private void rdOff_Checked(object sender, RoutedEventArgs e)
         {
-
+            parent.music_switch("off");
         }
 
         private void rdOn_Checked(object sender, RoutedEventArgs e)
         {
-
+            parent.music_switch("on");
         }
        
     }

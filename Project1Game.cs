@@ -79,7 +79,7 @@ namespace Project
             Content.RootDirectory = "Content";
 
             // Generate a new world and serialise it into loadable chunks.
-            FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor, smoothing);
+            // Commented this out: FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor, smoothing);
             this.mainPage = mainPage;
         }
 
@@ -87,7 +87,8 @@ namespace Project
         {
             Window.Title = "Rift Valley Racer";
             isPaused = false;
-
+            FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor, smoothing);
+           
             keyboardManager = new KeyboardManager(this);
 
             // Set player spawn zone to be the landscape centre, maximising exploration.
@@ -148,6 +149,7 @@ namespace Project
 
         protected override void LoadContent()
         {
+            FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor, smoothing);
             // Create an array of terrain chunks for the grid that the player can see.
             // This grid is centered on the player, and loads/unloads new chunks as the player moves.
             RebuildGrid(true);
@@ -258,7 +260,7 @@ namespace Project
                 goal.Update(gameTime);
                 mainPage.Seek();
 
-                if (Math.Abs(player.position.X - goal.position.X) <= 10f && Math.Abs(player.position.Z - goal.position.Z) <= 1f) {
+                if (Math.Abs(player.position.X - goal.position.X) <= 25f && Math.Abs(player.position.Z - goal.position.Z) <= 1f) {
                     Debug.WriteLine("PLAYER WON");
                     gameEnd = true;
                     racer_won = "player";

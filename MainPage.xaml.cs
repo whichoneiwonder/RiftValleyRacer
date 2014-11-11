@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using SharpDX;
 using System;
+using System.Diagnostics;
 
 namespace Project
 {
@@ -53,11 +54,18 @@ namespace Project
             this.Children.Add(mainMenu);
         }
 
-        private void Forward(object sender, RoutedEventArgs e)
+        private void ForwardPress(object sender, RoutedEventArgs e)
         {
-            if (this.game.player.forward) { this.game.player.forward = false; }
-            else { this.game.player.forward = true; }
-            this.game.player.backward = false;
+            this.cmdThrust1.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.cmdThrust2.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.game.player.forward = true;
+        }
+
+        private void ForwardRelease(object sender, RoutedEventArgs e)
+        {
+            this.cmdThrust2.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.cmdThrust1.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.game.player.forward = false;
         }
 
         private void Pause(object sender, RoutedEventArgs e)
@@ -66,13 +74,19 @@ namespace Project
             this.Children.Add(pause);
         }
 
-        private void Backward(object sender, RoutedEventArgs e)
+        private void BackwardPress(object sender, RoutedEventArgs e)
         {
-            if (this.game.player.backward) { this.game.player.backward = false; }
-            else { this.game.player.backward = true; }
-            this.game.player.forward = false;
+            this.cmdReverse1.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.cmdReverse2.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.game.player.backward = true;
         }
 
+        private void BackwardRelease(object sender, RoutedEventArgs e)
+        {
+            this.cmdReverse2.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.cmdReverse1.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.game.player.backward = false;
+        }
 
         public Double Seek()
         {
@@ -83,7 +97,6 @@ namespace Project
             heading.Normalize();
             toGoal.Normalize();
             this.arrow_UP.Visibility = Windows.UI.Xaml.Visibility.Visible;
-
 
             float dotprod = Vector3.Dot(heading, toGoal);
             Double angle = 180 * Math.Acos((double)dotprod) / Math.PI;
@@ -117,7 +130,7 @@ namespace Project
             this.Children.Add(this.finish);
         }
 
-        public void updateSpeed(int speed)
+        public void updateSpeed(float speed)
         {
             this.txtSpeed.Text = ""+ speed + " m/s"; 
         }
@@ -130,6 +143,18 @@ namespace Project
         public void second()
         {
             this.txtPosition.Text = "2ND";
+        }
+
+        public void music_switch(String toggle)
+        { 
+            if (toggle == "off")
+            {
+                this.media.Pause();
+            }
+            else if (toggle == "on")
+            {
+                this.media.Play();
+            }   
         }
 
         public void StartGame()

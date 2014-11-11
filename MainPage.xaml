@@ -8,9 +8,10 @@
     mc:Ignorable="d"    
     d:DesignWidth="1280"
     d:DesignHeight="800">
-    <Button x:Name="cmdThrust" Holding="Forward" BorderBrush="Transparent" HorizontalAlignment="Left" Background="Transparent" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
-    <Button x:Name="cmdReverse" Holding="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
-
+    <Button x:Name="cmdThrust1" Click="ForwardPress" BorderBrush="Transparent" HorizontalAlignment="Left" Background="Transparent" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdThrust2" Visibility="Collapsed" Click="ForwardRelease" BorderBrush="Transparent" HorizontalAlignment="Left" Background="Transparent" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Release"/>
+    <Button x:Name="cmdReverse1" Click="BackwardPress" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdReverse2" Visibility="Collapsed" Click="BackwardRelease" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Release"/>
     <Button x:Name="cmdPause" Content="Pause" HorizontalAlignment="Right" Margin="0,25,25,0" VerticalAlignment="Top" Click="Pause" Width="125"/>
     <MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/Ouroboros.mp3" AutoPlay="True" IsLooping="True"/>
     <Image x:Name="arrow_UP" Visibility ="Visible" Source="Content/arrow_dir2.png" HorizontalAlignment="Center" Height="60" Margin="0,50,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.5,0.5">
@@ -18,7 +19,7 @@
             <RotateTransform x:Name="Arrow_Up_rotation_transform"/>
         </Image.RenderTransform>
     </Image>
-    <TextBlock x:Name="txtSpeed" FontFamily="/Fonts/Modulario.TTF#Modulario" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,207,0" TextWrapping="Wrap" Text="0" Height="106" Width="168" FontSize="50" />
+    <TextBlock x:Name="txtSpeed" FontFamily="/Fonts/Modulario.TTF#Modulario" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,207,0" TextWrapping="Wrap" Text="0" Height="106" Width="200" FontSize="50" />
     <TextBlock x:Name="txtPosition" FontStyle="Italic" FontWeight="ExtraBold" FontFamily="/Fonts/Modulario.TTF#Modulario" Foreground ="LightBlue" HorizontalAlignment="Left" Margin="153,56,0,0" TextWrapping="Wrap" Text="1st" VerticalAlignment="Top" Height="100" Width="187" FontSize="76"/>
 
 </SwapChainBackgroundPanel>
