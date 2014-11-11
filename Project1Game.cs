@@ -63,7 +63,7 @@ namespace Project
         public static List<Vector2> opponentPath;
         public static bool gameEnd = false;
         public static int keyBoardInputDirection = 0, accel = 0;
-        public int elapsedTime = 0;
+        public double elapsedTime = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Project1Game" /> class.
@@ -262,7 +262,7 @@ namespace Project
                     Debug.WriteLine("PLAYER WON");
                     gameEnd = true;
                     racer_won = "player";
-                    elapsedTime = this.gameTime.TotalGameTime.Seconds;
+                    elapsedTime = Math.Round(this.gameTime.TotalGameTime.TotalSeconds);
                     mainPage.finish.FinishUpdate(racer_won);
                     // Ends the game by showing the finished screen (DEFEAT or VICTORY)
                     mainPage.EndGame();
@@ -272,7 +272,7 @@ namespace Project
                     Debug.WriteLine("OPPONENT WON");
                     gameEnd = true;
                     racer_won = "opponent";
-                    elapsedTime = this.gameTime.TotalGameTime.Seconds;
+                    elapsedTime = Math.Round(this.gameTime.TotalGameTime.TotalSeconds);
                     mainPage.finish.FinishUpdate(racer_won);
                     mainPage.EndGame();
                 }

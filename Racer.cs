@@ -24,6 +24,7 @@ namespace Project
         public AccelerometerReading accelerometerReading;
         private float yaw;
         public float goalDistance;
+        private int count = 0;
 
         public Racer(Project1Game game, Vector3 pos, String modelName)
         {
@@ -204,11 +205,24 @@ namespace Project
             heading.Y = Vector3.Normalize(vel).Y /2f;
             accel = new Vector3();
 
-            Vector3 posDiff = position - prevPosition;
-            float posDiffLength = posDiff.Length();
-            float speed = posDiffLength / gameTime.ElapsedGameTime.Seconds;
+            //Providing an indication for the player on what speed they are travelling at
+            //Speed updated every 20th update call for the player class
+            if (count == 20)
+            {
+                Vector3 posDiff = position - prevPosition;
+                posDiff.Y = 0.0f;
+                float posDiffLength = posDiff.Length();
+                float speed = (float)(posDiffLength / gameTime.ElapsedGameTime.TotalSeconds);
+                game.mainPage.updateSpeed(speed);
+                count = 0;
+            }
+            else
+            {
+                count++;
+            }
+
             prevPosition = position;
-            game.mainPage.updateSpeed(speed);
+
         }
 
         //Loading the model for the player

@@ -119,7 +119,7 @@ namespace Project
 
         public void updateSpeed(float speed)
         {
-            this.txtSpeed.Text = ""+speed; 
+            this.txtSpeed.Text = ""+ speed + " m/s"; 
         }
 
         public void first()
