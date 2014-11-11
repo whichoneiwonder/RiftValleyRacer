@@ -262,7 +262,7 @@ namespace Project
                     Debug.WriteLine("PLAYER WON");
                     gameEnd = true;
                     racer_won = "player";
-                    elapsedTime = this.gameTime.ElapsedGameTime.Seconds;
+                    elapsedTime = this.gameTime.TotalGameTime.Seconds;
                     mainPage.finish.FinishUpdate(racer_won);
                     // Ends the game by showing the finished screen (DEFEAT or VICTORY)
                     mainPage.EndGame();
@@ -272,7 +272,7 @@ namespace Project
                     Debug.WriteLine("OPPONENT WON");
                     gameEnd = true;
                     racer_won = "opponent";
-                    elapsedTime = this.gameTime.ElapsedGameTime.Seconds;
+                    elapsedTime = this.gameTime.TotalGameTime.Seconds;
                     mainPage.finish.FinishUpdate(racer_won);
                     mainPage.EndGame();
                 }

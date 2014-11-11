@@ -64,7 +64,7 @@ namespace Project
                 this.txtSecond.Text = "OPPONENT";
             }
 
-            this.txtDuration.Text = "" + this.parent.game.elapsedTime.ToString();
+            this.txtDuration.Text = "" + this.parent.game.elapsedTime.ToString()+" s";
         }
     }
 }

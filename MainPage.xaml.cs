@@ -117,9 +117,9 @@ namespace Project
             this.Children.Add(this.finish);
         }
 
-        public void incrementTime(String time)
+        public void updateSpeed(float speed)
         {
-            this.txtTime.Text = time; 
+            this.txtSpeed.Text = ""+speed; 
         }
 
         public void first()

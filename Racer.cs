@@ -13,7 +13,7 @@ namespace Project
 {
     public class Racer : GameObject
     {
-        public Vector3 position;
+        public Vector3 position, prevPosition;
         public Model model;
         public Matrix world, view, projection;
         public Vector3 heading, lateral, up;
@@ -28,6 +28,7 @@ namespace Project
         public Racer(Project1Game game, Vector3 pos, String modelName)
         {
             this.position = pos;
+            this.prevPosition = pos;
             this.game = game;
             this.accel = new Vector3();
             this.vel = new Vector3();
@@ -202,7 +203,12 @@ namespace Project
             heading = Vector3.Transform(Vector3.UnitZ, Matrix3x3.RotationY(yaw));
             heading.Y = Vector3.Normalize(vel).Y /2f;
             accel = new Vector3();
-            
+
+            Vector3 posDiff = position - prevPosition;
+            float posDiffLength = posDiff.Length();
+            float speed = posDiffLength / gameTime.ElapsedGameTime.Seconds;
+            prevPosition = position;
+            game.mainPage.updateSpeed(speed);
         }
 
         //Loading the model for the player
