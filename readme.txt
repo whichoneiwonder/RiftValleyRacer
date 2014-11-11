@@ -4,18 +4,11 @@ RIFT VALLEY RACER
 Authors
 -------
 
+Adhy Karina
+James McMahon
+Aston Howindt
 Steven Spratley
 Viet Nguyen
-Aston Howindt
-James McMahon
-Adhy Karina
-
-
-
-File List
----------
-
-
 
 Basic Overview
 --------------
@@ -41,7 +34,7 @@ depending on where the player is. For example, the player may only be surrounded
 there are many more than that for the entire terrain.
 
 This was done so that the player would have a large area to explore and race through, while also maintaining a reasonable  
-frame rate. The fog effect, discussed later, allowed the terrain chunks to be loaded seamlessly without any visual cue that  
+frame rate. The fog effect, discussed later, allowed the terrain chunks to be loaded seamlessly with little visual cue that  
 the loading was taking place.
 
 
@@ -55,11 +48,10 @@ touch and accelerometers was use:
 	- Accelerometer readings were used for the steering to turn left or right.
 
 For the desktop, the traditional use of keyboard and mouse input was used:
-	- 'W' or 'Up' to move forward
-	- 'S' or 'Down' to move backwards
-	- 'A' or 'Left' to strafe leftwards
-	- 'D' or 'right' to strafe rightwards
-	- Mouse for steering and the change the orientation of the player
+	- 'Up' to move forward
+	- 'Down' to move backwards
+	- 'Left' to turn left
+	- 'Right' to turn right
 
 
 Menu
@@ -75,7 +67,7 @@ The options page allows players to choose their difficulty, which changes the pe
 HoverBike they wish to use, and whether they wish to have the background music playing.
 
 When the game is started, there is also a button which can be pressed that will bring up the pause page, allowing players  
-to exit. Unfortunately, the options are not able to be changed from this page as of yet.
+to exit. Unfortunately, the options are not able to be changed from this page.
 
 Models
 ------
@@ -96,10 +88,6 @@ documentation, as well as time pressures, normally model rendering was used for 
 In addition the custom Gouraud shader, the fog effect was implemented in this effect file (TerrainShader.fx). This  
 meant that the terrain, at a specified distance away from the camera, would fade into the background colour, obscuring the  
 loading of terrain chunks mentioned above.
-
-Finally, the colour of the background changes with time to simulate the passage of night and day. This provides the effect  
-of significant time passing within the game, enhancing the perception that long distances are being travelled to reach the  
-goal.
 
 
 Artificial Intelligence
@@ -122,7 +110,11 @@ Physics
 -------
 Uses surface normals to alter an acceleration constant, and uses simple motion equations to work out position and velocity.
 
+The surface normals create a 'bounce' for the racer, so the bounce of the surace instead of flying just above it constantly.
+This provides the oportunity to have large jumps, where significant amounts for terrain can be traveresed, while also making 
+if difficult to go up steep hills.
 
+The basic physics equations included the use of a reduced gravity to simulate the big jumps and reduce the bounce when falling down.
 
 
 Thanks
