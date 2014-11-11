@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\splash_screen2.png" />
-    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\StoreLogo50.png" />
     <Content Include="Assets\StoreLogo150.scale-100.png" />
     <Content Include="Assets\StoreLogo30.png" />
     <Content Include="Content\arrow_dir.png" />

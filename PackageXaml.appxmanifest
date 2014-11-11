@@ -4,7 +4,7 @@
   <Properties>
     <DisplayName>RiftValleyRacer.WinRTXaml</DisplayName>
     <PublisherDisplayName>COMP30019 Project 2 2014</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\StoreLogo50.png</Logo>
   </Properties>
   <Prerequisites>
     <OSMinVersion>6.2.1</OSMinVersion>
