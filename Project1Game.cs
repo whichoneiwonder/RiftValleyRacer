@@ -85,6 +85,7 @@ namespace Project
 
         protected override void Initialize()
         {
+            
             Window.Title = "Rift Valley Racer";
             isPaused = false;
             FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor, smoothing);
@@ -143,13 +144,12 @@ namespace Project
             // Print out all points in the opponent path for debugging
             foreach (Vector2 point in opponentPath) { Debug.WriteLine(point); }
             */
-
+            Debug.WriteLine(opponent.opponentStepSize);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor, smoothing);
             // Create an array of terrain chunks for the grid that the player can see.
             // This grid is centered on the player, and loads/unloads new chunks as the player moves.
             RebuildGrid(true);
@@ -227,7 +227,7 @@ namespace Project
         }
 
         protected override void Update(GameTime gameTime) {
-           
+            
             // Update keyboardState and set direction according to left and right keypresses
             keyboardState = keyboardManager.GetState();
             bool leftKey = (keyboardState.IsKeyDown(Keys.Left)), rightKey = (keyboardState.IsKeyDown(Keys.Right)),

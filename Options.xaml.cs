@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -35,21 +36,57 @@ namespace Project
         private void pickRed(object sender, RoutedEventArgs e) 
         {
             parent.modelToLoad = "HoverBike2";
+            this.cmdPurple.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cmdRed.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.cmdGreen.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cmdBlue.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+            this.lblPurple.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.lblRed.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.lblGreen.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.lblBlue.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         private void pickBlue(object sender, RoutedEventArgs e)
         {
             parent.modelToLoad = "HoverBike1";
+            this.cmdPurple.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cmdRed.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cmdGreen.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cmdBlue.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+            this.lblPurple.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.lblRed.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.lblGreen.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.lblBlue.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
 
         private void pickGreen(object sender, RoutedEventArgs e)
         {
             parent.modelToLoad = "HoverBike3";
+            this.cmdPurple.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cmdRed.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cmdGreen.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.cmdBlue.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+            this.lblPurple.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.lblRed.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.lblGreen.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.lblBlue.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         private void pickPurple(object sender, RoutedEventArgs e)
         {
             parent.modelToLoad = "HoverBike4";
+            this.cmdPurple.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.cmdRed.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cmdGreen.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cmdBlue.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            
+            this.lblPurple.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.lblRed.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.lblGreen.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.lblBlue.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
                     
 
@@ -61,7 +98,7 @@ namespace Project
 
         private void changeSize(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            parent.game.tSizeFactor = (int)e.NewValue; 
+            parent.game.tSizeFactor = (int)e.NewValue;
         }
 
         private void rdOff_Checked(object sender, RoutedEventArgs e)
@@ -72,6 +109,21 @@ namespace Project
         private void rdOn_Checked(object sender, RoutedEventArgs e)
         {
             parent.music_switch("on");
+        }
+
+        private void cmdEasy_Click(object sender, RoutedEventArgs e)
+        {
+            parent.game.opponent.opponentStepSize = 0.1f;
+        }
+
+        private void cmdNormal_Click(object sender, RoutedEventArgs e)
+        {
+            parent.game.opponent.opponentStepSize = 0.175f;
+        }
+
+        private void cmdHard_Click(object sender, RoutedEventArgs e)
+        {
+            parent.game.opponent.opponentStepSize = 0.25f;
         }
        
     }
