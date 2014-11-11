@@ -117,7 +117,7 @@ namespace Project
             this.Children.Add(this.finish);
         }
 
-        public void updateSpeed(float speed)
+        public void updateSpeed(int speed)
         {
             this.txtSpeed.Text = ""+ speed + " m/s"; 
         }

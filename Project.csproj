@@ -83,6 +83,7 @@
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\splash_screen.png" />
+    <Content Include="Assets\splash_screen2.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\StoreLogo150.png" />
     <Content Include="Assets\StoreLogo30.png" />

@@ -25,6 +25,7 @@ namespace Project
         private float yaw;
         public float goalDistance;
         private int count = 0;
+        private double prevTime = 0.0;
 
         public Racer(Project1Game game, Vector3 pos, String modelName)
         {
@@ -198,6 +199,27 @@ namespace Project
                 position.Z = FractalTools.N - FractalTools.chunkN;
             }
 
+            //Providing an indication for the player on what speed they are travelling at
+            //Speed updated every 20th update call for the player class
+            if (count == 20)
+            {
+                Vector3 posDiff = (position - prevPosition);
+                double deltaT = gameTime.TotalGameTime.TotalSeconds - prevTime;
+                posDiff.Y = 0.0f;
+                Vector3 speed = posDiff / (float)deltaT;
+
+                //float posDiffLength = posDiff.Length();
+                //int speed = (int)(posDiffLength / deltaT);
+                game.mainPage.updateSpeed((int)speed.Length());
+                count = 0;
+                prevPosition = position;
+                prevTime = gameTime.TotalGameTime.TotalSeconds;
+            }
+            else
+            {
+                count++;
+            }
+            
             position = (position + vel * delta + 0.5f * accel * delta * delta);
             vel += accel * delta;
 
@@ -205,23 +227,10 @@ namespace Project
             heading.Y = Vector3.Normalize(vel).Y /2f;
             accel = new Vector3();
 
-            //Providing an indication for the player on what speed they are travelling at
-            //Speed updated every 20th update call for the player class
-            if (count == 20)
-            {
-                Vector3 posDiff = position - prevPosition;
-                posDiff.Y = 0.0f;
-                float posDiffLength = posDiff.Length();
-                float speed = (float)(posDiffLength / gameTime.ElapsedGameTime.TotalSeconds);
-                game.mainPage.updateSpeed(speed);
-                count = 0;
-            }
-            else
-            {
-                count++;
-            }
+            
+      
 
-            prevPosition = position;
+            
 
         }
 
