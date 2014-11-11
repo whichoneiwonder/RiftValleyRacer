@@ -8,9 +8,8 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="cmdMenu" Content="Main Menu" FontSize="22" Width="180" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="589,336,597,392" VerticalAlignment="Center" Click="cmdMenu_Click" />
-        <Button x:Name="cmdReturn" Content="Return" FontSize="22" Width="180" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="589,478,597,250" VerticalAlignment="Center" Click="cmdReturn_Click"/>
-        <Button x:Name="cmdExit" Content="Exit" FontSize="22" Width="180" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="589,626,597,102" VerticalAlignment="Center" Click="cmdExit_Click"/>
+        <Button x:Name="cmdReturn" Content="Return" FontSize="22" Width="180" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="589,330,597,392" VerticalAlignment="Center" Click="cmdReturn_Click"/>
+        <Button x:Name="cmdExit" Content="Exit" FontSize="22" Width="180" FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" Margin="589,426,597,102" VerticalAlignment="Center" Click="cmdExit_Click"/>
 
 
         <TextBlock FontFamily="/Fonts/Modulario.ttf#Modulario" HorizontalAlignment="Center" FontSize="76" Margin="556,172,558,0" TextWrapping="Wrap" Text="PAUSE" VerticalAlignment="Top"/>
