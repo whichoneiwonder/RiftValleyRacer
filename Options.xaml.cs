@@ -41,10 +41,12 @@ namespace Project
         {
             parent.modelToLoad = "HoverBike1";
         }
+
         private void pickGreen(object sender, RoutedEventArgs e)
         {
             parent.modelToLoad = "HoverBike3";
         }
+
         private void pickPurple(object sender, RoutedEventArgs e)
         {
             parent.modelToLoad = "HoverBike4";

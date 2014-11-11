@@ -8,8 +8,8 @@
     mc:Ignorable="d"    
     d:DesignWidth="1280"
     d:DesignHeight="800">
-    <Button x:Name="cmdThrust" Click="Forward" BorderBrush="Transparent" HorizontalAlignment="Left" Background="Transparent" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
-    <Button x:Name="cmdReverse" Click="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdThrust" Holding="Forward" BorderBrush="Transparent" HorizontalAlignment="Left" Background="Transparent" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
+    <Button x:Name="cmdReverse" Holding="Backward" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center" Height="500" Width="200" RenderTransformOrigin="0.506,0.51" ClickMode="Press"/>
 
     <Button x:Name="cmdPause" Content="Pause" HorizontalAlignment="Right" Margin="0,25,25,0" VerticalAlignment="Top" Click="Pause" Width="125"/>
     <MediaElement x:Name="media" AudioCategory="BackgroundCapableMedia" Source="Sound/Ouroboros.mp3" AutoPlay="True" IsLooping="True"/>
