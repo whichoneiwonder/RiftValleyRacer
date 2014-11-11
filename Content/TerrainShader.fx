@@ -74,7 +74,7 @@ PS_IN VS( VS_IN input )
 	float3 dif = fAtt*lightPntCol.rgb*Kd*input.col.rgb*LdotN;
 
 	// Calculate specular reflections
-	float Ks = 1;
+	float Ks = 0.5;
 	float specN = 20; // Values>>1 give tighter highlights
 	float3 V = normalize(cameraPos.xyz - worldVertex.xyz);
 	//float3 R = normalize(2*LdotN*worldNormal.xyz - L.xyz);

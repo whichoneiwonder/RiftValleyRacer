@@ -165,6 +165,7 @@ namespace Project {
             } else {
                 vertex.Color = Color.SmoothStep(Color.SaddleBrown, Color.Green, (float)(-position.Y/(FractalTools.initialRange/2)));
             }
+         
         }
         /// <summary>
         /// used for checking collisions with the terrain

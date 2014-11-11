@@ -113,17 +113,17 @@ namespace Project
 
         private void cmdEasy_Click(object sender, RoutedEventArgs e)
         {
-            parent.game.opponent.opponentStepSize = 0.1f;
+            parent.game.opponent_difficulty = 5;
         }
 
         private void cmdNormal_Click(object sender, RoutedEventArgs e)
         {
-            parent.game.opponent.opponentStepSize = 0.175f;
+            parent.game.opponent_difficulty = 10;
         }
 
         private void cmdHard_Click(object sender, RoutedEventArgs e)
         {
-            parent.game.opponent.opponentStepSize = 0.25f;
+            parent.game.opponent_difficulty = 15;
         }
        
     }

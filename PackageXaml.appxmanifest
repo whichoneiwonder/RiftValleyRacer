@@ -21,7 +21,7 @@
             <m2:ShowOn Tile="square150x150Logo" />
           </m2:ShowNameOnTiles>
         </m2:DefaultTile>
-        <m2:SplashScreen Image="Assets\splash_screen.png" />
+        <m2:SplashScreen Image="Assets\splash_screen2.png" />
       </m2:VisualElements>
       <Extensions>
         <Extension Category="windows.backgroundTasks" EntryPoint="RiftValleyRacer.App">

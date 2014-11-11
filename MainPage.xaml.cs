@@ -54,17 +54,23 @@ namespace Project
             this.Children.Add(mainMenu);
         }
 
+        public Boolean isForward()
+        {
+            return cmdThrust1.IsPressed;
+        }
+        public Boolean isBackward()
+        {
+            return cmdReverse1.IsPressed;
+        }
         private void ForwardPress(object sender, RoutedEventArgs e)
         {
-            this.cmdThrust1.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            this.cmdThrust2.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
             this.game.player.forward = true;
         }
 
         private void ForwardRelease(object sender, RoutedEventArgs e)
         {
-            this.cmdThrust2.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            this.cmdThrust1.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
             this.game.player.forward = false;
         }
 
@@ -76,15 +82,13 @@ namespace Project
 
         private void BackwardPress(object sender, RoutedEventArgs e)
         {
-            this.cmdReverse1.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            this.cmdReverse2.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
             this.game.player.backward = true;
         }
 
         private void BackwardRelease(object sender, RoutedEventArgs e)
         {
-            this.cmdReverse2.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            this.cmdReverse1.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
             this.game.player.backward = false;
         }
 

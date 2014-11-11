@@ -79,10 +79,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Logo.png" />
-    <Content Include="Assets\SmallLogo.png" />
-    <Content Include="Assets\SplashScreen.png" />
-    <Content Include="Assets\splash_screen.png" />
     <Content Include="Assets\splash_screen2.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\StoreLogo150.png" />
@@ -99,9 +95,6 @@
     <Content Include="Sound\riftvalleyracer.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <ToolkitFxc Include="Content\TerrainShader.fx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </ToolkitFxc>
     <Content Include="Images\tablet.png" />
     <ToolkitFxc Include="Content\Gouraud.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -115,6 +108,7 @@
     <Content Include="Content\player.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <ToolkitFxc Include="Content\TerrainShader.fx" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

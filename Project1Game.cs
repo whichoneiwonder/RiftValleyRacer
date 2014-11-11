@@ -45,8 +45,7 @@ namespace Project
         const float tRangeFactor = 1.2f,     // Sets overall landscape height.  Set between 0.1 and 2. Default = 1.
                     smoothing = 2.17f;       // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
 
-        private KeyboardState keyboardState;
-        private KeyboardManager keyboardManager;
+        
         private GraphicsDeviceManager graphicsDeviceManager;
         private int chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
         private int[] lastPlayerZone = { 1, 1 };
@@ -64,6 +63,7 @@ namespace Project
         public static bool gameEnd = false;
         public static int keyBoardInputDirection = 0, accel = 0;
         public double elapsedTime = 0;
+        public int opponent_difficulty = 10;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Project1Game" /> class.
@@ -90,7 +90,7 @@ namespace Project
             isPaused = false;
             FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor, smoothing);
            
-            keyboardManager = new KeyboardManager(this);
+            
 
             // Set player spawn zone to be the landscape centre, maximising exploration.
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor - cSizeFactor) / 2;
@@ -140,11 +140,7 @@ namespace Project
             // Set the final point for the opponent to reach as the goal itself
             opponentPath.Add(goalStart);
 
-            /*
-            // Print out all points in the opponent path for debugging
-            foreach (Vector2 point in opponentPath) { Debug.WriteLine(point); }
-            */
-            Debug.WriteLine(opponent.opponentStepSize);
+             
             base.Initialize();
         }
 
@@ -227,14 +223,7 @@ namespace Project
         }
 
         protected override void Update(GameTime gameTime) {
-            
-            // Update keyboardState and set direction according to left and right keypresses
-            keyboardState = keyboardManager.GetState();
-            bool leftKey = (keyboardState.IsKeyDown(Keys.Left)), rightKey = (keyboardState.IsKeyDown(Keys.Right)),
-                 upKey   = (keyboardState.IsKeyDown(Keys.Up)),   downKey  = (keyboardState.IsKeyDown(Keys.Down));
-            if (leftKey && rightKey || !leftKey && !rightKey) { keyBoardInputDirection = 0; } else if (leftKey) { keyBoardInputDirection = -1; } else if (rightKey) { keyBoardInputDirection = 1; }
-            if (upKey && downKey || !upKey && !downKey) { accel = 0; } else if (upKey) { accel = 1; } else if (downKey) { accel = -1; }
-
+           
             if (started && isPaused == false) {
                 // Check where the player is, and replace chunks accordingly. Only replace chunks if player has changed zone.
                 if ((playerZone()[0] != lastPlayerZone[0]) || (playerZone()[1] != lastPlayerZone[1])) {

@@ -7,18 +7,22 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+ 
 using Windows.Devices.Sensors;
+using SharpDX.Toolkit.Input;
 
 namespace Project
 {
     public class Racer : GameObject
     {
+        public KeyboardManager keyManager;
+        public KeyboardState keyState;
         public Vector3 position, prevPosition;
         public Model model;
         public Matrix world, view, projection;
         public Vector3 heading, lateral, up;
         public Vector3 accel, vel, prevVel;
-        public float gravity = 15f, thrustPower = 7f, opponentStepSize = 0.25f, maxPlayerSpeed = 20f;
+        public float gravity = 15f, thrustPower = 7f,  maxPlayerSpeed = 20f;
         public bool forward = false, backward = false, opponent = false;
         public Accelerometer accelerometer;
         public AccelerometerReading accelerometerReading;
@@ -38,7 +42,7 @@ namespace Project
             this.up = Vector3.UnitY;
             this.lateral = Vector3.Cross(this.up, this.heading);
             yaw = 0;
-
+            
             this.model = game.Content.Load<Model>(modelName);
             accelerometer = Accelerometer.GetDefault();
             
@@ -98,7 +102,7 @@ namespace Project
                 }
 
                 
-                accel = (thrustPower+10) * Vector3.Normalize(currentGoalPosition - position);
+                accel = (thrustPower+ game.opponent_difficulty) * Vector3.Normalize(currentGoalPosition - position);
                 Vector3 tempVel = vel;
                 tempVel.Y = 0;
                 tempVel.Normalize();
@@ -112,7 +116,7 @@ namespace Project
                 
             }
 
-            // If this is the player racer, update the object with the following block
+            //   update the object with the following block
             BoundingSphere instanceBound = new BoundingSphere(position, 1.3f);
             Vector3 normalForce = new Vector3();
             Vector3[] pointsToBound = ((Terrain)game.getTerrainChunkUnderPlayer()).getTerrainUnderPoint(position);
@@ -173,18 +177,27 @@ namespace Project
             if (!this.opponent)
             {
                 float factor = 0;
+                if (keyManager == null) { keyManager = new KeyboardManager(game); }
+                
+                keyState = keyManager.GetState();
+                int keyBoardInputDirection =0;
+                if (keyState.IsKeyDown(Keys.Left)){keyBoardInputDirection -=1;}
+                if (keyState.IsKeyDown(Keys.Right)){keyBoardInputDirection +=1;}
 
                 // If there is an accelerometer present, utilise it as a controller
                 if (accelerometer != null)
                 {
                     accelerometerReading = accelerometer.GetCurrentReading();
                     yaw -= (float)(0.01 * accelerometerReading.AccelerationX);
-                    if (forward) { factor = 1f * thrustPower; }
-                    else if (backward) { factor = -1f * thrustPower; }
                 } else {
-                    yaw -= (float)(0.01 * Project1Game.keyBoardInputDirection);
-                    factor = Project1Game.accel * thrustPower;
+
+                    if (keyState.IsKeyDown(Keys.Up)) { factor = 1f * thrustPower; }
+                    else if (keyState.IsKeyDown(Keys.Down)) { factor = -1f * thrustPower; }
+                    yaw -= (float)(0.01 * keyBoardInputDirection);
+                    
                 }
+                    if (forward ) { factor = 1f * thrustPower; }
+                    else if (backward ) { factor = -1f * thrustPower; }
                 this.accel += factor * Vector3.Normalize(heading);
             }
             if (vel.Length() > maxPlayerSpeed) { vel *= maxPlayerSpeed / vel.Length() ; }

@@ -68,7 +68,7 @@ namespace Project
             // Update matrices
             View = Matrix.LookAtRH(cameraPosition, cameraLook, Vector3.UnitY);
             Projection = Matrix.PerspectiveFovRH((float)Math.PI / 
-                (2f - (game.player.vel.Length() + game.player.prevVel.Length()) / ( 2.5f*game.player.maxPlayerSpeed)),
+                (2f - (game.player.vel.Length() + game.player.prevVel.Length()) / ( 2.8f*game.player.maxPlayerSpeed)),
                 (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 1000.0f);
 
         }
