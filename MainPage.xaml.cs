@@ -58,19 +58,19 @@ namespace Project
         {
             return cmdThrust1.IsPressed;
         }
+
         public Boolean isBackward()
         {
             return cmdReverse1.IsPressed;
         }
+
         private void ForwardPress(object sender, RoutedEventArgs e)
         {
-
             this.game.player.forward = true;
         }
 
         private void ForwardRelease(object sender, RoutedEventArgs e)
         {
-
             this.game.player.forward = false;
         }
 
@@ -82,13 +82,11 @@ namespace Project
 
         private void BackwardPress(object sender, RoutedEventArgs e)
         {
-
             this.game.player.backward = true;
         }
 
         private void BackwardRelease(object sender, RoutedEventArgs e)
         {
-
             this.game.player.backward = false;
         }
 

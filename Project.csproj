@@ -81,7 +81,7 @@
   <ItemGroup>
     <Content Include="Assets\splash_screen2.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\StoreLogo150.png" />
+    <Content Include="Assets\StoreLogo150.scale-100.png" />
     <Content Include="Assets\StoreLogo30.png" />
     <Content Include="Content\arrow_dir.png" />
     <Content Include="Content\arrow_dir2.png" />

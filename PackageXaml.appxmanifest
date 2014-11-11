@@ -2,8 +2,8 @@
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
   <Identity Name="BF719CB4-F851-4D0C-92F7-A997B8B0C7C3" Publisher="CN=Home" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>MiniCube.WinRTXaml</DisplayName>
-    <PublisherDisplayName>Home</PublisherDisplayName>
+    <DisplayName>RiftValleyRacer.WinRTXaml</DisplayName>
+    <PublisherDisplayName>COMP30019 Project 2 2014</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="RiftValleyRacer.App">
-      <m2:VisualElements DisplayName="RiftValleyRacer.WinRTXaml" Description="RiftValleyRacer.WinRTXaml" BackgroundColor="#464646" ForegroundText="light" Square150x150Logo="Assets\StoreLogo150.png" Square30x30Logo="Assets\StoreLogo30.png">
+      <m2:VisualElements DisplayName="Rift Valley Racer" Description="Tilt the tablet to steer your racer to maneuver around the beautifully generated terrain. The aim of the game is to reach the goal before the opponent does! Hope you enjoy the game! Features include turning music on and off, change the speed of opponent racer and change the colour of your racer!" BackgroundColor="#464646" ForegroundText="light" Square150x150Logo="Assets\StoreLogo150.png" Square30x30Logo="Assets\StoreLogo30.png">
         <m2:DefaultTile>
           <m2:ShowNameOnTiles>
             <m2:ShowOn Tile="square150x150Logo" />
