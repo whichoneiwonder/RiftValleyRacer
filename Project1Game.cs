@@ -38,16 +38,14 @@ namespace Project
 
     public class Project1Game : Game
     {
-        // BEWARE: THE NUMBER OF BINARY FILES SERIALISED TO DISK = 4 TO THE POWER OF tSizeFactor-cSizeFactor. BE CAREFUL! Default difference = 5.
-        public int  tSizeFactor = 11;        // Sets terrain size. Set between 7 and 13.               Default = 11.
-        const int   cSizeFactor = 6,         // Sets chunk size.   Set between 4 and 8.                Default = 6.
-                    loadGridSize = 5;        // Sets width of loaded chunk grid. MUST BE ODD.          Default = 3. 
-        const float tRangeFactor = 1.2f,     // Sets overall landscape height.  Set between 0.1 and 2. Default = 1.
-                    smoothing = 2.17f;       // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
+        public int    tSizeFactor = 11,        // Sets terrain size. Set between 7 and 13.               Default = 11.
+                      cSizeFactor = 6,         // Sets chunk size.   Set between 4 and 8.                Default = 6.
+                      loadGridSize = 5;        // Sets width of loaded chunk grid. MUST BE ODD.          Default = 3. 
+        public float  tRangeFactor = 1.2f,     // Sets overall landscape height.  Set between 0.1 and 2. Default = 1.
+                      smoothing = 2.17f;       // Sets how much land is smoothed. Set between 1.5 and 3. Default = 2.1.
 
-        
         private GraphicsDeviceManager graphicsDeviceManager;
-        private int chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
+        private int chunkWidth;
         private int[] lastPlayerZone = { 1, 1 };
         private Dictionary<Key, GameObject> terrainGrid = new Dictionary<Key, GameObject>();
         private Terrain currentTerrainChunk;
@@ -70,7 +68,6 @@ namespace Project
         /// </summary>
         public Project1Game(MainPage mainPage)
         {
-
             // Creates a graphics manager. This is mandatory.
             graphicsDeviceManager = new GraphicsDeviceManager(this);
 
@@ -85,12 +82,21 @@ namespace Project
 
         protected override void Initialize()
         {
-            
             Window.Title = "Rift Valley Racer";
             isPaused = false;
+
+            chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
+
+            // Initialise camera and player.
+            camera = new Camera(this);
+            player = new Racer(this, Vector3.One, mainPage.modelToLoad);
+             
+            base.Initialize();
+        }
+
+        public void SetupTerrain(){
             FractalTools.GenerateTerrainChunks(tSizeFactor, tRangeFactor, cSizeFactor, smoothing);
-           
-            
+            chunkWidth = (int)Math.Pow(2, cSizeFactor) + 1;
 
             // Set player spawn zone to be the landscape centre, maximising exploration.
             lastPlayerZone[0] = lastPlayerZone[1] = (int)Math.Pow(2, tSizeFactor - cSizeFactor) / 2;
@@ -100,9 +106,8 @@ namespace Project
             // Sets the downsize increment for the fractal array.
             int scale = (int)Math.Pow(2, tSizeFactor / 2);       
             
-            // Initialise camera and player in the correct zone.
-            camera = new Camera(this);
-            player = new Racer(this, new Vector3(xPos, (float)FractalTools.fractal[zPos, xPos] + 0f, zPos), mainPage.modelToLoad);
+            // Place player in the correct zone.
+            player.position = new Vector3(xPos, (float)FractalTools.fractal[zPos, xPos] + 0f, zPos);
             
             // AI Racer objects
             opponent = new Racer(this, new Vector3(xPos+10, (float)FractalTools.fractal[zPos+1, xPos+10] + 0f, zPos+1), "HoverBike4");
@@ -140,8 +145,8 @@ namespace Project
             // Set the final point for the opponent to reach as the goal itself
             opponentPath.Add(goalStart);
 
-             
-            base.Initialize();
+            // Setup the terrain load grid
+            RebuildGrid(true);
         }
 
         protected override void LoadContent()

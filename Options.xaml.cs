@@ -101,6 +101,16 @@ namespace Project
             parent.game.tSizeFactor = (int)e.NewValue;
         }
 
+        private void changeRange(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e) 
+        {
+            parent.game.tRangeFactor = (float)e.NewValue;
+        }
+
+        private void changeSmooth(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e) 
+        {
+            parent.game.smoothing = (float)e.NewValue;
+        }
+
         private void rdOff_Checked(object sender, RoutedEventArgs e)
         {
             parent.music_switch("off");

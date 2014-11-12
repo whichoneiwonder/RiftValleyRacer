@@ -161,6 +161,7 @@ namespace Project
 
         public void StartGame()
         {
+            game.SetupTerrain();
             game.player.loadMod(modelToLoad);
             this.Children.Remove(mainMenu);
             this.Children.Remove(howTo);

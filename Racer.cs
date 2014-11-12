@@ -22,7 +22,7 @@ namespace Project
         public Matrix world, view, projection;
         public Vector3 heading, lateral, up;
         public Vector3 accel, vel, prevVel;
-        public float gravity = 15f, thrustPower = 7f,  maxPlayerSpeed = 20f;
+        public float gravity = 15f, thrustPower = 7f,  maxPlayerSpeed = 25f;
         public bool forward = false, backward = false, opponent = false;
         public Accelerometer accelerometer;
         public AccelerometerReading accelerometerReading;
@@ -57,8 +57,6 @@ namespace Project
 
             float pitch = -Vector3.Dot(Vector3.Normalize(vel), heading) * Vector3.Normalize(vel).Y;
 
-
-
             view =Project1Game.camera.View;
             projection = Project1Game.camera.Projection;
 
@@ -68,7 +66,6 @@ namespace Project
                 Matrix.RotationX(pitch)*
                 Matrix.RotationY(yaw) *
                 Matrix.Translation(position);
-
 
             this.model.Draw(game.GraphicsDevice, this.world, this.view, this.projection);
         }
@@ -143,10 +140,8 @@ namespace Project
 
                 else if (instanceBound.Contains(ref pointsToBound[2], ref pointsToBound[1], ref pointsToBound[3]) != ContainmentType.Disjoint)
                 {
-                     
-
                     //bounceyness 
-                    normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1])) / 2f;
+                    normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[1], pointsToBound[3] - pointsToBound[1])) / 3f;
                     position += normalForce / 200f;
                     accel += normalForce ;
                     touchingTerrain = true;
@@ -154,16 +149,14 @@ namespace Project
 
                 else if (instanceBound.Contains(ref pointsToBound[1], ref pointsToBound[0], ref pointsToBound[2]) != ContainmentType.Disjoint)
                 {
-                     
                     // bounceyness
-                    normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0])) / 2f;
-                    position += normalForce/200f;
+                    normalForce = Vector3.Normalize(Vector3.Cross(pointsToBound[2] - pointsToBound[0], pointsToBound[1] - pointsToBound[0])) / 3f;
+                    position += normalForce / 200f;
 
                     accel += normalForce  ;
                     touchingTerrain = true;
 
-                } else  {
-                                    
+                } else  {         
                     break;
                 }
             }
@@ -198,7 +191,7 @@ namespace Project
                 }
                     if (forward ) { factor = 1f * thrustPower; }
                     else if (backward ) { factor = -1f * thrustPower; }
-                this.accel += factor * Vector3.Normalize(heading);
+                this.accel += factor * Vector3.Normalize(heading) * 3f;
             }
             if (vel.Length() > maxPlayerSpeed) { vel *= maxPlayerSpeed / vel.Length() ; }
 

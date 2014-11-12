@@ -8,25 +8,30 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="cmdEasy" Content="EASY" HorizontalAlignment="Center" Margin="548,282,698,450" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="cmdEasy_Click"/>
-        <Button x:Name="cmdNormal" Content="NORMAL" HorizontalAlignment="Center" Margin="698,282,548,450" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="cmdNormal_Click"/>
-        <Button x:Name="cmdHard" Content="HARD" HorizontalAlignment="Center" Margin="848,282,398,450" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="cmdHard_Click"/>
+        <Button x:Name="cmdEasy" Content="EASY" HorizontalAlignment="Center" Margin="549,308,697,424" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="cmdEasy_Click"/>
+        <Button x:Name="cmdNormal" Content="NORMAL" HorizontalAlignment="Center" Margin="699,308,547,424" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="cmdNormal_Click"/>
+        <Button x:Name="cmdHard" Content="HARD" HorizontalAlignment="Center" Margin="849,308,397,424" VerticalAlignment="Center" Width="120" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="cmdHard_Click"/>
         <Button x:Name="cmdBack" Content="BACK" HorizontalAlignment="Right" Margin="0,50,50,0" VerticalAlignment="Top" Width="120" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="18" Click="Return"/>
-        <TextBlock HorizontalAlignment="Left" Margin="350,290,0,0" TextWrapping="Wrap" Text="Difficulty" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <TextBlock HorizontalAlignment="Left" Margin="351,316,0,0" TextWrapping="Wrap" Text="Difficulty" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0" TextWrapping="Wrap" Text="OPTIONS" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="36"/>
-        <TextBlock HorizontalAlignment="Left" Margin="351,190,0,0" TextWrapping="Wrap" Text="Sound" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <RadioButton x:Name="rdOn" Content="ON" HorizontalAlignment="Center" Margin="580,189,727,550" VerticalAlignment="Center" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" RenderTransformOrigin="0.516,0.173" Checked="rdOn_Checked"/>
-        <RadioButton x:Name="rdOff" Content="OFF" HorizontalAlignment="Center" Margin="650,189,648,550" VerticalAlignment="Center" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" RenderTransformOrigin="0.516,0.173" Checked="rdOff_Checked"/>
-        <TextBlock HorizontalAlignment="Left" Margin="350,390,0,0" TextWrapping="Wrap" FontSize="22" Text="Map Flatness" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <TextBlock HorizontalAlignment="Left" Margin="350,490,0,0" TextWrapping="Wrap" FontSize="22" Text="Colour" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <Button x:Name="cmdPurple" Content="Purple" HorizontalAlignment="Center" Margin="548,282,698,50" VerticalAlignment="Center" Width="120" FontSize="22" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="pickPurple"/>
+        <TextBlock HorizontalAlignment="Left" Margin="351,198,0,0" TextWrapping="Wrap" Text="Sound" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <RadioButton x:Name="rdOn" Content="ON" HorizontalAlignment="Center" Margin="549,195,758,544" VerticalAlignment="Center" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" RenderTransformOrigin="0.516,0.173" Checked="rdOn_Checked"/>
+        <RadioButton x:Name="rdOff" Content="OFF" HorizontalAlignment="Center" Margin="629,195,669,544" VerticalAlignment="Center" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" RenderTransformOrigin="0.516,0.173" Checked="rdOff_Checked"/>
+        <TextBlock HorizontalAlignment="Left" Margin="349,438,0,0" TextWrapping="Wrap" FontSize="22" Text="Terrain" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <TextBlock HorizontalAlignment="Left" Margin="350,565,0,0" TextWrapping="Wrap" FontSize="22" Text="Colour" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Button x:Name="cmdPurple" Content="Purple" HorizontalAlignment="Center" Margin="548,555,698,173" VerticalAlignment="Center" Width="120" FontSize="22" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="pickPurple"/>
         <TextBlock x:Name="lblPurple" Foreground="Purple" Visibility ="Collapsed" HorizontalAlignment="Center" Margin="548,282,698,50" TextWrapping="Wrap" FontSize="22" Text="Purple" VerticalAlignment="Center"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <Button x:Name="cmdGreen" Content="Green" HorizontalAlignment="Center" Margin="548,282,398,50" VerticalAlignment="Center" Width="120" FontSize="22" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="pickGreen"/>
+        <Button x:Name="cmdGreen" Content="Green" HorizontalAlignment="Center" Margin="698,555,548,173" VerticalAlignment="Center" Width="120" FontSize="22" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="pickGreen"/>
         <TextBlock x:Name="lblGreen" Visibility ="Collapsed" Foreground="Green" HorizontalAlignment="Center" Margin="548,282,398,50" TextWrapping="Wrap" FontSize="22" Text="Green" VerticalAlignment="Center"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <Button x:Name="cmdBlue" Content="Blue" HorizontalAlignment="Center" Margin="548,282,98,50" VerticalAlignment="Center" Width="120" FontSize="22" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="pickBlue"/>
+        <Button x:Name="cmdBlue" Content="Blue" HorizontalAlignment="Center" Margin="848,555,398,173" VerticalAlignment="Center" Width="120" FontSize="22" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="pickBlue"/>
         <TextBlock x:Name="lblBlue" HorizontalAlignment="Center" Margin="548,282,98,50" TextWrapping="Wrap" FontSize="22" Foreground="Blue" Visibility ="Collapsed" Text="Blue" VerticalAlignment="Center"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
-        <Button x:Name="cmdRed" Content="Red" HorizontalAlignment="Center" Margin="740,282,0,50" VerticalAlignment="Center" Width="120" FontSize="22" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="pickRed"/>
-        <Slider x:Name="sldSize" HorizontalAlignment="Left" Margin="551,373,0,0" VerticalAlignment="Top" Width="414" ValueChanged="changeSize" Minimum="7" Maximum="13" LargeChange="1" StepFrequency="1"/>
+        <Button x:Name="cmdRed" Content="Red" HorizontalAlignment="Center" Margin="993,555,253,173" VerticalAlignment="Center" Width="120" FontSize="22" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="pickRed"/>
+        <Slider x:Name="sldSize" HorizontalAlignment="Left" Margin="720,383,0,0" VerticalAlignment="Top" Width="390" ValueChanged="changeRange" Minimum="0.5" Maximum="1.5" LargeChange="0.1" StepFrequency="0.01" Value="1.2" SmallChange="0.01"/>
         <TextBlock x:Name="lblRed" HorizontalAlignment="Center" Margin="740,282,0,50" TextWrapping="Wrap" FontSize="22" Foreground="Red" Visibility ="Collapsed" Text="Red" VerticalAlignment="Center"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <Slider x:Name="sldSize_Copy" HorizontalAlignment="Left" Margin="720,431,0,0" VerticalAlignment="Top" Width="390" ValueChanged="changeSmooth" Minimum="1.85" Maximum="3" LargeChange="0.01" StepFrequency="0.01" SmallChange="0.01" Value="2.17"/>
+        <Slider x:Name="sldSize_Copy1" HorizontalAlignment="Left" Margin="720,479,0,0" VerticalAlignment="Top" Width="390" ValueChanged="changeSize" Minimum="8" Maximum="12" LargeChange="1" StepFrequency="1" Value="10"/>
+        <TextBlock HorizontalAlignment="Left" Margin="552,395,0,0" TextWrapping="Wrap" FontSize="22" Text="Range" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <TextBlock HorizontalAlignment="Left" Margin="551,443,0,0" TextWrapping="Wrap" FontSize="22" Text="Smoothness" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <TextBlock HorizontalAlignment="Left" Margin="551,491,0,0" TextWrapping="Wrap" FontSize="22" Text="Race Length" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
     </Grid>
 </Page>

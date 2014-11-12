@@ -13,6 +13,7 @@
         <Button x:Name="cmdInstructions" Content="How to play?!" FontFamily="/Fonts/Modulario.ttf#Modulario" FontSize="30" HorizontalAlignment="Center" Height="140" Margin="550,0,0,175" VerticalAlignment="Center" Width="360" Click="LoadInstructions"/>
         <Button x:Name="cmdOptions" Content="Options" HorizontalAlignment="Center" Margin="0,350,550,0" FontSize="30" FontFamily="/Fonts/Modulario.ttf#Modulario" VerticalAlignment="Center" Height="140" Width="360" Click="LoadOptions"/>
         <Button x:Name="cmdExit" Content="Exit" HorizontalAlignment="Center" Margin="550,350,0,0" FontSize="30" VerticalAlignment="Center" Width="340" Height="140" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="Exit"/>
+        <TextBlock x:Name="loadingLabel" Foreground="Purple" Visibility ="Collapsed" HorizontalAlignment="Center" Margin="243,385,773,393" TextWrapping="Wrap" FontSize="22" Text="Generating terrain..." VerticalAlignment="Center"  FontFamily="/Fonts/Modulario.ttf#Modulario" Width="264"/>
         <TextBlock Margin="0,50,0,0" TextWrapping="Wrap" Text="RIFT VALLEY RACER" FontWeight="Bold" FontSize="96" IsColorFontEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Top"/>
     </Grid>
 </Page>
