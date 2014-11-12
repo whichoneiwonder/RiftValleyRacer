@@ -64,7 +64,8 @@ where the previous pages can be accessed or the game can be started straight awa
 The instructions page details the controls for both the Desktop and the mobile platforms, with more emphasis placed on  
 mobile devices since this software was created for the Samsung Slate tablet.
 The options page allows players to choose their difficulty, which changes the performance of the AI racer, the colour of  
-HoverBike they wish to use, and whether they wish to have the background music playing.
+HoverBike they wish to use, whether they wish to have the background music playing and how rough they wish the surface to be.
+For surface roughness, the higher the value, the flatter the surface will be, with less valleys and mountains.
 
 When the game is started, there is also a button which can be pressed that will bring up the pause page, allowing players  
 to exit. Unfortunately, the options are not able to be changed from this page.

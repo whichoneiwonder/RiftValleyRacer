@@ -17,7 +17,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="351,190,0,0" TextWrapping="Wrap" Text="Sound" FontSize="22" VerticalAlignment="Top" FontFamily="/Fonts/Modulario.ttf#Modulario"/>
         <RadioButton x:Name="rdOn" Content="ON" HorizontalAlignment="Center" Margin="580,189,727,550" VerticalAlignment="Center" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" RenderTransformOrigin="0.516,0.173" Checked="rdOn_Checked"/>
         <RadioButton x:Name="rdOff" Content="OFF" HorizontalAlignment="Center" Margin="650,189,648,550" VerticalAlignment="Center" FontSize="18" FontFamily="/Fonts/Modulario.ttf#Modulario" RenderTransformOrigin="0.516,0.173" Checked="rdOff_Checked"/>
-        <TextBlock HorizontalAlignment="Left" Margin="350,390,0,0" TextWrapping="Wrap" FontSize="22" Text="Map Size" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
+        <TextBlock HorizontalAlignment="Left" Margin="350,390,0,0" TextWrapping="Wrap" FontSize="22" Text="Map Flatness" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
         <TextBlock HorizontalAlignment="Left" Margin="350,490,0,0" TextWrapping="Wrap" FontSize="22" Text="Colour" VerticalAlignment="Top"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
         <Button x:Name="cmdPurple" Content="Purple" HorizontalAlignment="Center" Margin="548,282,698,50" VerticalAlignment="Center" Width="120" FontSize="22" FontFamily="/Fonts/Modulario.ttf#Modulario" Click="pickPurple"/>
         <TextBlock x:Name="lblPurple" Foreground="Purple" Visibility ="Collapsed" HorizontalAlignment="Center" Margin="548,282,698,50" TextWrapping="Wrap" FontSize="22" Text="Purple" VerticalAlignment="Center"  FontFamily="/Fonts/Modulario.ttf#Modulario"/>
